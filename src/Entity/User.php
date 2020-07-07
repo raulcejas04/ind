@@ -5,9 +5,15 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email",
+ * message = "El e-mail {{ value }} ya esta registrado")
+ * @UniqueEntity("username",
+ * message = "El usuario {{ value }} ya esta registrado")
  */
 class User implements UserInterface {
 
@@ -19,7 +25,19 @@ class User implements UserInterface {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)     
+     * @Assert\Email(
+     *     message = "E-mail inválido",
+     *     mode = "html5"
+     * )
+     *
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 180,
+     *      minMessage = "Campo requerido",
+     *      maxMessage = "E-mail no puede sobrepasar {{ limit }} caracteres",
+     *      allowEmptyString = false
+     * )
      */
     private $email;
 
@@ -36,16 +54,37 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 180,
+     *      minMessage = "Campo requerido",
+     *      maxMessage = "Nombre no puede sobrepasar {{ limit }} caracteres",
+     *      allowEmptyString = false
+     * )
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 180,
+     *      minMessage = "Campo requerido",
+     *      maxMessage = "Apellido no puede sobrepasar {{ limit }} caracteres",
+     *      allowEmptyString = false
+     * )
      */
     private $apellido;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 180,
+     *      minMessage = "Campo requerido",
+     *      maxMessage = "Nombre de usuario no puede sobrepasar {{ limit }} caracteres",
+     *      allowEmptyString = false
+     * )
      */
     private $username;
     
