@@ -2,11 +2,24 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Welcome!{% endblock %}</title>        
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <body>    
+        {{ include('header.html.twig') }}        
+
+        <div class="container-fluid bg-light full-height">
+            <div class="row h-100">
+                <div class="col-md-8 offset-md-2">  
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>
