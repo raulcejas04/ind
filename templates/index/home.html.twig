@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card-deck h-100 p-3">
+        <div class="card">
+            <div class="card-body text-center">      
+                <h1 class="card-title">¡Hola Mundo!</h1>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p class="card-text">Logueado como Administrador</p>
+                {% elseif is_granted('ROLE_USER') %}
+                    <p class="card-text">Logueado como Usuario</p>
+                {% else %}
+                    <p class="card-text">No estas logueado</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{%  endblock %}

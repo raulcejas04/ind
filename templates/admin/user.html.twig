@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administración de usuarios{% endblock %}
+
+{% block body %}
+    <div class="container w-100 p-3">
+        <div class="card mx-auto">             
+            <div class="card-body">
+                <div class="btn-group pb-2" role="group" aria-label="Nuevo usuario">
+                    <a class="btn btn-primary" href="{{ path("admin_user_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo usuario</a>
+                </div>
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr >
+                            <th>Id</th>
+                            <th>Usuario</th>
+                            <th>Mail</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr >
+                                <td >{{ user.id }}</td>
+                                <td >{{ user.username}}</td>
+                                <td >{{  user.email}}</td>
+                                <td >{{  user.nombre}}</td>
+                                <td >{{  user.apellido}}</td>
+                                <td>  
+                                    {{ include('admin/_user_delete.html.twig') }}                                    
+                                </td>
+                            </tr>
+                        {%  endfor %}     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{%  endblock %}
