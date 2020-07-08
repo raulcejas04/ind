@@ -15,8 +15,8 @@ class UserController extends AbstractController {
     /**
      * @Route("/admin/user",name="admin_user")
      */
-    public function index(Request $request): Response {
-
+    public function index(): Response {
+        //trae y muestra todos los usuarios
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         return $this->render('admin/user.html.twig', ['users' => $users]);
     }
@@ -25,25 +25,36 @@ class UserController extends AbstractController {
      * @Route("/admin/user/editar/{id}",name="admin_user_editar")
      */
     public function editar(Request $request, $id): Response {
+        //el manager de Doctrine facilita interactuar con la base
         $entityManager = $this->getDoctrine()->getManager();
+        //trae usuario por id
         $user = $entityManager->getRepository(User::class)->find($id);
         if (!$user) {
             throw $this->createNotFoundException(
                     'No existe un usuario con este id: ' . $id
             );
         }
-        
+        //crea un form a partir de src/Form/UserType
         $form = $this->createForm(UserType::class, $user);
 
+        //handleRequest() carga los datos del request al objeto form
         $form->handleRequest($request);
+        /*a partir de eso se puede chequear si ya se toco el boton de submit, 
+         * y si los datos ingresados son validos (toma constraints de src/Entity/User.php)
+         */
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            /*cambia los datos del usuario con los datos que corresponden del form y 
+             * actualiza la base.
+             */
             $user = $form->getData();
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('admin_user');
         }
         
+        /*como la primera vez que carga no se ha hecho un submit del form,
+         *  hace un render de la plantilla con el form creado y los datos actuales del usuario 
+         */
         return $this->render('admin/editar_user.html.twig', [
             'user' => $user,
             'form' => $form->createView(),

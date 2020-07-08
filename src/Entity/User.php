@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -87,6 +89,21 @@ class User implements UserInterface {
      * )
      */
     private $username;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Compania::class, inversedBy="users")
+     */
+    private $compania;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Grupo::class, mappedBy="users")
+     */
+    private $grupos;
+
+    public function __construct()
+    {
+        $this->grupos = new ArrayCollection();
+    }
     
     
 
@@ -179,5 +196,45 @@ class User implements UserInterface {
     public function eraseCredentials() {
 // If you store any temporary, sensitive data on the user, clear it here
 // $this->plainPassword = null;
+    }
+
+    public function getCompania(): ?Compania
+    {
+        return $this->compania;
+    }
+
+    public function setCompania(?Compania $compania): self
+    {
+        $this->compania = $compania;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Grupo[]
+     */
+    public function getGrupos(): Collection
+    {
+        return $this->grupos;
+    }
+
+    public function addGrupo(Grupo $grupo): self
+    {
+        if (!$this->grupos->contains($grupo)) {
+            $this->grupos[] = $grupo;
+            $grupo->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrupo(Grupo $grupo): self
+    {
+        if ($this->grupos->contains($grupo)) {
+            $this->grupos->removeElement($grupo);
+            $grupo->removeUser($this);
+        }
+
+        return $this;
     }
 }
