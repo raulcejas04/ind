@@ -9,16 +9,32 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserController extends AbstractController {
 
     /**
      * @Route("/admin/user",name="admin_user")
      */
-    public function index(): Response {
-        //trae y muestra todos los usuarios
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        return $this->render('admin/user.html.twig', ['users' => $users]);
+    public function index(Request $request): Response {
+        $defaultData = [];
+        $form = $this->createFormBuilder($defaultData)
+                ->add('busqueda', TextType::class, [ 'required' => false])
+                ->add('buscar', SubmitType::class)
+                ->getForm();
+        $form->handleRequest($request);
+
+        //si se hace una busqueda, trae los usuarios que coincidan
+        if ($form->isSubmitted() && $form->isValid()) {
+            $busqueda = $form->getData()['busqueda'];
+            $users = $this->getDoctrine()->getRepository(User::class)->buscarUsuario($busqueda);
+        } else {
+            //si no hay busqueda trae y muestra todos los usuarios
+            $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        }
+
+        return $this->render('admin/user.html.twig', ['users' => $users, 'formBusqueda' => $form->createView()]);
     }
 
     /**
@@ -39,11 +55,11 @@ class UserController extends AbstractController {
 
         //handleRequest() carga los datos del request al objeto form
         $form->handleRequest($request);
-        /*a partir de eso se puede chequear si ya se toco el boton de submit, 
+        /* a partir de eso se puede chequear si ya se toco el boton de submit, 
          * y si los datos ingresados son validos (toma constraints de src/Entity/User.php)
          */
         if ($form->isSubmitted() && $form->isValid()) {
-            /*cambia los datos del usuario con los datos que corresponden del form y 
+            /* cambia los datos del usuario con los datos que corresponden del form y 
              * actualiza la base.
              */
             $user = $form->getData();
@@ -51,13 +67,13 @@ class UserController extends AbstractController {
             $entityManager->flush();
             return $this->redirectToRoute('admin_user');
         }
-        
-        /*como la primera vez que carga no se ha hecho un submit del form,
+
+        /* como la primera vez que carga no se ha hecho un submit del form,
          *  hace un render de la plantilla con el form creado y los datos actuales del usuario 
          */
         return $this->render('admin/editar_user.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
+                    'user' => $user,
+                    'form' => $form->createView(),
         ]);
     }
 
@@ -65,7 +81,7 @@ class UserController extends AbstractController {
      * @Route("/admin/user/eliminar/{id}",name="admin_user_eliminar",methods={"DELETE"})
      */
     public function eliminar(Request $request, User $user): Response {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
