@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nuevo usuario{% endblock %}
+{% block body %}
+    <div class="container w-100 p-3">
+        <div class="card mx-auto">
+            <div class="card-header bg-info" >
+                <h4 class="text-light mb-3 font-weight-normal">Nuevo Usuario</h4>     
+            </div>
+            <div class="card-body">  
+                {{ include('admin/usuarios/_formulario.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
