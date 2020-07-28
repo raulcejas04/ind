@@ -12,7 +12,7 @@
 
         <div class="btn-toolbar"> 
             {% if is_granted('ROLE_USER') %}
-                <a class="btn btn-sm btn-light m-1" href="{{ path('user_account') }}">Cuenta</a>
+                <a class="btn btn-sm btn-light m-1" href="{{ path('session_cuenta') }}">Cuenta</a>
                 <a class="btn btn-sm btn-light m-1" href="{{ path('app_logout') }}">Logout</a>
             {%  else  %}
                 <a class="btn btn-sm btn-light m-1" href="{{ path('login') }}">Login</a>

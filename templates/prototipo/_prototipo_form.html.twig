@@ -1,0 +1,18 @@
+{%  block form  %}
+                {{ form_start(formulario) }}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_label(formulario.Nombre) }}
+                            {{ form_widget(formulario.Nombre) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(formulario.Edad) }}
+                            {{ form_widget(formulario.Edad) }}
+                        </div>
+                        {{  form_widget(formulario) }}
+                        {# form_widget(formulario._token) #}
+                    </div>
+                </div>
+           
+{% endblock %}
