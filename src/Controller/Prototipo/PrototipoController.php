@@ -16,7 +16,7 @@ class PrototipoController extends AbstractController
      */
     public function index()
     {        
-        return $this->render('Prototipo/index.html.twig', [
+        return $this->render('prototipo/index.html.twig', [
             'controller_name' => 'PrototipoController',
         ]);        
     }
@@ -44,7 +44,7 @@ class PrototipoController extends AbstractController
             return $this->redirectToRoute('prototipo');
         }
         
-        return $this->render('Prototipo/nuevo_prototipo.html.twig', [
+        return $this->render('prototipo/nuevo_prototipo.html.twig', [
                     'formulario' => $form->createView(),
         ]);
     }
@@ -80,7 +80,7 @@ class PrototipoController extends AbstractController
             return $this->redirectToRoute('prototipo');
         }
         
-        return $this->render('Prototipo/editar_prototipo.html.twig', [
+        return $this->render('prototipo/editar_prototipo.html.twig', [
                     'formulario' => $form->createView(),
             ]);
         }
