@@ -1,0 +1,5 @@
+if (band == true){
+
+} else {
+    
+}
