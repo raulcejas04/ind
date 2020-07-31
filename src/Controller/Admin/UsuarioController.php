@@ -26,8 +26,8 @@ class UsuarioController extends AbstractController {
             $formulario->handleRequest($request);
 
         //si se hace una busqueda, trae los usuarios que coincidan
-        if ($formulario->isSubmitted() && $form->isValid()) {
-            $busqueda = $form->getData()['busqueda'];
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $busqueda = $formulario->getData()['busqueda'];
             $usuarios = $this->getDoctrine()->getRepository(Usuario::class)->buscarUsuario($busqueda);
         } else {
             //si no hay busqueda trae y muestra todos los usuarios
