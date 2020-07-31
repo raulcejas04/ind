@@ -5,9 +5,12 @@ namespace App\Controller\Session;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Admin\Usuario;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Form\Session\PerfilType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
@@ -24,10 +27,36 @@ class SessionController extends AbstractController {
      * @Route("/cuenta", name="session_cuenta")
      */
     public function cuenta(): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $usuario = $this->getUser();       
+       
+        return $this->render('session/cuenta.html.twig', [
+                    'usuario' => $usuario,
+        ]);
+    }
+    
+    /**
+     * @Route("/cuenta/editarDatos", name="session_editar_datos")
+     */
+    public function editarDatos(Request $request): Response {
         /* Validacion de roles dentro de metodo */
         $this->denyAccessUnlessGranted('ROLE_USER');
         
-        return $this->render('session/cuenta.html.twig');
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();       
+        $formulario = $this->createForm(PerfilType::class, $usuario);
+        $formulario->handleRequest($request);
+        
+         if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $usuario = $formulario->getData();
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+            return $this->redirectToRoute('session_cuenta');
+        }
+
+        return $this->render('session/cambiar_datos.html.twig', [
+                    'formulario' => $formulario->createView(),
+        ]);
     }
     
     /**
@@ -110,7 +139,7 @@ class SessionController extends AbstractController {
                 $user->setPassword($passwordEncoder->encodePassword($user, $password_nueva));
                 $entityManager->persist($user);
                 $entityManager->flush();
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('session_cuenta');
             }
         }
 

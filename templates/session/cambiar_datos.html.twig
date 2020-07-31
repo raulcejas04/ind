@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row p-3">
+        <div class="col-sm-12">
+            <div class="card mx-auto">
+                <div class="card-header bg-primary">
+                    <h5 class="text-light">Cambiar Datos</h5>     
+                </div>
+                {{ form_start(formulario) }}
+                <div class="card-body">  
+                    {{ form_widget(formulario) }}
+                    <div class="float-right mb-3"> 
+                        <a class="btn btn-secondary" href="{{ path("session_cuenta") }}">Volver</a>
+                        <button class="btn btn-primary" type="submit" name="editPassword">Guardar Cambios</button> 
+                    </div>
+                </div>
+                {{ form_end(formulario)}}
+            </div>  
+        </div>
+    </div>
+{%  endblock %}
