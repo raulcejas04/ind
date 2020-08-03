@@ -15,18 +15,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Usuario[]    findAll()
  * @method Usuario[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgraderInterface {
+
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Usuario::class);
     }
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(UserInterface $usuario, string $newEncodedPassword): void
-    {
+    public function upgradePassword(UserInterface $usuario, string $newEncodedPassword): void {
         if (!$usuario instanceof Usuario) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
@@ -35,15 +33,19 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->persist($usuario);
         $this->_em->flush();
     }
-    
-     public function buscarUsuario($busqueda): array
-    {
-         return $this->createQueryBuilder('u')
-            ->andWhere('u.username LIKE :busqueda OR u.nombre LIKE :busqueda OR u.apellido LIKE :busqueda')
-            ->setParameter(':busqueda','%'.$busqueda.'%')
-            ->orderBy('u.id', 'ASC')
-            ->getQuery()
-            ->getResult()
+
+    public function buscarUsuario($busqueda): array {
+        return $this->createQueryBuilder('u')                
+                        ->join('u.compania', 'c')
+                        ->andWhere('u.username LIKE :busqueda '
+                                . 'OR u.nombre LIKE :busqueda '
+                                . 'OR u.apellido LIKE :busqueda '
+                                . 'OR u.email LIKE :busqueda '
+                                . 'OR c.nombre LIKE :busqueda')
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->orderBy('u.id', 'ASC')
+                        ->getQuery()
+                        ->getResult()
         ;
     }
 
@@ -51,28 +53,28 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
     //  * @return Usuario[] Returns an array of User objects
     //  */
     /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+      public function findByExampleField($value)
+      {
+      return $this->createQueryBuilder('u')
+      ->andWhere('u.exampleField = :val')
+      ->setParameter('val', $value)
+      ->orderBy('u.id', 'ASC')
+      ->setMaxResults(10)
+      ->getQuery()
+      ->getResult()
+      ;
+      }
+     */
 
     /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+      public function findOneBySomeField($value): ?User
+      {
+      return $this->createQueryBuilder('u')
+      ->andWhere('u.exampleField = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getOneOrNullResult()
+      ;
+      }
+     */
 }
