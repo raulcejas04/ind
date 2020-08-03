@@ -21,7 +21,7 @@ class UsuarioType extends AbstractType {
                 ->add('nombre', TextType::class, ['label' => 'Nombre'])
                 ->add('apellido', TextType::class, ['label' => 'Apellido'])
                 ->add('email', EmailType::class, ['label' => 'E-mail'])
-                ->add('compania', EntityType::class, ['class'=>Compania::class,'choice_label' => 'nombre', 'label'=>'Compania'])
+                ->add('compania', EntityType::class, ['class'=>Compania::class,'choice_label' => 'nombre', 'label'=>'Compañía'])
                 ->add('grupos', EntityType::class, ['class'=>Grupo::class,'choice_label' => 'nombre', 'label'=>'Grupos','multiple'=>true])
                 ->add('roles', ChoiceType::class, [
                     'multiple' => true,
