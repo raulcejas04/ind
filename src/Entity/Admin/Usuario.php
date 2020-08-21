@@ -103,6 +103,11 @@ class Usuario implements UserInterface {
      */
     private $grupos;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $NombreImgPerfil;
+
     public function __construct()
     {
         $this->grupos = new ArrayCollection();
@@ -237,6 +242,18 @@ class Usuario implements UserInterface {
             $this->grupos->removeElement($grupo);
             $grupo->removeUsuario($this);
         }
+
+        return $this;
+    }
+
+    public function getNombreImgPerfil(): ?string
+    {
+        return $this->NombreImgPerfil;
+    }
+
+    public function setNombreImgPerfil(?string $NombreImgPerfil): self
+    {
+        $this->NombreImgPerfil = $NombreImgPerfil;
 
         return $this;
     }

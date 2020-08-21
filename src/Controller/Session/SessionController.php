@@ -9,10 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\Session\PerfilType;
+use App\Form\Session\FotoPerfilType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SessionController extends AbstractController {
 
@@ -28,26 +31,26 @@ class SessionController extends AbstractController {
      */
     public function cuenta(): Response {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $usuario = $this->getUser();       
-       
+        $usuario = $this->getUser();
+
         return $this->render('session/cuenta.html.twig', [
                     'usuario' => $usuario,
         ]);
     }
-    
+
     /**
      * @Route("/cuenta/editarDatos", name="session_editar_datos")
      */
     public function editarDatos(Request $request): Response {
         /* Validacion de roles dentro de metodo */
         $this->denyAccessUnlessGranted('ROLE_USER');
-        
+
         $entityManager = $this->getDoctrine()->getManager();
-        $usuario = $this->getUser();       
+        $usuario = $this->getUser();
         $formulario = $this->createForm(PerfilType::class, $usuario);
         $formulario->handleRequest($request);
-        
-         if ($formulario->isSubmitted() && $formulario->isValid()) {
+
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
             $usuario = $formulario->getData();
             $entityManager->persist($usuario);
             $entityManager->flush();
@@ -58,7 +61,7 @@ class SessionController extends AbstractController {
                     'formulario' => $formulario->createView(),
         ]);
     }
-    
+
     /**
      * @Route("/login", name="login")
      */
@@ -81,7 +84,7 @@ class SessionController extends AbstractController {
     public function logout() {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-    
+
     /**
      * @Route("usuario/cambiar_password",name="cambiar_password")
      */
@@ -123,7 +126,7 @@ class SessionController extends AbstractController {
             if (!$checkPass) {
                 array_push($errores, 'La contraseña ingresada no es correcta.');
             }
-            
+
             //chequea que las contraseñas nuevas coincidan
             $password_nueva = $data["password"];
             $password_nueva_repetida = $data["repetir_password"];
@@ -147,6 +150,94 @@ class SessionController extends AbstractController {
                     'form' => $form->createView(),
                     'errores' => $errores
         ]);
+    }
+
+    /**
+     *  @Route("cuenta/cambiar_img_perfil",name="cambiar_img_perfil")
+     */
+    public function cambiarImgPerfil(Request $request, SluggerInterface $slugger): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $this->getUser();
+        $formulario = $this->createForm(FotoPerfilType::class, $usuario);
+        $formulario->handleRequest($request);
+        $errores = [];
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            // trae el archivo de imagen original y las coordenadas de corte
+            $imgElegida = $formulario->get('imagen')->getData();
+            $x = $formulario->get('x')->getData();
+            $y = $formulario->get('y')->getData();
+            $alto = $formulario->get('alto')->getData();
+            $ancho = $formulario->get('ancho')->getData();
+            try {
+                //genera un nombre para el archvio nuevo                
+                $nombreNuevo = $this->generarNombreArchivoNuevo($imgElegida, $slugger);
+                //genera una imagen nueva a partir del archivo subio y las coordenadas, y la guarda
+                //en la carpeta indicada en config/services.yaml
+                $imgGenerada = $this->generarImagenNueva($imgElegida, $x, $y, $alto, $ancho, 100, 100);
+                $this->guardarImgPerfil($imgElegida, $imgGenerada, $nombreNuevo);
+                $eliminada = $this->eliminarImgPerfil($usuario->getNombreImgPerfil());
+                if (!$eliminada) {
+                    array_push($errores, "No se ha podido eliminar la imagen anterior.");
+                    return $this->render('session/cambiar_img_perfil.html.twig', [
+                                'formulario' => $formulario->createView(),
+                                'errores' => $errores
+                    ]);
+                }
+            } catch (FileException $ex) {
+                array_push($errores, $ex->getMessage());
+                return $this->render('session/cambiar_img_perfil.html.twig', [
+                            'formulario' => $formulario->createView(),
+                            'errores' => $errores
+                ]);
+            }
+            $usuario->setNombreImgPerfil($nombreNuevo);
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+            return $this->redirectToRoute('session_cuenta');
+        }
+
+        return $this->render('session/cambiar_img_perfil.html.twig', [
+                    'formulario' => $formulario->createView(),
+                    'errores' => $errores
+        ]);
+    }
+
+    private function generarImagenNueva($imgElegida, $x, $y, $alto, $ancho, $altoNuevo, $anchoNuevo) {
+
+        if ($imgElegida->guessExtension() == 'jpeg') {
+            $img = imagecreatefromjpeg($imgElegida);
+        } elseif ($imgElegida->guessExtension() == 'png') {
+            $img = imagecreatefrompng($imgElegida);
+        }
+        $imgCortada = imagecrop($img, ['x' => $x, 'y' => $y,
+            'width' => $ancho, 'height' => $alto]);
+        $imgNueva = imagecreatetruecolor($anchoNuevo, $altoNuevo);
+        imagecopyresampled($imgNueva, $imgCortada, 0, 0, 0, 0, $anchoNuevo, $altoNuevo, $ancho, $alto);
+        return $imgNueva;
+    }
+
+    private function generarNombreArchivoNuevo($archivo, $slugger) {
+        $nombreArchivoOriginal = pathinfo($archivo->getClientOriginalName(), PATHINFO_FILENAME);
+        $nombreArchivoSeguro = $slugger->slug($nombreArchivoOriginal);
+        return $nombreArchivoSeguro . '-' . uniqid() . '.' . $archivo->guessExtension();
+    }
+
+    private function guardarImgPerfil($imgElegida, $imgGenerada, $nombreNuevo) {
+        if ($imgElegida->guessExtension() == 'jpeg') {
+            imagejpeg($imgGenerada, $this->getParameter('perfil_carpeta') . "/" . $nombreNuevo);
+        } elseif ($imgElegida->guessExtension() == 'png') {
+            imagepng($imgGenerada, $this->getParameter('perfil_carpeta') . "/" . $nombreNuevo);
+        }
+    }
+
+    private function eliminarImgPerfil($nombreImg) {
+        $unlinked = true;
+        $path = $this->getParameter('perfil_carpeta') . "/" . $nombreImg;
+        if (file_exists($path)) {
+            $unlinked = unlink($path);
+        }
+        return $unlinked;
     }
 
 }
