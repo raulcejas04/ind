@@ -15,7 +15,8 @@ class PerfilType extends AbstractType {
         $builder
                 ->add('nombre', TextType::class, ['label' => 'Nombre'])
                 ->add('apellido', TextType::class, ['label' => 'Apellido'])
-                ->add('email', EmailType::class, ['label' => 'E-mail']);
+                ->add('email', EmailType::class, ['label' => 'E-mail'])
+                ;
     }
 
     public function configureOptions(OptionsResolver $resolver) {

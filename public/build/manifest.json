@@ -1,6 +1,10 @@
 {
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
+  "build/image_cropper.css": "/build/image_cropper.css",
+  "build/image_cropper.js": "/build/image_cropper.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors~app.js": "/build/vendors~app.js"
+  "build/vendors~app.js": "/build/vendors~app.js",
+  "build/vendors~app~image_cropper.js": "/build/vendors~app~image_cropper.js",
+  "build/vendors~image_cropper.js": "/build/vendors~image_cropper.js"
 }

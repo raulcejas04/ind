@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('image_cropper') }}   
+{% endblock %}
+
+
+{% block title %}Cambio de Imagen de Perfil{% endblock %}
+
+{% block body %}
+    <div class="row p-3">
+        <div class="col-sm-3">
+            <div class="card">
+                <ul class="list-group list-group-flush">                       
+                    <a class="list-group-item list-group-item-action" href="{{ path("session_cuenta") }}">Datos Usuario</a>                        
+                    <a class="list-group-item list-group-item-action" href="{{ path("cambiar_password") }}">Cambiar Contraseña</a>  
+                    <a class="list-group-item list-group-item-action active" href="{{ path("cambiar_img_perfil") }}">Cambiar Imagen de Perfil</a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="card mx-auto">
+                <div class="card-body">
+                    {% if errores %}
+                            {% for error in errores %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {{ form_start(formulario) }}
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-11 pr-0">
+                                {{ form_widget(formulario.imagen,{'attr':{'required':'required'}}) }}
+                                {{ form_errors(formulario.imagen) }}
+                            </div>
+                            <div class="col-md-1 pl-0">
+                                <button id="btnCropAgain" type="button" class="btn btn-primary" data-dismiss="modal" ><span class="fa fa-cut fa-rotate-270"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(formulario.x) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(formulario.y) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(formulario.ancho) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(formulario.alto) }}
+                    </div>
+
+
+                    <div class="modal fade" id="cropping-modal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <img style="display:block; max-width:100%" src="" alt="" id="imagen">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button id="btnCrop" type="button" class="btn btn-primary" data-dismiss="modal" >{{ button_label|default('OK') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="float-right">
+                        <button id="btnSubmit" class="btn btn-primary ">Aceptar Cambios</button>    
+                    </div>
+                    {{ form_end(formulario) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    {{ encore_entry_script_tags('image_cropper') }}    
+{% endblock %}
