@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GeneralRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +44,26 @@ class General
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $auxiliar2;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="localidad")
+     */
+    private $domicilio;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Lugar::class, inversedBy="tipo")
+     */
+    private $lugar;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Lugar::class, mappedBy="paises")
+     */
+    private $Lugares;
+
+    public function __construct()
+    {
+        $this->Lugares = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +126,57 @@ class General
     public function setAuxiliar2(?string $auxiliar2): self
     {
         $this->auxiliar2 = $auxiliar2;
+
+        return $this;
+    }
+
+    public function getDomicilio(): ?Domicilio
+    {
+        return $this->domicilio;
+    }
+
+    public function setDomicilio(?Domicilio $domicilio): self
+    {
+        $this->domicilio = $domicilio;
+
+        return $this;
+    }
+
+    public function getLugar(): ?Lugar
+    {
+        return $this->lugar;
+    }
+
+    public function setLugar(?Lugar $lugar): self
+    {
+        $this->lugar = $lugar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugares(): Collection
+    {
+        return $this->Lugares;
+    }
+
+    public function addLugare(Lugar $lugare): self
+    {
+        if (!$this->Lugares->contains($lugare)) {
+            $this->Lugares[] = $lugare;
+            $lugare->addPaise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugare(Lugar $lugare): self
+    {
+        if ($this->Lugares->removeElement($lugare)) {
+            $lugare->removePaise($this);
+        }
 
         return $this;
     }
