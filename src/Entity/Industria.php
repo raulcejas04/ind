@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=IndustriaRepository::class)
  */
-class Industria
-{
+class Industria {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,11 +23,6 @@ class Industria
      * @ORM\Column(type="string", length=255)
      */
     private $CUIT;
-
-    /**
-     * @ORM\OneToMany(targetEntity=domicilio::class, mappedBy="industria")
-     */
-    private $domicilio;
 
     /**
      * @ORM\Column(type="time")
@@ -54,50 +49,37 @@ class Industria
      */
     private $lugar;
 
-    public function __construct()
-    {
-        $this->domicilio = new ArrayCollection();
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $razonSocial;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=domicilio::class, inversedBy="industrias")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $domicilio;
+
+    public function __construct() {
         $this->titular = new ArrayCollection();
         $this->apoderado = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getCUIT(): ?string
-    {
+    public function getCUIT(): ?string {
         return $this->CUIT;
     }
 
-    public function setCUIT(string $CUIT): self
-    {
+    public function setCUIT(string $CUIT): self {
         $this->CUIT = $CUIT;
 
         return $this;
     }
 
-    /**
-     * @return Collection|domicilio[]
-     */
-    public function getDomicilio(): Collection
-    {
-        return $this->domicilio;
-    }
-
-    public function addDomicilio(domicilio $domicilio): self
-    {
-        if (!$this->domicilio->contains($domicilio)) {
-            $this->domicilio[] = $domicilio;
-            $domicilio->setIndustria($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDomicilio(domicilio $domicilio): self
-    {
+    public function removeDomicilio(domicilio $domicilio): self {
         if ($this->domicilio->removeElement($domicilio)) {
             // set the owning side to null (unless already changed)
             if ($domicilio->getIndustria() === $this) {
@@ -108,25 +90,21 @@ class Industria
         return $this;
     }
 
-    public function getHInicio(): ?\DateTimeInterface
-    {
+    public function getHInicio(): ?\DateTimeInterface {
         return $this->hInicio;
     }
 
-    public function setHInicio(\DateTimeInterface $hInicio): self
-    {
+    public function setHInicio(\DateTimeInterface $hInicio): self {
         $this->hInicio = $hInicio;
 
         return $this;
     }
 
-    public function getHFin(): ?\DateTimeInterface
-    {
+    public function getHFin(): ?\DateTimeInterface {
         return $this->hFin;
     }
 
-    public function setHFin(\DateTimeInterface $hFin): self
-    {
+    public function setHFin(\DateTimeInterface $hFin): self {
         $this->hFin = $hFin;
 
         return $this;
@@ -135,13 +113,11 @@ class Industria
     /**
      * @return Collection|persona[]
      */
-    public function getTitular(): Collection
-    {
+    public function getTitular(): Collection {
         return $this->titular;
     }
 
-    public function addTitular(persona $titular): self
-    {
+    public function addTitular(persona $titular): self {
         if (!$this->titular->contains($titular)) {
             $this->titular[] = $titular;
             $titular->setIndustria($this);
@@ -150,8 +126,7 @@ class Industria
         return $this;
     }
 
-    public function removeTitular(persona $titular): self
-    {
+    public function removeTitular(persona $titular): self {
         if ($this->titular->removeElement($titular)) {
             // set the owning side to null (unless already changed)
             if ($titular->getIndustria() === $this) {
@@ -165,13 +140,11 @@ class Industria
     /**
      * @return Collection|persona[]
      */
-    public function getApoderado(): Collection
-    {
+    public function getApoderado(): Collection {
         return $this->apoderado;
     }
 
-    public function addApoderado(persona $apoderado): self
-    {
+    public function addApoderado(persona $apoderado): self {
         if (!$this->apoderado->contains($apoderado)) {
             $this->apoderado[] = $apoderado;
             $apoderado->setIndustria($this);
@@ -180,8 +153,7 @@ class Industria
         return $this;
     }
 
-    public function removeApoderado(persona $apoderado): self
-    {
+    public function removeApoderado(persona $apoderado): self {
         if ($this->apoderado->removeElement($apoderado)) {
             // set the owning side to null (unless already changed)
             if ($apoderado->getIndustria() === $this) {
@@ -192,15 +164,36 @@ class Industria
         return $this;
     }
 
-    public function getLugar(): ?Lugar
-    {
+    public function getLugar(): ?Lugar {
         return $this->lugar;
     }
 
-    public function setLugar(?Lugar $lugar): self
-    {
+    public function setLugar(?Lugar $lugar): self {
         $this->lugar = $lugar;
 
         return $this;
     }
+
+    public function getRazonSocial(): ?string {
+        return $this->razonSocial;
+    }
+
+    public function setRazonSocial(string $razonSocial): self {
+        $this->razonSocial = $razonSocial;
+
+        return $this;
+    }
+
+    public function getDomicilio(): ?domicilio
+    {
+        return $this->domicilio;
+    }
+
+    public function setDomicilio(?domicilio $domicilio): self
+    {
+        $this->domicilio = $domicilio;
+
+        return $this;
+    }
+
 }
