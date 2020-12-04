@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\PersonaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PersonaRepository::class)
  */
-class Persona
-{
+class Persona {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +29,7 @@ class Persona
      */
     private $telefonoFijo;
 
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -42,68 +45,151 @@ class Persona
      */
     private $lugar;
 
-    public function getId(): ?int
+    /**
+     * @ORM\OneToMany(targetEntity=Industria::class, mappedBy="titular")
+     */
+    private $industriasEsTitular;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $apellido;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $telefonoMovil;
+
+    public function __construct()
     {
+        $this->industriasEsTitular = new ArrayCollection();
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getCUIL(): ?string
-    {
+    public function getCUIL(): ?string {
         return $this->CUIL;
     }
 
-    public function setCUIL(string $CUIL): self
-    {
+    public function setCUIL(string $CUIL): self {
         $this->CUIL = $CUIL;
 
         return $this;
     }
 
-    public function getTelefonoFijo(): ?string
-    {
+    public function getTelefonoFijo(): ?string {
         return $this->telefonoFijo;
     }
 
-    public function setTelefonoFijo(string $telefonoFijo): self
-    {
+    public function setTelefonoFijo(string $telefonoFijo): self {
         $this->telefonoFijo = $telefonoFijo;
 
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
-    {
+    public function setEmail(string $email): self {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getIndustria(): ?Industria
-    {
+   
+
+    public function getIndustria(): ?Industria {
         return $this->industria;
     }
 
-    public function setIndustria(?Industria $industria): self
-    {
+    public function setIndustria(?Industria $industria): self {
         $this->industria = $industria;
 
         return $this;
     }
 
-    public function getLugar(): ?Lugar
-    {
+    public function getLugar(): ?Lugar {
         return $this->lugar;
     }
 
-    public function setLugar(?Lugar $lugar): self
-    {
+    public function setLugar(?Lugar $lugar): self {
         $this->lugar = $lugar;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Industria[]
+     */
+    public function getIndustriasEsTitular(): Collection
+    {
+        return $this->industriasEsTitular;
+    }
+
+    public function addIndustriasEsTitular(Industria $industriasEsTitular): self
+    {
+        if (!$this->industriasEsTitular->contains($industriasEsTitular)) {
+            $this->industriasEsTitular[] = $industriasEsTitular;
+            $industriasEsTitular->setTitular($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIndustriasEsTitular(Industria $industriasEsTitular): self
+    {
+        if ($this->industriasEsTitular->removeElement($industriasEsTitular)) {
+            // set the owning side to null (unless already changed)
+            if ($industriasEsTitular->getTitular() === $this) {
+                $industriasEsTitular->setTitular(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getApellido(): ?string
+    {
+        return $this->apellido;
+    }
+
+    public function setApellido(string $apellido): self
+    {
+        $this->apellido = $apellido;
+
+        return $this;
+    }
+
+    public function getTelefonoMovil(): ?string
+    {
+        return $this->telefonoMovil;
+    }
+
+    public function setTelefonoMovil(string $telefono_movil): self
+    {
+        $this->telefonoMovil = $telefono_movil;
+
+        return $this;
+    }
+
 }

@@ -33,22 +33,7 @@ class Industria {
      * @ORM\Column(type="time")
      */
     private $hFin;
-
-    /**
-     * @ORM\OneToMany(targetEntity=persona::class, mappedBy="industria")
-     */
-    private $titular;
-
-    /**
-     * @ORM\OneToMany(targetEntity=persona::class, mappedBy="industria")
-     */
-    private $apoderado;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Lugar::class, inversedBy="industria")
-     */
-    private $lugar;
-
+   
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -60,9 +45,19 @@ class Industria {
      */
     private $domicilio;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=persona::class, inversedBy="industriasEsTitular")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $titular;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="industria")
+     */
+    private $lugares;
+
     public function __construct() {
-        $this->titular = new ArrayCollection();
-        $this->apoderado = new ArrayCollection();
+        $this->lugares = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -110,49 +105,6 @@ class Industria {
         return $this;
     }
 
-    /**
-     * @return Collection|persona[]
-     */
-    public function getTitular(): Collection {
-        return $this->titular;
-    }
-
-    public function addTitular(persona $titular): self {
-        if (!$this->titular->contains($titular)) {
-            $this->titular[] = $titular;
-            $titular->setIndustria($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTitular(persona $titular): self {
-        if ($this->titular->removeElement($titular)) {
-            // set the owning side to null (unless already changed)
-            if ($titular->getIndustria() === $this) {
-                $titular->setIndustria(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|persona[]
-     */
-    public function getApoderado(): Collection {
-        return $this->apoderado;
-    }
-
-    public function addApoderado(persona $apoderado): self {
-        if (!$this->apoderado->contains($apoderado)) {
-            $this->apoderado[] = $apoderado;
-            $apoderado->setIndustria($this);
-        }
-
-        return $this;
-    }
-
     public function removeApoderado(persona $apoderado): self {
         if ($this->apoderado->removeElement($apoderado)) {
             // set the owning side to null (unless already changed)
@@ -164,15 +116,6 @@ class Industria {
         return $this;
     }
 
-    public function getLugar(): ?Lugar {
-        return $this->lugar;
-    }
-
-    public function setLugar(?Lugar $lugar): self {
-        $this->lugar = $lugar;
-
-        return $this;
-    }
 
     public function getRazonSocial(): ?string {
         return $this->razonSocial;
@@ -192,6 +135,48 @@ class Industria {
     public function setDomicilio(?domicilio $domicilio): self
     {
         $this->domicilio = $domicilio;
+
+        return $this;
+    }
+
+    public function getTitular(): ?persona
+    {
+        return $this->titular;
+    }
+
+    public function setTitular(?persona $titular): self
+    {
+        $this->titular = $titular;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugares(): Collection
+    {
+        return $this->lugares;
+    }
+
+    public function addLugare(Lugar $lugare): self
+    {
+        if (!$this->lugares->contains($lugare)) {
+            $this->lugares[] = $lugare;
+            $lugare->setIndustria($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugare(Lugar $lugare): self
+    {
+        if ($this->lugares->removeElement($lugare)) {
+            // set the owning side to null (unless already changed)
+            if ($lugare->getIndustria() === $this) {
+                $lugare->setIndustria(null);
+            }
+        }
 
         return $this;
     }
