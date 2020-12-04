@@ -1,27 +1,21 @@
 {{ form_start(formulario) }}
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <div class="form-row">
-                            {{ form_label(formulario.cuit) }}
-                            {{ form_widget(formulario.cuit)}}
-                        </div>
 
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ form_label(formulario.razonSocial) }}
-                            {{ form_widget(formulario.razonSocial) }}
-                        </div>
-                    </div>
-                </div>
-            </div >
-        </div >
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_label(formulario.cuit) }}   
+                {{ form_widget(formulario.cuit) }}
+            </div>
+            <div class="col-md-6">                       
+                {{ form_label(formulario.razonSocial) }}  
+                {{ form_widget(formulario.razonSocial) }}                               
+            </div>
+        </div>
+
     </div>
 </div>
+<hr/>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -30,6 +24,33 @@
                 {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
             </div>
         </div>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Titular</h5>
+                {% include 'persona/_formulario.html.twig' with {'titular':formulario.titular} only %}
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-12">    
+        <div class="row">
+            <div class="col-sm-9">
+                <h5 class="card-title align-middle">Lugares de producción y/o depósito dentro del partido</h5>
+            </div>
+            <div class="col-sm-3">
+                <div class="float-right">
+                    <a class="btn btn-primary align-middle" href="{{ path("lugar_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo Lugar</a>
+                </div>
+            </div>
+        </div>
+        {% include 'lugar/grilla.html.twig' with {'lugares':lugares} only %}            
     </div>
 </div>
 <div class="float-right">

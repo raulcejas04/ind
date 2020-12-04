@@ -6,16 +6,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Industria;
-use App\Form\IndustriaType;
 use Symfony\Component\HttpFoundation\Request;
 
-class IndustriaController extends AbstractController {
+class LugarController extends AbstractController {
 
     /**
-     * @Route("/industria/nuevo",name="industria_nuevo")
+     * @Route("/industria/lugar/nuevo",name="lugar_nuevo")
      */
     public function nuevo(Request $request): Response {
-        $industria = new Industria();
+      /*  $industria = new Industria();
         $formulario = $this->createForm(IndustriaType::class, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
@@ -26,9 +25,11 @@ class IndustriaController extends AbstractController {
             return $this->redirectToRoute('admin_usuarios');
         }
         return $this->render('industria/nuevo.html.twig', [
-                    'formulario' => $formulario->createView(),
-                    'lugares' => $industria->getLugares()
-        ]);
+                    'formulario' => $formulario->createView()
+        ]);*/
+          return new Response(
+            '<html><body>TODO Formulario lugar</body></html>'
+        );
     }
 
 }

@@ -13,11 +13,11 @@ class DomicilioType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('provincia', ChoiceType::class, ['label' => 'Provincia'])
-                ->add('localidad', ChoiceType::class, ['label' => 'Localidad'])
-                ->add('cp', TextType::class, ['label' => 'CP'])
-                ->add('calle', TextType::class, ['label' => 'Calle'])
-                ->add('puerta', TextType::class, ['label' => 'Número'])
+                ->add('provincia', ChoiceType::class, ['label' => 'Provincia: '])
+                ->add('localidad', ChoiceType::class, ['label' => 'Localidad: '])
+                ->add('cp', TextType::class, ['label' => 'CP: '])
+                ->add('calle', TextType::class, ['label' => 'Calle: '])
+                ->add('puerta', TextType::class, ['label' => 'Número: '])
         ;
     }
 
