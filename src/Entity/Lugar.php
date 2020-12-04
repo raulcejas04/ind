@@ -73,12 +73,7 @@ class Lugar
      * @ORM\OneToMany(targetEntity=persona::class, mappedBy="lugar")
      */
     private $apoderado;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $habilitacion;
-
+   
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -138,6 +133,16 @@ class Lugar
      * @ORM\Column(type="date", nullable=true)
      */
     private $fechaOtorgDispProv;
+
+    /**
+     * @ORM\OneToOne(targetEntity=habilitacion::class, inversedBy="lugar", cascade={"persist", "remove"})
+     */
+    private $habilitacion;
+
+    /**
+     * @ORM\OneToOne(targetEntity=certAptitudAmb::class, inversedBy="lugar", cascade={"persist", "remove"})
+     */
+    private $certAptitudAmb;
 
     public function __construct()
     {
@@ -359,18 +364,6 @@ class Lugar
         return $this;
     }
 
-    public function getHabilitacion(): ?int
-    {
-        return $this->habilitacion;
-    }
-
-    public function setHabilitacion(?int $habilitacion): self
-    {
-        $this->habilitacion = $habilitacion;
-
-        return $this;
-    }
-
     public function getCeritifionAptitud(): ?int
     {
         return $this->ceritifionAptitud;
@@ -553,6 +546,30 @@ class Lugar
     public function setFechaOtorgDispProv(?\DateTimeInterface $fechaOtorgDispProv): self
     {
         $this->fechaOtorgDispProv = $fechaOtorgDispProv;
+
+        return $this;
+    }
+
+    public function getHabilitacion(): ?habilitacion
+    {
+        return $this->habilitacion;
+    }
+
+    public function setHabilitacion(?habilitacion $habilitacion): self
+    {
+        $this->habilitacion = $habilitacion;
+
+        return $this;
+    }
+
+    public function getCertAptitudAmb(): ?certAptitudAmb
+    {
+        return $this->certAptitudAmb;
+    }
+
+    public function setCertAptitudAmb(?certAptitudAmb $certAptitudAmb): self
+    {
+        $this->certAptitudAmb = $certAptitudAmb;
 
         return $this;
     }

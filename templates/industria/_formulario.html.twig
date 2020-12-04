@@ -1,0 +1,38 @@
+{{ form_start(formulario) }}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="form-row">
+                            {{ form_label(formulario.cuit) }}
+                            {{ form_widget(formulario.cuit)}}
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(formulario.razonSocial) }}
+                            {{ form_widget(formulario.razonSocial) }}
+                        </div>
+                    </div>
+                </div>
+            </div >
+        </div >
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Domicilio Legal</h5>
+                {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="float-right">
+    <button class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+</div>
+{{ form_end(formulario) }}
