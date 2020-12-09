@@ -88,6 +88,62 @@
 <hr/>
 
 <!-- horarios de trabajo -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="col-6">
+                <h5 class="card-title">Horarios de trabajo</h5>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    {{ form_label(formulario.horarioRotativo) }}
+                    {{ form_widget(formulario.horarioRotativo) }}
+                </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 pb-2">
+                <table class="table table-hover table-bordered ">
+                    <thead class="thead-light">
+                        <tr class="d-flex" >
+                            <th id="headerId" class="col-4">
+                                <div class="float-left">
+                                    Día
+                                </div>
+                            </th>
+                            <th id="headerNombre" class="col-2">
+                                <div class="float-left">
+                                    Habilitado
+                                </div>                                       
+                            </th>
+                            <th id="headerDesc" class="col-3">
+                                <div class="float-left">
+                                    Inicio
+                                </div>
+                            </th>
+                            <th id="headerDesc" class="col-3">
+                                <div class="float-left">
+                                    Fin
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for horario in formulario.horariosTrabajo %}
+                            <tr class="d-flex">
+                                <td class="col-4"> {{ form_widget(horario.dia) }}</td>
+                                <td class="col-2 text-center">{{ form_widget(horario.habilitado)}}</td>
+                                <td class="col-3 text-center">{{ form_widget(horario.horaInicio)}}</td>
+                                <td class="col-3 text-center">{{ form_widget(horario.horaFin)}}</td>
+                            </tr>
+                        {%  endfor %}     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <hr/>
 <div class="row">
     <div class="col-md-12">

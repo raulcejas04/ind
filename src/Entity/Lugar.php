@@ -123,12 +123,6 @@ class Lugar {
     private $paises;
 
     /**
-     * @ORM\ManyToMany(targetEntity=general::class, inversedBy="Lugares")
-     * @ORM\JoinTable(name="lugares_horariosTrabajo")
-     */
-    private $horariosTrabajo;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $esDeposito;
@@ -160,7 +154,7 @@ class Lugar {
     private $domicilio;
 
     /**
-     * @ORM\ManyToOne(targetEntity=persona::class, inversedBy="lugaresEsApoderado")
+     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="lugaresEsApoderado")
      * @ORM\JoinColumn(nullable=false)
      */
     private $apoderado;
@@ -229,6 +223,16 @@ class Lugar {
      * @ORM\ManyToOne(targetEntity=general::class)
      */
     private $destinoVuelcoTipo;
+
+    /**
+     * @ORM\OneToMany(targetEntity=HorariosTrabajo::class, mappedBy="lugar", orphanRemoval=true)
+     */
+    private $horariosTrabajo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $horarioRotativo;
 
     public function __construct() {
         $this->industria = new ArrayCollection();
@@ -728,6 +732,48 @@ class Lugar {
     public function setDestinoVuelcoTipo(?general $destinoVuelcoTipo): self
     {
         $this->destinoVuelcoTipo = $destinoVuelcoTipo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HorariosTrabajo[]
+     */
+    public function getHorariosTrabajo(): Collection
+    {
+        return $this->horariosTrabajo;
+    }
+
+    public function addHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self
+    {
+        if (!$this->horariosTrabajo->contains($horariosTrabajo)) {
+            $this->horariosTrabajo[] = $horariosTrabajo;
+            $horariosTrabajo->setLugar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self
+    {
+        if ($this->horariosTrabajo->removeElement($horariosTrabajo)) {
+            // set the owning side to null (unless already changed)
+            if ($horariosTrabajo->getLugar() === $this) {
+                $horariosTrabajo->setLugar(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHorarioRotativo(): ?bool
+    {
+        return $this->horarioRotativo;
+    }
+
+    public function setHorarioRotativo(bool $horarioRotativo): self
+    {
+        $this->horarioRotativo = $horarioRotativo;
 
         return $this;
     }
