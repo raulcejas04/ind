@@ -1,0 +1,5 @@
+{{ form_start(formulario) }}
+{{ include('lugar/principal.html.twig') }}
+<hr/>
+{% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion} only %}
+{{ form_end(formulario) }}

@@ -1,28 +1,28 @@
-{{ form_start(titular) }}
+{{ form_start(persona) }}
 <div class="row">
     <div class="col-6">
         <div class="form-group">
-            {{ form_label(titular.nombre) }}
-            {{ form_widget(titular.nombre) }}
+            {{ form_label(persona.nombre) }}
+            {{ form_widget(persona.nombre) }}
         </div>       
         <div class="form-group">
-            {{ form_label(titular.telefonoFijo) }}
-            {{ form_widget(titular.telefonoFijo) }}
+            {{ form_label(persona.telefonoFijo) }}
+            {{ form_widget(persona.telefonoFijo) }}
         </div>
         <div class="form-group">
-            {{ form_label(titular.email) }}
-            {{ form_widget(titular.email) }}
+            {{ form_label(persona.email) }}
+            {{ form_widget(persona.email) }}
         </div>
     </div>
     <div class="col-6">
          <div class="form-group">
-            {{ form_label(titular.apellido) }}
-            {{ form_widget(titular.apellido) }}
+            {{ form_label(persona.apellido) }}
+            {{ form_widget(persona.apellido) }}
         </div>
         <div class="form-group">
-            {{ form_label(titular.telefonoMovil) }}
-            {{ form_widget(titular.telefonoMovil) }}
+            {{ form_label(persona.telefonoMovil) }}
+            {{ form_widget(persona.telefonoMovil) }}
         </div>
     </div>
 </div>
-{{ form_end(titular) }}
+{{ form_end(persona) }}

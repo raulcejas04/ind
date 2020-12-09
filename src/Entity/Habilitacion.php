@@ -68,6 +68,16 @@ class Habilitacion
      */
     private $lugar;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $rubroEspecifico;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $insumos;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +205,30 @@ class Habilitacion
         if ($lugar->getHabilitacion() !== $newHabilitacion) {
             $lugar->setHabilitacion($newHabilitacion);
         }
+
+        return $this;
+    }
+
+    public function getRubroEspecifico(): ?string
+    {
+        return $this->rubroEspecifico;
+    }
+
+    public function setRubroEspecifico(string $rubroEspecifico): self
+    {
+        $this->rubroEspecifico = $rubroEspecifico;
+
+        return $this;
+    }
+
+    public function getInsumos(): ?string
+    {
+        return $this->insumos;
+    }
+
+    public function setInsumos(string $insumos): self
+    {
+        $this->insumos = $insumos;
 
         return $this;
     }

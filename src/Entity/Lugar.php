@@ -30,11 +30,6 @@ class Lugar {
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity=domicilio::class, mappedBy="lugar")
-     */
-    private $domicilio;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $qPersonal;
@@ -63,11 +58,6 @@ class Lugar {
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $esExportador;
-
-    /**
-     * @ORM\OneToMany(targetEntity=persona::class, mappedBy="lugar")
-     */
-    private $apoderado;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -143,11 +133,51 @@ class Lugar {
      */
     private $residuos;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $esDeposito;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $esProduccion;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qPersonalTrans;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qPersonalDiscapacidad;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qPersonalResidenteAvellaneda;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=domicilio::class, inversedBy="lugares")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $domicilio;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=persona::class, inversedBy="lugaresEsApoderado")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $apoderado;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $numeroDecreto;
+
     public function __construct() {
         $this->industria = new ArrayCollection();
         $this->tipo = new ArrayCollection();
-        $this->domicilio = new ArrayCollection();
-        $this->apoderado = new ArrayCollection();
         $this->paises = new ArrayCollection();
         $this->residuos = new ArrayCollection();
         $this->horariosTrabajo = new ArrayCollection();
@@ -194,32 +224,6 @@ class Lugar {
         return $this;
     }
 
-    /**
-     * @return Collection|domicilio[]
-     */
-    public function getDomicilio(): Collection {
-        return $this->domicilio;
-    }
-
-    public function addDomicilio(domicilio $domicilio): self {
-        if (!$this->domicilio->contains($domicilio)) {
-            $this->domicilio[] = $domicilio;
-            $domicilio->setLugar($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDomicilio(domicilio $domicilio): self {
-        if ($this->domicilio->removeElement($domicilio)) {
-            // set the owning side to null (unless already changed)
-            if ($domicilio->getLugar() === $this) {
-                $domicilio->setLugar(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getQPersonal(): ?int {
         return $this->qPersonal;
@@ -280,34 +284,7 @@ class Lugar {
 
         return $this;
     }
-
-    /**
-     * @return Collection|persona[]
-     */
-    public function getApoderado(): Collection {
-        return $this->apoderado;
-    }
-
-    public function addApoderado(persona $apoderado): self {
-        if (!$this->apoderado->contains($apoderado)) {
-            $this->apoderado[] = $apoderado;
-            $apoderado->setLugar($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApoderado(persona $apoderado): self {
-        if ($this->apoderado->removeElement($apoderado)) {
-            // set the owning side to null (unless already changed)
-            if ($apoderado->getLugar() === $this) {
-                $apoderado->setLugar(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     public function getCeritifionAptitud(): ?int {
         return $this->ceritifionAptitud;
     }
@@ -472,6 +449,102 @@ class Lugar {
                 $residuo->setLugar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEsDeposito(): ?bool
+    {
+        return $this->esDeposito;
+    }
+
+    public function setEsDeposito(bool $esDeposito): self
+    {
+        $this->esDeposito = $esDeposito;
+
+        return $this;
+    }
+
+    public function getEsProduccion(): ?bool
+    {
+        return $this->esProduccion;
+    }
+
+    public function setEsProduccion(bool $esProduccion): self
+    {
+        $this->esProduccion = $esProduccion;
+
+        return $this;
+    }
+
+    public function getQPersonalTrans(): ?int
+    {
+        return $this->qPersonalTrans;
+    }
+
+    public function setQPersonalTrans(int $qPersonalTrans): self
+    {
+        $this->qPersonalTrans = $qPersonalTrans;
+
+        return $this;
+    }
+
+    public function getQPersonalDiscapacidad(): ?int
+    {
+        return $this->qPersonalDiscapacidad;
+    }
+
+    public function setQPersonalDiscapacidad(int $qPersonalDiscapacidad): self
+    {
+        $this->qPersonalDiscapacidad = $qPersonalDiscapacidad;
+
+        return $this;
+    }
+
+    public function getQPersonalResidenteAvellaneda(): ?int
+    {
+        return $this->qPersonalResidenteAvellaneda;
+    }
+
+    public function setQPersonalResidenteAvellaneda(int $qPersonalResidenteAvellaneda): self
+    {
+        $this->qPersonalResidenteAvellaneda = $qPersonalResidenteAvellaneda;
+
+        return $this;
+    }
+
+    public function getDomicilio(): ?domicilio
+    {
+        return $this->domicilio;
+    }
+
+    public function setDomicilio(?domicilio $domicilio): self
+    {
+        $this->domicilio = $domicilio;
+
+        return $this;
+    }
+
+    public function getApoderado(): ?persona
+    {
+        return $this->apoderado;
+    }
+
+    public function setApoderado(?persona $apoderado): self
+    {
+        $this->apoderado = $apoderado;
+
+        return $this;
+    }
+
+    public function getNumeroDecreto(): ?string
+    {
+        return $this->numeroDecreto;
+    }
+
+    public function setNumeroDecreto(string $numeroDecreto): self
+    {
+        $this->numeroDecreto = $numeroDecreto;
 
         return $this;
     }
