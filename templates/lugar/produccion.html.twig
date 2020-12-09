@@ -1,0 +1,98 @@
+<h4 class="card-title">Producción</h4>
+<div class="row">
+    <div class="col-6">
+        <!-- residuos industriales -->   
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(formulario.tieneResiduosIndustriales) }}
+                    {{ form_widget(formulario.tieneResiduosIndustriales) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tipoResiduoIndustrial) }}
+                    {{ form_widget(formulario.tipoResiduoIndustrial) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.residuoIndustrial) }}
+                    {{ form_widget(formulario.residuoIndustrial) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tieneEfluentesLiquidos) }}
+                    {{ form_widget(formulario.tieneEfluentesLiquidos) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tieneTratamientoPrevioVuelco) }}
+                    {{ form_widget(formulario.tieneTratamientoPrevioVuelco) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.destinoVuelcoTipo) }}
+                    {{ form_widget(formulario.destinoVuelcoTipo) }}
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <!-- residuos especiales -->
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(formulario.tieneResiduosEspeciales) }}
+                    {{ form_widget(formulario.tieneResiduosEspeciales) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tipoResiduoEspecial) }}
+                    {{ form_widget(formulario.tipoResiduoEspecial) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.corrientes) }}
+                    {{ form_widget(formulario.corrientes) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tieneEmisionesGaseosas) }}
+                    {{ form_widget(formulario.tieneEmisionesGaseosas) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.tipoEmisionGaseosa) }}
+                    {{ form_widget(formulario.tipoEmisionGaseosa) }}
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-6">
+        <!-- varios -->
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(formulario.potenciaUtilizada) }}
+                    {{ form_widget(formulario.potenciaUtilizada) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.CURT) }}
+                    {{ form_widget(formulario.CURT) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.fechaUltimaInpeccion) }}
+                    {{ form_widget(formulario.fechaUltimaInpeccion) }}
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <!-- denuncias y reclamos -->
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    {{ form_label(formulario.tieneDenuncia) }}
+                    {{ form_widget(formulario.tieneDenuncia) }}
+                </div> 
+                <div class="form-group">
+                    {{ form_label(formulario.denunciasEspecificaciones) }}
+                    {{ form_widget(formulario.denunciasEspecificaciones) }}
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>

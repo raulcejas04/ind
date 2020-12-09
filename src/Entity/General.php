@@ -85,6 +85,21 @@ class General
      */
     private $certAptitudAmbs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="categoriaIndustrial")
+     */
+    private $lugaresCategoria;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoIndustrial")
+     */
+    private $lugaresResiduoIndustrial;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoEspecial")
+     */
+    private $lugaresResiduosEspeciales;
+
     public function __construct()
     {
         $this->Lugares = new ArrayCollection();
@@ -93,6 +108,9 @@ class General
         $this->rubrosPrimarios = new ArrayCollection();
         $this->rubrosSecundarios = new ArrayCollection();
         $this->certAptitudAmbs = new ArrayCollection();
+        $this->lugaresCategoria = new ArrayCollection();
+        $this->lugaresResiduoIndustrial = new ArrayCollection();
+        $this->lugaresResiduosEspeciales = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -355,6 +373,96 @@ class General
             // set the owning side to null (unless already changed)
             if ($certAptitudAmb->getCategoria() === $this) {
                 $certAptitudAmb->setCategoria(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugaresCategoria(): Collection
+    {
+        return $this->lugaresCategoria;
+    }
+
+    public function addLugaresCategorium(Lugar $lugaresCategorium): self
+    {
+        if (!$this->lugaresCategoria->contains($lugaresCategorium)) {
+            $this->lugaresCategoria[] = $lugaresCategorium;
+            $lugaresCategorium->setCategoriaIndustrial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugaresCategorium(Lugar $lugaresCategorium): self
+    {
+        if ($this->lugaresCategoria->removeElement($lugaresCategorium)) {
+            // set the owning side to null (unless already changed)
+            if ($lugaresCategorium->getCategoriaIndustrial() === $this) {
+                $lugaresCategorium->setCategoriaIndustrial(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugaresResiduoIndustrial(): Collection
+    {
+        return $this->lugaresResiduoIndustrial;
+    }
+
+    public function addLugaresResiduoIndustrial(Lugar $lugaresResiduoIndustrial): self
+    {
+        if (!$this->lugaresResiduoIndustrial->contains($lugaresResiduoIndustrial)) {
+            $this->lugaresResiduoIndustrial[] = $lugaresResiduoIndustrial;
+            $lugaresResiduoIndustrial->setTipoResiduoIndustrial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugaresResiduoIndustrial(Lugar $lugaresResiduoIndustrial): self
+    {
+        if ($this->lugaresResiduoIndustrial->removeElement($lugaresResiduoIndustrial)) {
+            // set the owning side to null (unless already changed)
+            if ($lugaresResiduoIndustrial->getTipoResiduoIndustrial() === $this) {
+                $lugaresResiduoIndustrial->setTipoResiduoIndustrial(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugaresResiduosEspeciales(): Collection
+    {
+        return $this->lugaresResiduosEspeciales;
+    }
+
+    public function addLugaresResiduosEspeciale(Lugar $lugaresResiduosEspeciale): self
+    {
+        if (!$this->lugaresResiduosEspeciales->contains($lugaresResiduosEspeciale)) {
+            $this->lugaresResiduosEspeciales[] = $lugaresResiduosEspeciale;
+            $lugaresResiduosEspeciale->setTipoResiduoEspecial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugaresResiduosEspeciale(Lugar $lugaresResiduosEspeciale): self
+    {
+        if ($this->lugaresResiduosEspeciales->removeElement($lugaresResiduosEspeciale)) {
+            // set the owning side to null (unless already changed)
+            if ($lugaresResiduosEspeciale->getTipoResiduoEspecial() === $this) {
+                $lugaresResiduosEspeciale->setTipoResiduoEspecial(null);
             }
         }
 

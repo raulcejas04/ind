@@ -1,5 +1,9 @@
 {{ form_start(formulario) }}
 {{ include('lugar/principal.html.twig') }}
-<hr/>
+<br/>
 {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion} only %}
+<br/>
+{% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb} only %}
+<br/>
+{% include 'lugar/produccion.html.twig' %}
 {{ form_end(formulario) }}
