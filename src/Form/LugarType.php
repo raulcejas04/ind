@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class LugarType extends AbstractType {
 
@@ -109,6 +110,10 @@ class LugarType extends AbstractType {
                 ])
                 ->add('tieneDenuncia', CheckboxType::class, ['label' => '¿Tiene antecedente de reclamo de vecinos o denuncias?'])
                 ->add('denunciasEspecificaciones', TextareaType::class, ['label' => 'Especifique los motivos:'])
+                ->add('horariosTrabajo', CollectionType::class, [
+                    'entry_type' => HorarioTrabajoType::class,
+                ])
+                ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos'])
         ;
     }
 

@@ -12,39 +12,33 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method General[]    findAll()
  * @method General[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GeneralRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class GeneralRepository extends ServiceEntityRepository {
+
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, General::class);
     }
 
-    // /**
-    //  * @return General[] Returns an array of General objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    /**
+     * @return General[] Retorna un array de dias
+     */
+    public function traerDias() {
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+                        ->andWhere('g.tipo = 1')
+                        ->orderBy('g.id', 'ASC')
+                        ->getQuery()
+                        ->getResult()
         ;
     }
-    */
 
     /*
-    public function findOneBySomeField($value): ?General
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+      public function findOneBySomeField($value): ?General
+      {
+      return $this->createQueryBuilder('g')
+      ->andWhere('g.exampleField = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getOneOrNullResult()
+      ;
+      }
+     */
 }
