@@ -129,11 +129,6 @@ class Lugar {
     private $horariosTrabajo;
 
     /**
-     * @ORM\OneToMany(targetEntity=general::class, mappedBy="lugar")
-     */
-    private $residuos;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $esDeposito;
@@ -175,11 +170,70 @@ class Lugar {
      */
     private $numeroDecreto;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tieneResiduosIndustriales;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduoIndustrial")
+     */
+    private $tipoResiduoIndustrial;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tieneEfluentesLiquidos;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tieneTratamientoPrevioVuelco;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tieneResiduosEspeciales;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduosEspeciales")
+     */
+    private $tipoResiduoEspecial;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     */
+    private $corrientes;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $tieneEmisionesGaseosas;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     */
+    private $tipoEmisionGaseosa;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $potenciaTotalUtilizada;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $residuoIndustrial;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     */
+    private $destinoVuelcoTipo;
+
     public function __construct() {
         $this->industria = new ArrayCollection();
         $this->tipo = new ArrayCollection();
         $this->paises = new ArrayCollection();
-        $this->residuos = new ArrayCollection();
         $this->horariosTrabajo = new ArrayCollection();
     }
 
@@ -426,22 +480,7 @@ class Lugar {
         return $this;
     }
 
-    /**
-     * @return Collection|general[]
-     */
-    public function getResiduos(): Collection {
-        return $this->residuos;
-    }
-
-    public function addResiduo(general $residuo): self {
-        if (!$this->residuos->contains($residuo)) {
-            $this->residuos[] = $residuo;
-            $residuo->setLugar($this);
-        }
-
-        return $this;
-    }
-
+  
     public function removeResiduo(general $residuo): self {
         if ($this->residuos->removeElement($residuo)) {
             // set the owning side to null (unless already changed)
@@ -545,6 +584,150 @@ class Lugar {
     public function setNumeroDecreto(string $numeroDecreto): self
     {
         $this->numeroDecreto = $numeroDecreto;
+
+        return $this;
+    }
+
+    public function getTieneResiduosIndustriales(): ?bool
+    {
+        return $this->tieneResiduosIndustriales;
+    }
+
+    public function setTieneResiduosIndustriales(bool $tieneResiduosIndustriales): self
+    {
+        $this->tieneResiduosIndustriales = $tieneResiduosIndustriales;
+
+        return $this;
+    }
+
+    public function getTipoResiduoIndustrial(): ?general
+    {
+        return $this->tipoResiduoIndustrial;
+    }
+
+    public function setTipoResiduoIndustrial(?general $tipoResiduoIndustrial): self
+    {
+        $this->tipoResiduoIndustrial = $tipoResiduoIndustrial;
+
+        return $this;
+    }
+
+    public function getTieneEfluentesLiquidos(): ?bool
+    {
+        return $this->tieneEfluentesLiquidos;
+    }
+
+    public function setTieneEfluentesLiquidos(bool $tieneEfluentesLiquidos): self
+    {
+        $this->tieneEfluentesLiquidos = $tieneEfluentesLiquidos;
+
+        return $this;
+    }
+
+    public function getTieneTratamientoPrevioVuelco(): ?bool
+    {
+        return $this->tieneTratamientoPrevioVuelco;
+    }
+
+    public function setTieneTratamientoPrevioVuelco(bool $tieneTratamientoPrevioVuelco): self
+    {
+        $this->tieneTratamientoPrevioVuelco = $tieneTratamientoPrevioVuelco;
+
+        return $this;
+    }
+
+    public function getTieneResiduosEspeciales(): ?bool
+    {
+        return $this->tieneResiduosEspeciales;
+    }
+
+    public function setTieneResiduosEspeciales(bool $tieneResiduosEspeciales): self
+    {
+        $this->tieneResiduosEspeciales = $tieneResiduosEspeciales;
+
+        return $this;
+    }
+
+    public function getTipoResiduoEspecial(): ?general
+    {
+        return $this->tipoResiduoEspecial;
+    }
+
+    public function setTipoResiduoEspecial(?general $tipoResiduoEspecial): self
+    {
+        $this->tipoResiduoEspecial = $tipoResiduoEspecial;
+
+        return $this;
+    }
+
+    public function getCorrientes(): ?general
+    {
+        return $this->corrientes;
+    }
+
+    public function setCorrientes(?general $corrientes): self
+    {
+        $this->corrientes = $corrientes;
+
+        return $this;
+    }
+
+    public function getTieneEmisionesGaseosas(): ?bool
+    {
+        return $this->tieneEmisionesGaseosas;
+    }
+
+    public function setTieneEmisionesGaseosas(bool $tieneEmisionesGaseosas): self
+    {
+        $this->tieneEmisionesGaseosas = $tieneEmisionesGaseosas;
+
+        return $this;
+    }
+
+    public function getTipoEmisionGaseosa(): ?general
+    {
+        return $this->tipoEmisionGaseosa;
+    }
+
+    public function setTipoEmisionGaseosa(?general $tipoEmisionGaseosa): self
+    {
+        $this->tipoEmisionGaseosa = $tipoEmisionGaseosa;
+
+        return $this;
+    }
+
+    public function getPotenciaTotalUtilizada(): ?int
+    {
+        return $this->potenciaTotalUtilizada;
+    }
+
+    public function setPotenciaTotalUtilizada(?int $potenciaTotalUtilizada): self
+    {
+        $this->potenciaTotalUtilizada = $potenciaTotalUtilizada;
+
+        return $this;
+    }
+
+    public function getResiduoIndustrial(): ?string
+    {
+        return $this->residuoIndustrial;
+    }
+
+    public function setResiduoIndustrial(?string $residuoIndustrial): self
+    {
+        $this->residuoIndustrial = $residuoIndustrial;
+
+        return $this;
+    }
+
+    public function getDestinoVuelcoTipo(): ?general
+    {
+        return $this->destinoVuelcoTipo;
+    }
+
+    public function setDestinoVuelcoTipo(?general $destinoVuelcoTipo): self
+    {
+        $this->destinoVuelcoTipo = $destinoVuelcoTipo;
 
         return $this;
     }
