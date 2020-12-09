@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Industria;
 use App\Form\DomicilioType;
 use App\Form\PersonaType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

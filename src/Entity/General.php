@@ -20,7 +20,7 @@ class General
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=tipo::class, inversedBy="generales")
+     * @ORM\ManyToOne(targetEntity=Tipo::class, inversedBy="generales")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tipo;

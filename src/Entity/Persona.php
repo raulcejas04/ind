@@ -65,9 +65,15 @@ class Persona {
      */
     private $telefonoMovil;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="apoderado")
+     */
+    private $lugaresEsApoderado;
+
     public function __construct()
     {
         $this->industriasEsTitular = new ArrayCollection();
+        $this->lugaresEsApoderado = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -188,6 +194,36 @@ class Persona {
     public function setTelefonoMovil(string $telefono_movil): self
     {
         $this->telefonoMovil = $telefono_movil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugaresEsApoderado(): Collection
+    {
+        return $this->lugaresEsApoderado;
+    }
+
+    public function addLugaresEsApoderado(Lugar $lugaresEsApoderado): self
+    {
+        if (!$this->lugaresEsApoderado->contains($lugaresEsApoderado)) {
+            $this->lugaresEsApoderado[] = $lugaresEsApoderado;
+            $lugaresEsApoderado->setApoderado($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugaresEsApoderado(Lugar $lugaresEsApoderado): self
+    {
+        if ($this->lugaresEsApoderado->removeElement($lugaresEsApoderado)) {
+            // set the owning side to null (unless already changed)
+            if ($lugaresEsApoderado->getApoderado() === $this) {
+                $lugaresEsApoderado->setApoderado(null);
+            }
+        }
 
         return $this;
     }

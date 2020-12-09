@@ -3,7 +3,7 @@
     "app": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~image_cropper.js",
+        "/build/vendors~app~datepicker~image_cropper~select2.js",
         "/build/vendors~app.js",
         "/build/app.js"
       ],
@@ -14,12 +14,36 @@
     "image_cropper": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~image_cropper.js",
+        "/build/vendors~app~datepicker~image_cropper~select2.js",
         "/build/vendors~image_cropper.js",
         "/build/image_cropper.js"
       ],
       "css": [
         "/build/image_cropper.css"
+      ]
+    },
+    "select2": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~app~datepicker~image_cropper~select2.js",
+        "/build/vendors~select2.js",
+        "/build/select2.js"
+      ],
+      "css": [
+        "/build/vendors~select2.css",
+        "/build/select2.css"
+      ]
+    },
+    "datepicker": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~app~datepicker~image_cropper~select2.js",
+        "/build/vendors~datepicker.js",
+        "/build/datepicker.js"
+      ],
+      "css": [
+        "/build/vendors~datepicker.css",
+        "/build/datepicker.css"
       ]
     }
   }
