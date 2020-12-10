@@ -1,7 +1,6 @@
 const $ = require('jquery');
 
 $(document).ready(function () {
-    console.log("changes took 2");
 
     $("#lugar_esProduccion").change(function () {
         if ($(this).is(':checked')) {
