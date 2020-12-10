@@ -1,10 +1,19 @@
 {
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
+  "build/datepicker.css": "/build/datepicker.css",
+  "build/datepicker.js": "/build/datepicker.js",
   "build/image_cropper.css": "/build/image_cropper.css",
   "build/image_cropper.js": "/build/image_cropper.js",
+  "build/lugarForm.js": "/build/lugarForm.js",
   "build/runtime.js": "/build/runtime.js",
+  "build/select2.css": "/build/select2.css",
+  "build/select2.js": "/build/select2.js",
   "build/vendors~app.js": "/build/vendors~app.js",
-  "build/vendors~app~image_cropper.js": "/build/vendors~app~image_cropper.js",
-  "build/vendors~image_cropper.js": "/build/vendors~image_cropper.js"
+  "build/vendors~app~datepicker~image_cropper~lugarForm~select2.js": "/build/vendors~app~datepicker~image_cropper~lugarForm~select2.js",
+  "build/vendors~datepicker.css": "/build/vendors~datepicker.css",
+  "build/vendors~datepicker.js": "/build/vendors~datepicker.js",
+  "build/vendors~image_cropper.js": "/build/vendors~image_cropper.js",
+  "build/vendors~select2.css": "/build/vendors~select2.css",
+  "build/vendors~select2.js": "/build/vendors~select2.js"
 }

@@ -25,6 +25,9 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('image_cropper', './assets/js/image_cropper.js')
+    .addEntry('select2', './assets/js/select2.js')
+    .addEntry('datepicker', './assets/js/datepicker.js')
+    .addEntry('lugarForm', './assets/js/lugarForm.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

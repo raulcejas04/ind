@@ -43,10 +43,14 @@
                     <tr class="d-flex">
                         <td class="col-4">{{ lugar.razonSocial }}</td>
                         <td class="col-4">{{ lugar.domicilio.calle + " " + lugar.domicilio.puerta}}</td>
-                       {# <td class="col-2">{{ lugar.esProduccion ? 'false' : 'true'}}</td>
-                        <td class="col-2">{{ lugar.esProduccion ? 'true' : 'false'}}</td> #}
-                         <td class="col-2"></td>
-                          <td class="col-2">{</td>
+                        <td class="col-2">
+                            <input type="checkbox"
+                                   {{ lugar.esDeposito ? 'checked' : ''}}/>
+                        </td>
+                        <td class="col-2">
+                            <input type="checkbox"
+                                   {{ lugar.esProduccion ? 'checked' : ''}}/>
+                        </td>
                     </tr>
                 {%  endfor %}     
             </tbody>

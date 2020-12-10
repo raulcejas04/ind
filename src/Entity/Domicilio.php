@@ -59,10 +59,16 @@ class Domicilio
      */
     private $industrias;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="domicilio")
+     */
+    private $lugares;
+
     public function __construct()
     {
         $this->localidad = new ArrayCollection();
         $this->industrias = new ArrayCollection();
+        $this->lugares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,36 @@ class Domicilio
             // set the owning side to null (unless already changed)
             if ($industria->getDomicilio() === $this) {
                 $industria->setDomicilio(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lugar[]
+     */
+    public function getLugares(): Collection
+    {
+        return $this->lugares;
+    }
+
+    public function addLugare(Lugar $lugare): self
+    {
+        if (!$this->lugares->contains($lugare)) {
+            $this->lugares[] = $lugare;
+            $lugare->setDomicilio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLugare(Lugar $lugare): self
+    {
+        if ($this->lugares->removeElement($lugare)) {
+            // set the owning side to null (unless already changed)
+            if ($lugare->getDomicilio() === $this) {
+                $lugare->setDomicilio(null);
             }
         }
 

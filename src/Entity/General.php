@@ -19,7 +19,7 @@ class General
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=tipo::class, inversedBy="generales")
+     * @ORM\ManyToOne(targetEntity=Tipo::class, inversedBy="generales")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tipo;
@@ -46,6 +46,21 @@ class General
 
     
 
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="categoriaIndustrial")
+     */
+    private $lugaresCategoria;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoIndustrial")
+     */
+    private $lugaresResiduoIndustrial;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoEspecial")
+     */
+    private $lugaresResiduosEspeciales;
 
     public function __construct()
     {

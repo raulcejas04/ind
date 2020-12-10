@@ -21,7 +21,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Domicilio Legal</h5>
-                {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
+                {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio,'esconderParaLugar':'false'} only %}
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Titular</h5>
-                {% include 'persona/_formulario.html.twig' with {'titular':formulario.titular} only %}
+                {% include 'persona/_formulario.html.twig' with {'persona':formulario.titular} only %}
             </div>
         </div>
     </div>
@@ -40,19 +40,20 @@
 <hr/>
 <div class="row">
     <div class="col-md-12">    
-        <div class="row">
-            <div class="col-sm-9">
-                <h5 class="card-title align-middle">Lugares de producción y/o depósito dentro del partido</h5>
+        <div class="row pb-2">
+            <div class="col-sm-9 pt-1">
+                <h5>Lugares de producción y/o depósito dentro del partido</h5>
             </div>
-            <div class="col-sm-3">
-                <div class="float-right">
-                    <a class="btn btn-primary align-middle" href="{{ path("lugar_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo Lugar</a>
+            <div class="col-sm-3 ">
+                <div class="float-right ">
+                    <a class="btn btn-primary " href="{{ path("lugar_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo Lugar</a>
                 </div>
             </div>
         </div>
         {% include 'lugar/grilla.html.twig' with {'lugares':lugares} only %}            
     </div>
 </div>
+
 <div class="float-right">
     <button class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
 </div>
