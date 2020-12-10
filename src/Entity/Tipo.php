@@ -6,6 +6,7 @@ use App\Repository\TipoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\General;     
 
 /**
  * @ORM\Entity(repositoryClass=TipoRepository::class)
@@ -45,7 +46,7 @@ class Tipo
     private $modificadoEn;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $eliminadoPor;
 
@@ -63,6 +64,7 @@ class Tipo
      * @ORM\OneToMany(targetEntity=General::class, mappedBy="tipo")
      */
     private $generales;
+    
 
     public function __construct()
     {
@@ -177,13 +179,13 @@ class Tipo
     {
         return $this->generales;
     }
-
+    
     public function addGenerale(General $generale): self
     {
         if (!$this->generales->contains($generale)) {
             $this->generales[] = $generale;
             $generale->setTipo($this);
-        }
+}
 
         return $this;
     }

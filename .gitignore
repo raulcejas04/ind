@@ -7,6 +7,8 @@
 /public/bundles/
 /public/uploads/perfil/*
 /var/
+/vendor
+/vendor/*
 
 ###< symfony/framework-bundle ###
 

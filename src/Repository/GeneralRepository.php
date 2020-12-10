@@ -17,11 +17,34 @@ class GeneralRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, General::class);
     }
-
-    /**
-     * @return General[] Retorna un array de dias
-     */
-    public function traerDias() {
+    
+    public function buscarItemsPorTipo($tipo): array {        
+        return $this->createQueryBuilder('g')                
+                        ->andWhere('g.tipo = :tipo')
+                        ->setParameter(':tipo', $tipo)
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->getQuery()
+                        ->getResult();        
+    }
+    
+    public function buscarItems($busqueda, $tipo): array {
+        return $this->createQueryBuilder('g')                
+                        ->andWhere('g.tipo = :tipo')
+                        ->andWhere('g.descripcion LIKE :busqueda ')                        
+                        ->orWhere('g.descripcion_corta LIKE :busqueda ')                                        
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->setParameter(':tipo', $tipo)
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->getQuery()
+                        ->getResult();        
+    }
+    
+    // /**
+    //  * @return General[] Returns an array of General objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
         return $this->createQueryBuilder('g')
                         ->andWhere('g.tipo = 1')
                         ->orderBy('g.id', 'ASC')
@@ -31,14 +54,16 @@ class GeneralRepository extends ServiceEntityRepository {
     }
 
     /*
-      public function findOneBySomeField($value): ?General
-      {
-      return $this->createQueryBuilder('g')
-      ->andWhere('g.exampleField = :val')
-      ->setParameter('val', $value)
-      ->getQuery()
-      ->getOneOrNullResult()
-      ;
-      }
-     */
+    public function findOneBySomeField($value): ?General
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
+    
+    
 }
