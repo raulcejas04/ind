@@ -18,6 +18,17 @@ class TipoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Tipo::class);
     }
+    
+    //REVISAR ORDENAMIENTO NO EXISTE EN LA GRILLA
+    //FILTRO POR ACTIVO
+    public function buscarTipo($busqueda): array {        
+        return $this->createQueryBuilder('t')                
+                        ->andWhere('t.tipo LIKE :busqueda ')                        
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->orderBy('t.id', 'ASC')
+                        ->getQuery()
+                        ->getResult();        
+    }
 
     // /**
     //  * @return Tipo[] Returns an array of Tipo objects

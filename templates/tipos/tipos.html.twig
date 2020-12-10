@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administración de tipos{% endblock %}
+
+{% block body %}
+    <div class="container w-100 p-3">
+        <div class="card mx-auto">             
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 pb-2">
+                        <a class="btn btn-success" href="{{ path("tipos_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo tipo</a>
+                        <div class="float-right">
+                            {{ form_start(formBusqueda,{ 'attr' : { 'class': 'form-inline' } }) }}
+                            <div class="form-group pr-2">
+                                {{ form_widget(formBusqueda.busqueda) }}
+                            </div>
+                            {{ form_widget(formBusqueda.buscar) }}
+                            {{ form_end(formBusqueda) }}
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered ">
+                    <thead class="thead-light">
+                        <tr >
+                            <th style="width:5%">Id</th>
+                            <th>Tipo</th>
+                            <th style="width:5%">Activo</th>
+                            <th style="width:5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tipo in tipos %}
+                            <tr >
+                                <td >{{ tipo.id }}</td>
+                                <td >{{ tipo.tipo}}</td>                                
+                                <td> {% if tipo.activo %}
+                                    <span class=" text-success fa fa-check"></span>
+                                {% else  %}
+                                    <span class="text-danger fa fa-cancel"></span>
+                                {% endif %}</td>
+                                <td>  
+                                    {{ include('tipos/_acciones.html.twig') }}                                    
+                                </td>
+                            </tr>
+                        {%  endfor %}     
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{%  endblock %}

@@ -1,0 +1,10 @@
+<form method="post" action="{{ path('tipos_eliminar', {'id': tipo.id}) }}" onsubmit="return confirm('¿Está seguro que desea eliminar?');">
+    <div class="float-right"> 
+    <div class="btn-group" role="group">
+        <a class="btn btn-success btn-sm" href="{{ path("tipos_editar",{"id":tipo.id}) }}"><span class="fa fa-edit"></span></a>     
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('eliminar' ~ tipo.id) }}">
+        <button class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>
+    </div>
+    </div>
+</form>

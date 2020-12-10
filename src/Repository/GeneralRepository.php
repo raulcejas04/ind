@@ -18,7 +18,28 @@ class GeneralRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, General::class);
     }
-
+    
+    public function buscarItemsPorTipo($tipo): array {        
+        return $this->createQueryBuilder('g')                
+                        ->andWhere('g.tipo = :tipo')
+                        ->setParameter(':tipo', $tipo)
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->getQuery()
+                        ->getResult();        
+    }
+    
+    public function buscarItems($busqueda, $tipo): array {
+        return $this->createQueryBuilder('g')                
+                        ->andWhere('g.tipo = :tipo')
+                        ->andWhere('g.descripcion LIKE :busqueda ')                        
+                        ->orWhere('g.descripcion_corta LIKE :busqueda ')                                        
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->setParameter(':tipo', $tipo)
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->getQuery()
+                        ->getResult();        
+    }
+    
     // /**
     //  * @return General[] Returns an array of General objects
     //  */
@@ -47,4 +68,6 @@ class GeneralRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    
 }
