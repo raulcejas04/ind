@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\GeneralRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Tipo;
+use App\Entity\Habilitacion
 
 /**
  * @ORM\Entity(repositoryClass=GeneralRepository::class)
