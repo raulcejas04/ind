@@ -6,93 +6,114 @@
                 ¿Tiene habilitación municipal?
             </div>
             <div class="btn-group mr-2" role="group">
-                <button type="button" class="btn btn-primary">Si</button>
+                <button id="btnHabilitacionSi" type="button" class="btn btn-primary">Si</button>
             </div>
             <div class="btn-group mr-2" role="group">            
-                <button type="button" class="btn btn-primary">No</button>
+                <button id="btnHabilitacionNo" type="button" class="btn btn-primary">No</button>
             </div>
         </div> 
     </div>
-    <div class="col-6">
+    <div class="col-6" id="divTipoHabilitacion">
         <div class="form-group">
             {{ form_widget(habilitacion.tipo) }}
         </div>
     </div>
 </div>
 <br/>
-<div class="row">
-    <div class="col-6">
-        <div class="row">
-            <div class="col-12">
-                <!-- Expediente de habilitacion municipal -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Expediente de habilitación municipal</h5>
-                        <div class="form-group">
-                            {{ form_label(habilitacion.expediente) }}
-                            {{ form_widget(habilitacion.expediente) }}
-                        </div> 
-                        <div class="form-group">
-                            {{ form_label(habilitacion.numeroDecreto) }}
-                            {{ form_widget(habilitacion.numeroDecreto) }}
-                        </div> 
-                        <div class="form-group">
-                            {{ form_label(habilitacion.fechaInicio) }}
-                            {{ form_widget(habilitacion.fechaInicio) }}
-                        </div> 
+<div id="divHabilitacion">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Expediente de habilitacion municipal -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Expediente de habilitación municipal</h5>
+                            <div class="form-group">
+                                {{ form_label(habilitacion.expediente) }}
+                                {{ form_widget(habilitacion.expediente) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.numeroDecreto) }}
+                                {{ form_widget(habilitacion.numeroDecreto) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.fechaInicio) }}
+                                {{ form_widget(habilitacion.fechaInicio) }}
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-12">
+                    <!-- Seguridad & Higiene -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Seguridad e higiene</h5>
+                            <div class="form-group">
+                                {{ form_label(habilitacion.legajo_se_h) }}
+                                {{ form_widget(habilitacion.legajo_se_h) }}
+                            </div> 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr/>
-        <div class="row">
-            <div class="col-12">
-                <!-- Seguridad & Higiene -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Seguridad e higiene</h5>
-                        <div class="form-group">
-                            {{ form_label(habilitacion.legajo_se_h) }}
-                            {{ form_widget(habilitacion.legajo_se_h) }}
-                        </div> 
-                    </div>
+        <div class="col-6">
+            <!-- Rubro habilitado -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Rubro habilitado</h5>
+                    <div class="form-group">
+                        {{ form_label(habilitacion.rubroHabilitado) }}
+                        {{ form_widget(habilitacion.rubroHabilitado) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.rubroPrimario) }}
+                        {{ form_widget(habilitacion.rubroPrimario) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.rubroSecundario) }}
+                        {{ form_widget(habilitacion.rubroSecundario) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.rubroEspecifico) }}
+                        {{ form_widget(habilitacion.rubroEspecifico) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.materiaPrima) }}
+                        {{ form_widget(habilitacion.materiaPrima) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.insumos) }}
+                        {{ form_widget(habilitacion.insumos) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(habilitacion.productoFinal) }}
+                        {{ form_widget(habilitacion.productoFinal) }}
+                    </div> 
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-6">
-        <!-- Rubro habilitado -->
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Rubro habilitado</h5>
-                <div class="form-group">
-                    {{ form_label(habilitacion.rubroHabilitado) }}
-                    {{ form_widget(habilitacion.rubroHabilitado) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.rubroPrimario) }}
-                    {{ form_widget(habilitacion.rubroPrimario) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.rubroSecundario) }}
-                    {{ form_widget(habilitacion.rubroSecundario) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.rubroEspecifico) }}
-                    {{ form_widget(habilitacion.rubroEspecifico) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.materiaPrima) }}
-                    {{ form_widget(habilitacion.materiaPrima) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.insumos) }}
-                    {{ form_widget(habilitacion.insumos) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(habilitacion.productoFinal) }}
-                    {{ form_widget(habilitacion.productoFinal) }}
-                </div> 
+</div>
+
+<div class="modal fade" id="modalNoHabilitado" tabindex="-1" role="dialog" aria-labelledby="modalNoHabilitado" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Presentarse en la Dirección de Habilitaciones Industriales:</p>
+                <p>Crisólogo Larralde Nº4969, esq. Magdalena. Edificio ITE de 9 a 14hs.</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary " href="{{ path("industria_nuevo") }}">Volver a Industria</a>
             </div>
         </div>
     </div>
