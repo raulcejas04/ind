@@ -20,7 +20,9 @@ class HabilitacionType extends AbstractType {
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = rubro id??
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "tipoHabilitacion")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion'
@@ -36,9 +38,11 @@ class HabilitacionType extends AbstractType {
                 ->add('legajo_se_h', TextType::class, ['label' => 'Legajo: '])
                 ->add('rubroHabilitado', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = rubro id??
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "rubro")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -48,7 +52,9 @@ class HabilitacionType extends AbstractType {
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = rubro id??
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "rubro")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -56,9 +62,11 @@ class HabilitacionType extends AbstractType {
                 ])
                 ->add('rubroSecundario', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = rubro id??
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "rubro")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',

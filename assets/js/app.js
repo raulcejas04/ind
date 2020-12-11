@@ -12,4 +12,3 @@ require('bootstrap');
 
 import 'bootstrap/js/src/util.js';
 import 'bootstrap/js/src/collapse.js';
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

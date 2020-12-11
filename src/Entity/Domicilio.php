@@ -10,19 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=DomicilioRepository::class)
  */
-class Domicilio
-{
+class Domicilio {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $calle;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -33,12 +28,7 @@ class Domicilio
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $pisoDpto;
-
-    /**
-     * @ORM\OneToMany(targetEntity=general::class, mappedBy="domicilio")
-     */
-    private $localidad;
-
+ 
     /**
      * @ORM\Column(type="string", length=20)
      */
@@ -64,74 +54,54 @@ class Domicilio
      */
     private $lugares;
 
-    public function __construct()
-    {
-        $this->localidad = new ArrayCollection();
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $calle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $provincia;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $localidad;
+
+    public function __construct() {
         $this->industrias = new ArrayCollection();
         $this->lugares = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getCalle(): ?string
-    {
-        return $this->calle;
-    }
-
-    public function setCalle(string $calle): self
-    {
-        $this->calle = $calle;
-
-        return $this;
-    }
-
-    public function getPuerta(): ?string
-    {
+    public function getPuerta(): ?string {
         return $this->puerta;
     }
 
-    public function setPuerta(string $puerta): self
-    {
+    public function setPuerta(string $puerta): self {
         $this->puerta = $puerta;
 
         return $this;
     }
 
-    public function getPisoDpto(): ?string
-    {
+    public function getPisoDpto(): ?string {
         return $this->pisoDpto;
     }
 
-    public function setPisoDpto(?string $pisoDpto): self
-    {
+    public function setPisoDpto(?string $pisoDpto): self {
         $this->pisoDpto = $pisoDpto;
 
         return $this;
     }
 
-    /**
-     * @return Collection|general[]
-     */
-    public function getLocalidad(): Collection
-    {
-        return $this->localidad;
-    }
-
-    public function addLocalidad(general $localidad): self
-    {
-        if (!$this->localidad->contains($localidad)) {
-            $this->localidad[] = $localidad;
-            $localidad->setDomicilio($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocalidad(general $localidad): self
-    {
+    public function removeLocalidad(general $localidad): self {
         if ($this->localidad->removeElement($localidad)) {
             // set the owning side to null (unless already changed)
             if ($localidad->getDomicilio() === $this) {
@@ -142,37 +112,31 @@ class Domicilio
         return $this;
     }
 
-    public function getCP(): ?string
-    {
+    public function getCP(): ?string {
         return $this->CP;
     }
 
-    public function setCP(string $CP): self
-    {
+    public function setCP(string $CP): self {
         $this->CP = $CP;
 
         return $this;
     }
 
-    public function getIndustria(): ?Industria
-    {
+    public function getIndustria(): ?Industria {
         return $this->industria;
     }
 
-    public function setIndustria(?Industria $industria): self
-    {
+    public function setIndustria(?Industria $industria): self {
         $this->industria = $industria;
 
         return $this;
     }
 
-    public function getLugar(): ?Lugar
-    {
+    public function getLugar(): ?Lugar {
         return $this->lugar;
     }
 
-    public function setLugar(?Lugar $lugar): self
-    {
+    public function setLugar(?Lugar $lugar): self {
         $this->lugar = $lugar;
 
         return $this;
@@ -181,13 +145,11 @@ class Domicilio
     /**
      * @return Collection|Industria[]
      */
-    public function getIndustrias(): Collection
-    {
+    public function getIndustrias(): Collection {
         return $this->industrias;
     }
 
-    public function addIndustria(Industria $industria): self
-    {
+    public function addIndustria(Industria $industria): self {
         if (!$this->industrias->contains($industria)) {
             $this->industrias[] = $industria;
             $industria->setDomicilio($this);
@@ -196,8 +158,7 @@ class Domicilio
         return $this;
     }
 
-    public function removeIndustria(Industria $industria): self
-    {
+    public function removeIndustria(Industria $industria): self {
         if ($this->industrias->removeElement($industria)) {
             // set the owning side to null (unless already changed)
             if ($industria->getDomicilio() === $this) {
@@ -211,13 +172,11 @@ class Domicilio
     /**
      * @return Collection|Lugar[]
      */
-    public function getLugares(): Collection
-    {
+    public function getLugares(): Collection {
         return $this->lugares;
     }
 
-    public function addLugare(Lugar $lugare): self
-    {
+    public function addLugare(Lugar $lugare): self {
         if (!$this->lugares->contains($lugare)) {
             $this->lugares[] = $lugare;
             $lugare->setDomicilio($this);
@@ -226,8 +185,7 @@ class Domicilio
         return $this;
     }
 
-    public function removeLugare(Lugar $lugare): self
-    {
+    public function removeLugare(Lugar $lugare): self {
         if ($this->lugares->removeElement($lugare)) {
             // set the owning side to null (unless already changed)
             if ($lugare->getDomicilio() === $this) {
@@ -237,4 +195,41 @@ class Domicilio
 
         return $this;
     }
+
+    public function getCalle(): ?general
+    {
+        return $this->calle;
+    }
+
+    public function setCalle(?general $calle): self
+    {
+        $this->calle = $calle;
+
+        return $this;
+    }
+
+    public function getProvincia(): ?general
+    {
+        return $this->provincia;
+    }
+
+    public function setProvincia(?general $provincia): self
+    {
+        $this->provincia = $provincia;
+
+        return $this;
+    }
+
+    public function getLocalidad(): ?general
+    {
+        return $this->localidad;
+    }
+
+    public function setLocalidad(?general $localidad): self
+    {
+        $this->localidad = $localidad;
+
+        return $this;
+    }
+
 }

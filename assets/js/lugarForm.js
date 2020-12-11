@@ -1,7 +1,7 @@
 const $ = require('jquery');
 
 $(document).ready(function () {
-
+    //PRINCIPAL
     $("#lugar_esProduccion").change(function () {
         if ($(this).is(':checked')) {
             $("#tabCertAptitudAmbiental").hide();
@@ -9,6 +9,18 @@ $(document).ready(function () {
         } else {
             $("#tabCertAptitudAmbiental").show();
             $("#tabProduccion").show();
+        }
+    });
+    //lista de paises solo aparece si checkbox exporta es checked
+    if (!$("#lugar_esExportador").is(':checked')) {
+        $("#divSeleccionPaises").hide();
+    }
+    $("#lugar_esExportador").change(function () {
+        if ($(this).is(':checked')) {
+            $("#divSeleccionPaises").show();
+        } else {
+            $('#lugar_paises').val(null).trigger('change');
+            $("#divSeleccionPaises").hide();
         }
     });
 
