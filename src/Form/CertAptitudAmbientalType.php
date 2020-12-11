@@ -26,9 +26,11 @@ class CertAptitudAmbientalType extends AbstractType {
                 )
                 ->add('categoria', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = categoria id??
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "categoriaIndustrial")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',

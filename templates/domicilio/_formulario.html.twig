@@ -4,11 +4,11 @@
         <div class="col-6 {{esconderParaLugar == "true" ? "d-none"}}">
             <div class="form-group">
                 {{ form_label(domicilio.provincia) }}
-                {{ form_widget(domicilio.provincia) }}
+                {{ form_widget(domicilio.provincia, { 'attr': {'class': 'searchabledropdown'} }) }}
             </div>
             <div class="form-group">
                 {{ form_label(domicilio.localidad) }}
-                {{ form_widget(domicilio.localidad) }}
+                {{ form_widget(domicilio.localidad, { 'attr': {'class': 'searchabledropdown'} }) }}
             </div>
             <div class="form-group">
                 {{ form_label(domicilio.cp) }}
@@ -18,7 +18,7 @@
     <div class="{{esconderParaLugar == "true" ? "col-12" : "col-6"}}">
         <div class="form-group">
             {{ form_label(domicilio.calle) }}
-            {{ form_widget(domicilio.calle) }}
+            {{ form_widget(domicilio.calle, { 'attr': {'class': 'searchabledropdown'} }) }}
         </div>
         <div class="form-group">
             {{ form_label(domicilio.puerta) }}

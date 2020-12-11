@@ -17,53 +17,60 @@ class GeneralRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, General::class);
     }
-    
-    public function buscarItemsPorTipo($tipo): array {        
-        return $this->createQueryBuilder('g')                
+
+    public function buscarItemsPorTipo($tipo): array {
+        return $this->createQueryBuilder('g')
                         ->andWhere('g.tipo = :tipo')
                         ->setParameter(':tipo', $tipo)
                         ->orderBy('g.descripcion', 'ASC')
                         ->getQuery()
-                        ->getResult();        
+                        ->getResult();
     }
-    
+
     public function buscarItems($busqueda, $tipo): array {
-        return $this->createQueryBuilder('g')                
+        return $this->createQueryBuilder('g')
                         ->andWhere('g.tipo = :tipo')
-                        ->andWhere('g.descripcion LIKE :busqueda ')                        
-                        ->orWhere('g.descripcion_corta LIKE :busqueda ')                                        
+                        ->andWhere('g.descripcion LIKE :busqueda ')
+                        ->orWhere('g.descripcion_corta LIKE :busqueda ')
                         ->setParameter(':busqueda', '%' . $busqueda . '%')
                         ->setParameter(':tipo', $tipo)
                         ->orderBy('g.descripcion', 'ASC')
                         ->getQuery()
-                        ->getResult();        
+                        ->getResult();
     }
-    
+
+    public function buscarDiasOrdenados() {
+        return $this->createQueryBuilder('g')
+                        ->join('g.tipo', 't')
+                        ->where('t.tipo = :tipo')
+                        ->setParameter(':tipo', "dias")
+                        ->orderBy('g.id', 'ASC')
+                        ->getQuery()
+                        ->getResult();
+    }
     // /**
     //  * @return General[] Returns an array of General objects
     //  */
     /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-                        ->andWhere('g.tipo = 1')
-                        ->orderBy('g.id', 'ASC')
-                        ->getQuery()
-                        ->getResult()
-        ;
-    }
+      public function findByExampleField($value)
+      {
+      return $this->createQueryBuilder('g')
+      ->andWhere('g.tipo = 1')
+      ->orderBy('g.id', 'ASC')
+      ->getQuery()
+      ->getResult()
+      ;
+      }
 
-    /*
-    public function findOneBySomeField($value): ?General
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-    
-    
+      /*
+      public function findOneBySomeField($value): ?General
+      {
+      return $this->createQueryBuilder('g')
+      ->andWhere('g.exampleField = :val')
+      ->setParameter('val', $value)
+      ->getQuery()
+      ->getOneOrNullResult()
+      ;
+      }
+     */
 }

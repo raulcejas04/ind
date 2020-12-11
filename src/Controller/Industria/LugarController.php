@@ -35,7 +35,7 @@ class LugarController extends AbstractController {
 
     public function CrearHorariosTrabajo(Lugar $lugar) {
         if ($lugar->getHorariosTrabajo()->count() == 0) {
-            $dias = $this->getDoctrine()->getRepository(General::class)->traerDias();
+            $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
             foreach ($dias as $dia) {
                 $horario = new HorariosTrabajo();
                 $horario->setDia($dia);

@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\GeneralRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Tipo;
-use App\Entity\Habilitacion
 
 /**
  * @ORM\Entity(repositoryClass=GeneralRepository::class)
@@ -44,24 +43,6 @@ class General
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $auxiliar2;
-
-    
-
-
-    /**
-     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="categoriaIndustrial")
-     */
-    private $lugaresCategoria;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoIndustrial")
-     */
-    private $lugaresResiduoIndustrial;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Lugar::class, mappedBy="tipoResiduoEspecial")
-     */
-    private $lugaresResiduosEspeciales;
 
     public function __construct()
     {
@@ -131,5 +112,5 @@ class General
 
         return $this;
     }
-
+   
 }

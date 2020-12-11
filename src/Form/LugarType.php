@@ -39,9 +39,11 @@ class LugarType extends AbstractType {
                 ->add('paises', EntityType::class, [
                     'class' => General::class,
                     'multiple' => true,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                //add where tipo.id = pais or whatever
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "pais")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -51,8 +53,11 @@ class LugarType extends AbstractType {
                 ->add('tieneResiduosIndustriales', CheckboxType::class, ['label' => '¿Produce residuos industriales?'])
                 ->add('tipoResiduoIndustrial', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "residuoIndustrial")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -63,8 +68,11 @@ class LugarType extends AbstractType {
                 ->add('tieneTratamientoPrevioVuelco', CheckboxType::class, ['label' => '¿Tratamiento previo al vuelco?'])
                 ->add('destinoVuelcoTipo', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "destinoVuelcoTipo")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -75,6 +83,9 @@ class LugarType extends AbstractType {
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "tipoResiduoEspecial")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -82,8 +93,11 @@ class LugarType extends AbstractType {
                 ])
                 ->add('corrientes', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "corrientes")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -94,6 +108,9 @@ class LugarType extends AbstractType {
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "tipoEmisionGaseosa")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',

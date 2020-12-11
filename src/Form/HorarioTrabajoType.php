@@ -18,9 +18,12 @@ class HorarioTrabajoType extends AbstractType {
         $builder
                 ->add('dia', EntityType::class, [
                     'class' => General::class,
-                    'query_builder' => function (EntityRepository $er) {
+                   'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
-                                ->orderBy('g.descripcion', 'ASC');
+                                ->join('g.tipo', 't')
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "dias")
+                                ->orderBy('g.id', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                     'disabled' => true
