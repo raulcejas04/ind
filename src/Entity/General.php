@@ -44,6 +44,17 @@ class General
      */
     private $auxiliar2;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $auxiliar3_int;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $auxiliar4_int;
+
+
     public function __construct()
     {
     }
@@ -112,5 +123,31 @@ class General
 
         return $this;
     }
+
+    public function getAuxiliar3_int(): ?int
+    {
+        return $this->auxiliar3_int;
+    }
+
+    public function setAuxiliar3_int(?int $auxiliar3_int): self
+    {
+        $this->auxiliar3_int = $auxiliar3_int;
+
+        return $this;
+    }
+
+    public function getAuxiliar4_int(): ?int
+    {
+        return $this->auxiliar4_int;
+    }
+
+    public function setAuxiliar4_int(?int $auxiliar4_int): self
+    {
+        $this->auxiliar4_int = $auxiliar4_int;
+
+        return $this;
+    }
+
+   
    
 }

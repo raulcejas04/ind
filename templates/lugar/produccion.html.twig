@@ -8,26 +8,28 @@
                     {{ form_label(formulario.tieneResiduosIndustriales) }}
                     {{ form_widget(formulario.tieneResiduosIndustriales) }}
                 </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.tipoResiduoIndustrial) }}
-                    {{ form_widget(formulario.tipoResiduoIndustrial) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.residuoIndustrial) }}
-                    {{ form_widget(formulario.residuoIndustrial) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.tieneEfluentesLiquidos) }}
-                    {{ form_widget(formulario.tieneEfluentesLiquidos) }}
-                </div> 
-                <div class="form-group" id="divTratamientoPrevioVuelco">
-                    {{ form_label(formulario.tieneTratamientoPrevioVuelco) }}
-                    {{ form_widget(formulario.tieneTratamientoPrevioVuelco) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.destinoVuelcoTipo) }}
-                    {{ form_widget(formulario.destinoVuelcoTipo) }}
-                </div> 
+                <div id="divResiduosIndustriales">
+                    <div class="form-group">
+                        {{ form_label(formulario.tipoResiduoIndustrial) }}
+                        {{ form_widget(formulario.tipoResiduoIndustrial) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(formulario.residuoIndustrial) }}
+                        {{ form_widget(formulario.residuoIndustrial) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(formulario.tieneEfluentesLiquidos) }}
+                        {{ form_widget(formulario.tieneEfluentesLiquidos) }}
+                    </div> 
+                    <div class="form-group" id="divTratamientoPrevioVuelco">
+                        {{ form_label(formulario.tieneTratamientoPrevioVuelco) }}
+                        {{ form_widget(formulario.tieneTratamientoPrevioVuelco) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(formulario.destinoVuelcoTipo) }}
+                        {{ form_widget(formulario.destinoVuelcoTipo) }}
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -39,22 +41,24 @@
                     {{ form_label(formulario.tieneResiduosEspeciales) }}
                     {{ form_widget(formulario.tieneResiduosEspeciales) }}
                 </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.tipoResiduoEspecial) }}
-                    {{ form_widget(formulario.tipoResiduoEspecial) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.corrientes) }}
-                    {{ form_widget(formulario.corrientes) }}
-                </div> 
-                <div class="form-group">
-                    {{ form_label(formulario.tieneEmisionesGaseosas) }}
-                    {{ form_widget(formulario.tieneEmisionesGaseosas) }}
-                </div> 
-                <div class="form-group" id="divTipoEmisionGaseosa">
-                    {{ form_label(formulario.tipoEmisionGaseosa) }}
-                    {{ form_widget(formulario.tipoEmisionGaseosa) }}
-                </div> 
+                <div id="divResiduosEspeciales">
+                    <div class="form-group">
+                        {{ form_label(formulario.tipoResiduoEspecial) }}
+                        {{ form_widget(formulario.tipoResiduoEspecial) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(formulario.corrientes) }}
+                        {{ form_widget(formulario.corrientes) }}
+                    </div> 
+                    <div class="form-group">
+                        {{ form_label(formulario.tieneEmisionesGaseosas) }}
+                        {{ form_widget(formulario.tieneEmisionesGaseosas) }}
+                    </div> 
+                    <div class="form-group" id="divTipoEmisionGaseosa">
+                        {{ form_label(formulario.tipoEmisionGaseosa) }}
+                        {{ form_widget(formulario.tipoEmisionGaseosa) }}
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -88,7 +92,7 @@
                     {{ form_label(formulario.tieneDenuncia) }}
                     {{ form_widget(formulario.tieneDenuncia) }}
                 </div> 
-                <div class="form-group">
+                <div id="divEspecificacionDenuncia" class="form-group">
                     {{ form_label(formulario.denunciasEspecificaciones) }}
                     {{ form_widget(formulario.denunciasEspecificaciones) }}
                 </div> 

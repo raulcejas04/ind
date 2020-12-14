@@ -72,6 +72,12 @@ class Domicilio {
      */
     private $localidad;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $departamento;
+
     public function __construct() {
         $this->industrias = new ArrayCollection();
         $this->lugares = new ArrayCollection();
@@ -228,6 +234,18 @@ class Domicilio {
     public function setLocalidad(?general $localidad): self
     {
         $this->localidad = $localidad;
+
+        return $this;
+    }
+
+    public function getDepartamento(): ?general
+    {
+        return $this->departamento;
+    }
+
+    public function setDepartamento(?general $departamento): self
+    {
+        $this->departamento = $departamento;
 
         return $this;
     }

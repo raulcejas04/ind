@@ -14,6 +14,12 @@
   "build/vendors~datepicker.css": "/build/vendors~datepicker.css",
   "build/vendors~datepicker.js": "/build/vendors~datepicker.js",
   "build/vendors~image_cropper.js": "/build/vendors~image_cropper.js",
+  "build/vendors~image_cropper~lugarForm.js": "/build/vendors~image_cropper~lugarForm.js",
+  "build/vendors~lugarForm.js": "/build/vendors~lugarForm.js",
   "build/vendors~select2.css": "/build/vendors~select2.css",
-  "build/vendors~select2.js": "/build/vendors~select2.js"
+  "build/vendors~select2.js": "/build/vendors~select2.js",
+  "build/vendors~app~datepicker~image_cropper~select2.js": "/build/vendors~app~datepicker~image_cropper~select2.js",
+  "build/lugarForm.css": "/build/lugarForm.css",
+  "build/vendors~lugarForm~select2.css": "/build/vendors~lugarForm~select2.css",
+  "build/vendors~lugarForm~select2.js": "/build/vendors~lugarForm~select2.js"
 }

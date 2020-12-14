@@ -43,11 +43,28 @@ class GeneralRepository extends ServiceEntityRepository {
         return $this->createQueryBuilder('g')
                         ->join('g.tipo', 't')
                         ->where('t.tipo = :tipo')
-                        ->setParameter(':tipo', "dias")
+                        ->setParameter(':tipo', "Dias")
                         ->orderBy('g.id', 'ASC')
                         ->getQuery()
                         ->getResult();
     }
+
+    public function getCalles() {
+        return $this->createQueryBuilder('g')
+                        ->where('g.tipo = 5')
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->groupBy('g.descripcion')
+                        ->getQuery()
+                        ->getResult();
+        
+       /* return $this->createQueryBuilder('g')
+                        ->where('g.tipo = 5')
+                        ->orderBy('g.descripcion', 'ASC')
+                        ->groupBy('g.descripcion')
+                        ->getQuery()
+                        ->getResult();*/
+    }
+
     // /**
     //  * @return General[] Returns an array of General objects
     //  */
