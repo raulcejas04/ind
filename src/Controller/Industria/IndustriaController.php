@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Industria;
+use App\Entity\Domicilio;
+use App\Entity\General;
+use App\Form\DomicilioType;
 use App\Form\IndustriaType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -31,4 +34,54 @@ class IndustriaController extends AbstractController {
         ]);
     }
 
+    /**
+     * @Route("/industria/departamento-select", name="industria_departamento_select")
+     */
+    public function getDepartamentoSelect(Request $request) {
+        $domicilio = new Domicilio();
+        $provincia = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('provincia'));
+        $domicilio->setProvincia($provincia);
+        $form = $this->createForm(DomicilioType::class, $domicilio);
+        // no field? Return an empty response
+        if (!$form->has('departamento')) {
+            return new Response(null, 204);
+        }
+        return $this->render('domicilio/_departamento.html.twig', [
+                    'domicilio' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/industria/localidad-select", name="industria_localidad_select")
+     */
+    public function getLocalidadSelect(Request $request) {
+        $domicilio = new Domicilio();
+        $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
+        $domicilio->setDepartamento($id);
+        $form = $this->createForm(DomicilioType::class, $domicilio);
+        // no field? Return an empty response
+        if (!$form->has('localidad')) {
+            return new Response(null, 204);
+        }
+        return $this->render('domicilio/_localidad.html.twig', [
+                    'domicilio' => $form->createView(),
+        ]);
+    }
+    
+    /**
+     * @Route("/industria/calle-select", name="industria_calle_select")
+     */
+    public function getCalleSelect(Request $request) {
+        $domicilio = new Domicilio();
+        $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
+        $domicilio->setLocalidad($id);
+        $form = $this->createForm(DomicilioType::class, $domicilio);
+        // no field? Return an empty response
+        if (!$form->has('calle')) {
+            return new Response(null, 204);
+        }
+        return $this->render('domicilio/_calle.html.twig', [
+                    'domicilio' => $form->createView(),
+        ]);
+    }
 }

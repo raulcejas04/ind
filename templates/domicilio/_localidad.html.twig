@@ -1,0 +1,9 @@
+<div class="form-group">
+    {{ form_label(domicilio.localidad) }}
+    {{ form_widget(domicilio.localidad, { 
+                   'attr': {
+                         'data-calle-url': path('industria_calle_select'),
+                    'class': ' searchabledropdown js-industria-form-localidad'
+                    } 
+                }) }}
+</div>

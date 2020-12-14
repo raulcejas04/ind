@@ -1,8 +1,14 @@
 const $ = require('jquery');
+import '../css/select2.scss';
+import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
     //PRINCIPAL
-
+    $(".searchabledropdown").select2();
+    $("#industria_domicilio_calle").change(function () {
+        console.log("change");
+        console.log($("#industria_domicilio_calle").val());
+    });
     $("#lugar_esProduccion").change(function () {
         if ($(this).is(':checked')) {
             $("#tabCertAptitudAmbiental").hide();
@@ -162,5 +168,98 @@ $(document).ready(function () {
             $("#divEspecificacionDenuncia").hide();
         }
     });
+    //Domicilio Select con Dependencia
+    var $provinciaSelect = $('.js-industria-form-provincia');
+    var $departamentoTarget = $('.js-departamento-target');
+    $provinciaSelect.on('change', function (e) {
+        console.log($provinciaSelect.val());
+        if ($provinciaSelect.val() === '') {
+            $departamentoTarget.find('select').remove();
+            $departamentoTarget.addClass('d-none');
+            $('.js-localidad-target').find('select').remove();
+            $('.js-localidad-target').addClass('d-none');
+            $('.js-calle-target').find('select').remove();
+            $('.js-calle-target').addClass('d-none');
+        }
+        $.ajax({
+            url: $provinciaSelect.data('departamento-url'),
+            data: {
+                provincia: $provinciaSelect.val()
+            },
+            success: function (html) {
+                if (!html) {
+                    $departamentoTarget.find('select').remove();
+                    $departamentoTarget.addClass('d-none');
+                    return;
+                }
+                // Replace the current field and show
+                $departamentoTarget
+                        .html(html)
+                        .removeClass('d-none');
+                $("#domicilio_departamento").select2();
+                // Departamento -> localidad
+                var $departamentoSelect = $('.js-industria-form-departamento');
+                var $localidadTarget = $('.js-localidad-target');
+                $departamentoSelect.on('change', function (e) {
+                    if ($departamentoSelect.val() === '') {
+                        $localidadTarget.find('select').remove();
+                        $localidadTarget.addClass('d-none');
+                        $('.js-calle-target').find('select').remove();
+                        $('.js-calle-target').addClass('d-none');
+                    }
+                    $.ajax({
+                        url: $departamentoSelect.data('localidad-url'),
+
+                        data: {
+                            id: $departamentoSelect.val()
+                        },
+                        success: function (html) {
+                            if (!html) {
+                                $localidadTarget.find('select').remove();
+                                $localidadTarget.addClass('d-none');
+                                return;
+                            }
+                            // Replace the current field and show
+
+                            $localidadTarget
+                                    .html(html)
+                                    .removeClass('d-none');
+                            $("#domicilio_localidad").select2();
+                            //Localidad -> calle
+                            var $localidadSelect = $('.js-industria-form-localidad');
+                            var $calleTarget = $('.js-calle-target');
+                            $localidadSelect.on('change', function (e) {
+                                if ($localidadSelect.val() === '') {
+                                    $calleTarget.find('select').remove();
+                                    $calleTarget.addClass('d-none');
+                                }
+                                $.ajax({
+                                    url: $localidadSelect.data('calle-url'),
+
+                                    data: {
+                                        id: $localidadSelect.val()
+                                    },
+                                    success: function (html) {
+                                        if (!html) {
+                                            $calleTarget.find('select').remove();
+                                            $calleTarget.addClass('d-none');
+                                            return;
+                                        }
+                                        // Replace the current field and show
+
+                                        $calleTarget
+                                                .html(html)
+                                                .removeClass('d-none');
+                                        $("#domicilio_calle").select2();
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+
 
 });
