@@ -27,15 +27,15 @@ class HabilitacionType extends AbstractType {
                     },
                     'choice_label' => 'descripcion'
                 ])
-                ->add('expediente', TextType::class, ['label' => 'Número de expediente: '])
-                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto: '])
+                ->add('expediente', TextType::class, ['label' => 'Número de expediente'])
+                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
                 ->add('fechaInicio', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
                     'attr' => ['class' => 'js-datepicker'],
                 ])
-                ->add('legajo_se_h', TextType::class, ['label' => 'Legajo: '])
+                ->add('legajo_se_h', TextType::class, ['label' => 'Legajo'])
                 ->add('rubroHabilitado', EntityType::class, [
                     'class' => General::class,
                    'query_builder' => function (EntityRepository $er) {
@@ -46,7 +46,7 @@ class HabilitacionType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Rubro general:'
+                    'label' => 'Rubro general'
                 ])
                 ->add('rubroPrimario', EntityType::class, [
                     'class' => General::class,
@@ -58,7 +58,7 @@ class HabilitacionType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Rubro primario:'
+                    'label' => 'Rubro primario'
                 ])
                 ->add('rubroSecundario', EntityType::class, [
                     'class' => General::class,
@@ -70,7 +70,7 @@ class HabilitacionType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Rubro secundario:'
+                    'label' => 'Rubro secundario'
                 ])
                 ->add('rubroEspecifico', TextType::class, ['label' => 'Rubro por habilitación municipal (rubro específico): '])
                 ->add('materiaPrima', TextType::class, ['label' => 'Materia prima: '])

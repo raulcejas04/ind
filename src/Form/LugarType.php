@@ -26,14 +26,14 @@ class LugarType extends AbstractType {
                 ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?'])
                 ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?'])
                 ->add('domicilio', DomicilioCortoType::class)
-                ->add('qPersonal', TextType::class, ['label' => 'Cant. de personal total: '])
-                ->add('qPersonalFemenino', TextType::class, ['label' => 'Cant. de personal femenino: '])
-                ->add('qPersonalTrans', TextType::class, ['label' => 'Cant. de personal trans: '])
-                ->add('qPersonalDiscapacidad', TextType::class, ['label' => 'Cant. de personal con discapacidad: '])
-                ->add('qPersonalResidenteAvellaneda', TextType::class, ['label' => 'Cant. de personal residente de Avellaneda: '])
-                ->add('superficieTotal', TextType::class, ['label' => 'Superficie total: '])
-                ->add('siperficieCubierta', TextType::class, ['label' => 'Superficie cubierta: '])
-                ->add('superficieLibre', TextType::class, ['label' => 'Superficie libre: '])
+                ->add('qPersonal', TextType::class, ['label' => 'Cant. de personal total'])
+                ->add('qPersonalFemenino', TextType::class, ['label' => 'Cant. de personal femenino'])
+                ->add('qPersonalTrans', TextType::class, ['label' => 'Cant. de personal trans'])
+                ->add('qPersonalDiscapacidad', TextType::class, ['label' => 'Cant. de personal con discapacidad'])
+                ->add('qPersonalResidenteAvellaneda', TextType::class, ['label' => 'Cant. de personal residente de Avellaneda'])
+                ->add('superficieTotal', TextType::class, ['label' => 'Superficie total'])
+                ->add('siperficieCubierta', TextType::class, ['label' => 'Superficie cubierta'])
+                ->add('superficieLibre', TextType::class, ['label' => 'Superficie libre'])
                 ->add('apoderado', PersonaType::class)
                 ->add('esExportador', CheckboxType::class, ['label' => '¿Exporta?'])
                 ->add('paises', EntityType::class, [
@@ -61,7 +61,7 @@ class LugarType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Tipo de residuos:'
+                    'label' => 'Tipo de residuos'
                 ])
                 ->add('residuoIndustrial', TextType::class, ['label' => '¿Cuales?'])
                 ->add('tieneEfluentesLiquidos', CheckboxType::class, ['label' => '¿Efluentes líquidos?'])
@@ -76,7 +76,7 @@ class LugarType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Destino del vuelco:'
+                    'label' => 'Destino del vuelco'
                 ])
                 ->add('tieneResiduosEspeciales', CheckboxType::class, ['label' => '¿Residuos especiales?'])
                 ->add('tipoResiduoEspecial', EntityType::class, [
@@ -89,7 +89,7 @@ class LugarType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Tipo de residuos:'
+                    'label' => 'Tipo de residuos'
                 ])
                 ->add('corrientes', EntityType::class, [
                     'class' => General::class,
@@ -101,7 +101,7 @@ class LugarType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Corrientes:'
+                    'label' => 'Corrientes'
                 ])
                 ->add('tieneEmisionesGaseosas', CheckboxType::class, ['label' => '¿Emisiones gaseosas?'])
                 ->add('tipoEmisionGaseosa', EntityType::class, [
@@ -114,19 +114,19 @@ class LugarType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Tipo de emisiones gaseosas:'
+                    'label' => 'Tipo de emisiones gaseosas'
                 ])
-                ->add('potenciaUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW):'])
-                ->add('CURT', TextType::class, ['label' => 'CURT:'])
+                ->add('potenciaUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW)'])
+                ->add('CURT', TextType::class, ['label' => 'CURT'])
                 ->add('fechaUltimaInpeccion', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
                     'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha última inspección: '
+                    'label' => 'Fecha última inspección'
                 ])
                 ->add('tieneDenuncia', CheckboxType::class, ['label' => '¿Tiene antecedente de reclamo de vecinos o denuncias?'])
-                ->add('denunciasEspecificaciones', TextareaType::class, ['label' => 'Especifique los motivos:'])
+                ->add('denunciasEspecificaciones', TextareaType::class, ['label' => 'Especifique los motivos'])
                 ->add('horariosTrabajo', CollectionType::class, [
                     'entry_type' => HorarioTrabajoType::class,
                 ])

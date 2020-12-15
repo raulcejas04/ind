@@ -31,10 +31,10 @@ class DomicilioType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Provincia:'
+                    'label' => 'Provincia'
                 ])
-                ->add('cp', TextType::class, ['label' => 'CP: '])
-                ->add('puerta', TextType::class, ['label' => 'Número: '])
+                ->add('cp', TextType::class, ['label' => 'CP'])
+                ->add('puerta', TextType::class, ['label' => 'Número'])
                 ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa: '])
 
         ;
@@ -121,7 +121,7 @@ class DomicilioType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
             },
             'choice_label' => 'descripcion',
-            'label' => 'Departamento:'
+            'label' => 'Departamento'
         ]);
     }
 
@@ -145,7 +145,7 @@ class DomicilioType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
             },
             'choice_label' => 'descripcion',
-            'label' => 'Localidad:'
+            'label' => 'Localidad'
         ]);
     }
 
@@ -169,7 +169,7 @@ class DomicilioType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
             },
             'choice_label' => 'descripcion',
-            'label' => 'Calle:'
+            'label' => 'Calle'
         ]);
     }
 
