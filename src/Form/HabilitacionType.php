@@ -72,10 +72,10 @@ class HabilitacionType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'label' => 'Rubro secundario'
                 ])
-                ->add('rubroEspecifico', TextType::class, ['label' => 'Rubro por habilitación municipal (rubro específico): '])
-                ->add('materiaPrima', TextType::class, ['label' => 'Materia prima: '])
-                ->add('insumos', TextType::class, ['label' => 'Insumos: '])
-                ->add('productoFinal', TextType::class, ['label' => 'Producto final elaborado: '])
+                ->add('rubroEspecifico', TextType::class, ['label' => 'Rubro por habilitación municipal'])
+                ->add('materiaPrima', TextType::class, ['label' => 'Materia prima'])
+                ->add('insumos', TextType::class, ['label' => 'Insumos'])
+                ->add('productoFinal', TextType::class, ['label' => 'Producto final elaborado'])
         ;
     }
 
