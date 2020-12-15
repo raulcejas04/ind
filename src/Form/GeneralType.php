@@ -18,7 +18,7 @@ class GeneralType extends AbstractType {
                 ->add('descripcionCorta', TextType::class, ['label' => 'Descripción Corta: '])
                 ->add('auxiliar1', TextType::class, ['label' => 'Campo Auxiliar1: ','required' => false])
                 ->add('auxiliar2', TextType::class, ['label' => 'Campo Auxiliar2: ','required' => false])                
-        ;
+                ;
         
         
     }

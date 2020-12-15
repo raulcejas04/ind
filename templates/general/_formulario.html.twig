@@ -1,7 +1,11 @@
 {{ form_start(formulario) }}
 {{ form_widget(formulario) }}
 <div class="float-right">
-    <a class="btn btn-secondary pr-2 " href="{{ path("generales", {"id": tipo.id}) }}">Volver a la lista</a>
+    {% if editar != 'true' %}
+        <a class="btn btn-secondary pr-2 " href="{{ path("generales", {"id": tipo.id}) }}">Volver a la lista</a>
+    {% else %}
+        <a class="btn btn-secondary pr-2 " href="{{ path("generales", {"id": general.tipo.id}) }}">Volver a la lista</a>
+    {% endif %}
     <button class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
 </div>
 {{ form_end(formulario) }}

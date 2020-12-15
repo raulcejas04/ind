@@ -6,11 +6,15 @@ use App\Repository\DomicilioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=DomicilioRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Domicilio {
+
+    use AuditTrait;
 
     /**
      * @ORM\Id
@@ -28,7 +32,7 @@ class Domicilio {
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $pisoDpto;
- 
+
     /**
      * @ORM\Column(type="string", length=20)
      */
@@ -202,49 +206,41 @@ class Domicilio {
         return $this;
     }
 
-    public function getCalle(): ?general
-    {
+    public function getCalle(): ?general {
         return $this->calle;
     }
 
-    public function setCalle(?general $calle): self
-    {
+    public function setCalle(?general $calle): self {
         $this->calle = $calle;
 
         return $this;
     }
 
-    public function getProvincia(): ?general
-    {
+    public function getProvincia(): ?general {
         return $this->provincia;
     }
 
-    public function setProvincia(?general $provincia): self
-    {
+    public function setProvincia(?general $provincia): self {
         $this->provincia = $provincia;
 
         return $this;
     }
 
-    public function getLocalidad(): ?general
-    {
+    public function getLocalidad(): ?general {
         return $this->localidad;
     }
 
-    public function setLocalidad(?general $localidad): self
-    {
+    public function setLocalidad(?general $localidad): self {
         $this->localidad = $localidad;
 
         return $this;
     }
 
-    public function getDepartamento(): ?general
-    {
+    public function getDepartamento(): ?general {
         return $this->departamento;
     }
 
-    public function setDepartamento(?general $departamento): self
-    {
+    public function setDepartamento(?general $departamento): self {
         $this->departamento = $departamento;
 
         return $this;
