@@ -29,6 +29,11 @@ class Domicilio {
     private $puerta;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $calleAlternativa;
+
+    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $pisoDpto;
@@ -97,6 +102,16 @@ class Domicilio {
 
     public function setPuerta(string $puerta): self {
         $this->puerta = $puerta;
+
+        return $this;
+    }
+
+    public function getCalleAlternativa(): ?string {
+        return $this->calleAlternativa;
+    }
+
+    public function setCalleAlternativa(string $calleAlternativa): self {
+        $this->calleAlternativa = $calleAlternativa;
 
         return $this;
     }

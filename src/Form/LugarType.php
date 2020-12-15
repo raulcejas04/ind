@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lugar;
 use App\Entity\General;
-use App\Form\DomicilioType;
+use App\Form\DomicilioCortoType;
 use App\Form\PersonaType;
 use App\Form\HabilitacionType;
 use App\Form\CertAptitudAmbientalType;
@@ -25,7 +25,7 @@ class LugarType extends AbstractType {
         $builder
                 ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?'])
                 ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?'])
-                ->add('domicilio', DomicilioType::class)
+                ->add('domicilio', DomicilioCortoType::class)
                 ->add('qPersonal', TextType::class, ['label' => 'Cant. de personal total: '])
                 ->add('qPersonalFemenino', TextType::class, ['label' => 'Cant. de personal femenino: '])
                 ->add('qPersonalTrans', TextType::class, ['label' => 'Cant. de personal trans: '])
