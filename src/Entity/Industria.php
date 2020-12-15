@@ -13,7 +13,6 @@ use App\Entity\Traits\AuditTrait;
  * @ORM\HasLifecycleCallbacks()
  */
 class Industria {
-
     use AuditTrait;
 
     /**
@@ -44,13 +43,13 @@ class Industria {
     private $razonSocial;
 
     /**
-     * @ORM\ManyToOne(targetEntity=domicilio::class, inversedBy="industrias")
+     * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="industrias")
      * @ORM\JoinColumn(nullable=false)
      */
     private $domicilio;
 
     /**
-     * @ORM\ManyToOne(targetEntity=persona::class, inversedBy="industriasEsTitular")
+     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="industriasEsTitular")
      * @ORM\JoinColumn(nullable=false)
      */
     private $titular;

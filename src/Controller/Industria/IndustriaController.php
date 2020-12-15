@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Industria;
 use App\Entity\Domicilio;
 use App\Entity\General;
+use App\Entity\Admin\Usuario;
 use App\Form\DomicilioType;
 use App\Form\IndustriaType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,20 @@ class IndustriaController extends AbstractController {
      * @Route("/industria/nuevo",name="industria_nuevo")
      */
     public function nuevo(Request $request): Response {
-        $industria = new Industria();
+        //si no existe el parametro username aplica -1
+        $cuit = $request->get("usernane", -1);
+        $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);        
+        if (is_null($industria)){            
+            $industria = new Industria();
+            $usuario = $this->getDoctrine()->getRepository(Usuario::class)->find(["id" => -1]);
+            $industria->setCUIT($cuit);
+            $industria->setRazonSocial("");
+            $industria->setCreadoPor($usuario);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($industria);            
+            $em->flush();            
+        }
+        
         $formulario = $this->createForm(IndustriaType::class, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {

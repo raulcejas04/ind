@@ -105,23 +105,23 @@ class Lugar {
     private $fechaOtorgDispProv;
 
     /**
-     * @ORM\OneToOne(targetEntity=habilitacion::class, inversedBy="lugar", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Habilitacion::class, inversedBy="lugar", cascade={"persist", "remove"})
      */
     private $habilitacion;
 
     /**
-     * @ORM\OneToOne(targetEntity=certAptitudAmb::class, inversedBy="lugar", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=CertAptitudAmb::class, inversedBy="lugar", cascade={"persist", "remove"})
      */
     private $certAptitudAmb;
 
     /**
-     * @ORM\ManyToOne(targetEntity=industria::class, inversedBy="lugares")
+     * @ORM\ManyToOne(targetEntity=Industria::class, inversedBy="lugares")
      * @ORM\JoinColumn(nullable=false)
      */
     private $industria;
 
     /**
-     * @ORM\ManyToMany(targetEntity=general::class)
+     * @ORM\ManyToMany(targetEntity=General::class)
      * @ORM\JoinTable(name="lugares_paises")
      */
     private $paises;
