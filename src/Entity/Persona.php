@@ -6,11 +6,15 @@ use App\Repository\PersonaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=PersonaRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Persona {
+
+    use AuditTrait;
 
     /**
      * @ORM\Id
@@ -29,7 +33,6 @@ class Persona {
      */
     private $telefonoFijo;
 
-    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -70,8 +73,7 @@ class Persona {
      */
     private $lugaresEsApoderado;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->industriasEsTitular = new ArrayCollection();
         $this->lugaresEsApoderado = new ArrayCollection();
     }
@@ -110,8 +112,6 @@ class Persona {
         return $this;
     }
 
-   
-
     public function getIndustria(): ?Industria {
         return $this->industria;
     }
@@ -135,13 +135,11 @@ class Persona {
     /**
      * @return Collection|Industria[]
      */
-    public function getIndustriasEsTitular(): Collection
-    {
+    public function getIndustriasEsTitular(): Collection {
         return $this->industriasEsTitular;
     }
 
-    public function addIndustriasEsTitular(Industria $industriasEsTitular): self
-    {
+    public function addIndustriasEsTitular(Industria $industriasEsTitular): self {
         if (!$this->industriasEsTitular->contains($industriasEsTitular)) {
             $this->industriasEsTitular[] = $industriasEsTitular;
             $industriasEsTitular->setTitular($this);
@@ -150,8 +148,7 @@ class Persona {
         return $this;
     }
 
-    public function removeIndustriasEsTitular(Industria $industriasEsTitular): self
-    {
+    public function removeIndustriasEsTitular(Industria $industriasEsTitular): self {
         if ($this->industriasEsTitular->removeElement($industriasEsTitular)) {
             // set the owning side to null (unless already changed)
             if ($industriasEsTitular->getTitular() === $this) {
@@ -162,37 +159,31 @@ class Persona {
         return $this;
     }
 
-    public function getNombre(): ?string
-    {
+    public function getNombre(): ?string {
         return $this->nombre;
     }
 
-    public function setNombre(string $nombre): self
-    {
+    public function setNombre(string $nombre): self {
         $this->nombre = $nombre;
 
         return $this;
     }
 
-    public function getApellido(): ?string
-    {
+    public function getApellido(): ?string {
         return $this->apellido;
     }
 
-    public function setApellido(string $apellido): self
-    {
+    public function setApellido(string $apellido): self {
         $this->apellido = $apellido;
 
         return $this;
     }
 
-    public function getTelefonoMovil(): ?string
-    {
+    public function getTelefonoMovil(): ?string {
         return $this->telefonoMovil;
     }
 
-    public function setTelefonoMovil(string $telefono_movil): self
-    {
+    public function setTelefonoMovil(string $telefono_movil): self {
         $this->telefonoMovil = $telefono_movil;
 
         return $this;
@@ -201,13 +192,11 @@ class Persona {
     /**
      * @return Collection|Lugar[]
      */
-    public function getLugaresEsApoderado(): Collection
-    {
+    public function getLugaresEsApoderado(): Collection {
         return $this->lugaresEsApoderado;
     }
 
-    public function addLugaresEsApoderado(Lugar $lugaresEsApoderado): self
-    {
+    public function addLugaresEsApoderado(Lugar $lugaresEsApoderado): self {
         if (!$this->lugaresEsApoderado->contains($lugaresEsApoderado)) {
             $this->lugaresEsApoderado[] = $lugaresEsApoderado;
             $lugaresEsApoderado->setApoderado($this);
@@ -216,8 +205,7 @@ class Persona {
         return $this;
     }
 
-    public function removeLugaresEsApoderado(Lugar $lugaresEsApoderado): self
-    {
+    public function removeLugaresEsApoderado(Lugar $lugaresEsApoderado): self {
         if ($this->lugaresEsApoderado->removeElement($lugaresEsApoderado)) {
             // set the owning side to null (unless already changed)
             if ($lugaresEsApoderado->getApoderado() === $this) {

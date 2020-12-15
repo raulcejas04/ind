@@ -6,13 +6,17 @@ use App\Repository\TipoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\General;     
+use App\Entity\General;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=TipoRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
-class Tipo
-{
+class Tipo {
+
+    use AuditTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,36 +30,6 @@ class Tipo
     private $tipo;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $creadoPor;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $creadoEn;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $modificadoPor;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $modificadoEn;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $eliminadoPor;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $eliminadoEn;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $activo;
@@ -64,109 +38,30 @@ class Tipo
      * @ORM\OneToMany(targetEntity=General::class, mappedBy="tipo")
      */
     private $generales;
-    
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->generales = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getTipo(): ?string
-    {
+    public function getTipo(): ?string {
         return $this->tipo;
     }
 
-    public function setTipo(string $tipo): self
-    {
+    public function setTipo(string $tipo): self {
         $this->tipo = $tipo;
 
         return $this;
     }
 
-    public function getCreadoPor(): ?int
-    {
-        return $this->creadoPor;
-    }
-
-    public function setCreadoPor(int $creadoPor): self
-    {
-        $this->creadoPor = $creadoPor;
-
-        return $this;
-    }
-
-    public function getCreadoEn(): ?\DateTimeInterface
-    {
-        return $this->creadoEn;
-    }
-
-    public function setCreadoEn(\DateTimeInterface $creadoEn): self
-    {
-        $this->creadoEn = $creadoEn;
-
-        return $this;
-    }
-
-    public function getModificadoPor(): ?int
-    {
-        return $this->modificadoPor;
-    }
-
-    public function setModificadoPor(int $modificadoPor): self
-    {
-        $this->modificadoPor = $modificadoPor;
-
-        return $this;
-    }
-
-    public function getElimidadoPor(): ?int
-    {
-        return $this->elimidadoPor;
-    }
-
-    public function setElimidadoPor(?int $elimidadoPor): self
-    {
-        $this->elimidadoPor = $elimidadoPor;
-
-        return $this;
-    }
-
-    public function getEliminadoPor(): ?int
-    {
-        return $this->eliminadoPor;
-    }
-
-    public function setEliminadoPor(int $eliminadoPor): self
-    {
-        $this->eliminadoPor = $eliminadoPor;
-
-        return $this;
-    }
-
-    public function getEliminadoEn(): ?\DateTimeInterface
-    {
-        return $this->eliminadoEn;
-    }
-
-    public function setEliminadoEn(?\DateTimeInterface $eliminadoEn): self
-    {
-        $this->eliminadoEn = $eliminadoEn;
-
-        return $this;
-    }
-
-    public function getActivo(): ?bool
-    {
+    public function getActivo(): ?bool {
         return $this->activo;
     }
 
-    public function setActivo(?bool $activo): self
-    {
+    public function setActivo(?bool $activo): self {
         $this->activo = $activo;
 
         return $this;
@@ -175,23 +70,20 @@ class Tipo
     /**
      * @return Collection|General[]
      */
-    public function getGenerales(): Collection
-    {
+    public function getGenerales(): Collection {
         return $this->generales;
     }
-    
-    public function addGenerale(General $generale): self
-    {
+
+    public function addGenerale(General $generale): self {
         if (!$this->generales->contains($generale)) {
             $this->generales[] = $generale;
             $generale->setTipo($this);
-}
+        }
 
         return $this;
     }
 
-    public function removeGenerale(General $generale): self
-    {
+    public function removeGenerale(General $generale): self {
         if ($this->generales->removeElement($generale)) {
             // set the owning side to null (unless already changed)
             if ($generale->getTipo() === $this) {
@@ -201,4 +93,5 @@ class Tipo
 
         return $this;
     }
+
 }

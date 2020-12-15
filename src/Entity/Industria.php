@@ -6,11 +6,15 @@ use App\Repository\IndustriaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=IndustriaRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Industria {
+
+    use AuditTrait;
 
     /**
      * @ORM\Id
@@ -33,7 +37,7 @@ class Industria {
      * @ORM\Column(type="time")
      */
     private $hFin;
-   
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -116,7 +120,6 @@ class Industria {
         return $this;
     }
 
-
     public function getRazonSocial(): ?string {
         return $this->razonSocial;
     }
@@ -127,25 +130,21 @@ class Industria {
         return $this;
     }
 
-    public function getDomicilio(): ?domicilio
-    {
+    public function getDomicilio(): ?domicilio {
         return $this->domicilio;
     }
 
-    public function setDomicilio(?domicilio $domicilio): self
-    {
+    public function setDomicilio(?domicilio $domicilio): self {
         $this->domicilio = $domicilio;
 
         return $this;
     }
 
-    public function getTitular(): ?persona
-    {
+    public function getTitular(): ?persona {
         return $this->titular;
     }
 
-    public function setTitular(?persona $titular): self
-    {
+    public function setTitular(?persona $titular): self {
         $this->titular = $titular;
 
         return $this;
@@ -154,13 +153,11 @@ class Industria {
     /**
      * @return Collection|Lugar[]
      */
-    public function getLugares(): Collection
-    {
+    public function getLugares(): Collection {
         return $this->lugares;
     }
 
-    public function addLugare(Lugar $lugare): self
-    {
+    public function addLugare(Lugar $lugare): self {
         if (!$this->lugares->contains($lugare)) {
             $this->lugares[] = $lugare;
             $lugare->setIndustria($this);
@@ -169,8 +166,7 @@ class Industria {
         return $this;
     }
 
-    public function removeLugare(Lugar $lugare): self
-    {
+    public function removeLugare(Lugar $lugare): self {
         if ($this->lugares->removeElement($lugare)) {
             // set the owning side to null (unless already changed)
             if ($lugare->getIndustria() === $this) {

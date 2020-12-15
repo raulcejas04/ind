@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\HorariosTrabajoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=HorariosTrabajoRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
-class HorariosTrabajo
-{
+class HorariosTrabajo {
+
+    use AuditTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -44,68 +48,58 @@ class HorariosTrabajo
      */
     private $habilitado;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getLugar(): ?lugar
-    {
+    public function getLugar(): ?lugar {
         return $this->lugar;
     }
 
-    public function setLugar(?lugar $lugar): self
-    {
+    public function setLugar(?lugar $lugar): self {
         $this->lugar = $lugar;
 
         return $this;
     }
 
-    public function getDia(): ?general
-    {
+    public function getDia(): ?general {
         return $this->dia;
     }
 
-    public function setDia(?general $dia): self
-    {
+    public function setDia(?general $dia): self {
         $this->dia = $dia;
 
         return $this;
     }
 
-    public function getHoraInicio(): ?\DateTimeInterface
-    {
+    public function getHoraInicio(): ?\DateTimeInterface {
         return $this->horaInicio;
     }
 
-    public function setHoraInicio(\DateTimeInterface $horaInicio): self
-    {
+    public function setHoraInicio(\DateTimeInterface $horaInicio): self {
         $this->horaInicio = $horaInicio;
 
         return $this;
     }
 
-    public function getHoraFin(): ?\DateTimeInterface
-    {
+    public function getHoraFin(): ?\DateTimeInterface {
         return $this->horaFin;
     }
 
-    public function setHoraFin(\DateTimeInterface $horaFin): self
-    {
+    public function setHoraFin(\DateTimeInterface $horaFin): self {
         $this->horaFin = $horaFin;
 
         return $this;
     }
 
-    public function getHabilitado(): ?bool
-    {
+    public function getHabilitado(): ?bool {
         return $this->habilitado;
     }
 
-    public function setHabilitado(bool $habilitado): self
-    {
+    public function setHabilitado(bool $habilitado): self {
         $this->habilitado = $habilitado;
 
         return $this;
     }
+   
 }

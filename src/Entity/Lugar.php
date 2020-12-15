@@ -6,11 +6,15 @@ use App\Repository\LugarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=LugarRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Lugar {
+
+    use AuditTrait;
 
     /**
      * @ORM\Id
@@ -282,7 +286,6 @@ class Lugar {
         return $this;
     }
 
-
     public function getQPersonal(): ?int {
         return $this->qPersonal;
     }
@@ -342,7 +345,7 @@ class Lugar {
 
         return $this;
     }
-    
+
     public function getCeritifionAptitud(): ?int {
         return $this->ceritifionAptitud;
     }
@@ -484,7 +487,6 @@ class Lugar {
         return $this;
     }
 
-  
     public function removeResiduo(general $residuo): self {
         if ($this->residuos->removeElement($residuo)) {
             // set the owning side to null (unless already changed)
@@ -496,241 +498,201 @@ class Lugar {
         return $this;
     }
 
-    public function getEsDeposito(): ?bool
-    {
+    public function getEsDeposito(): ?bool {
         return $this->esDeposito;
     }
 
-    public function setEsDeposito(bool $esDeposito): self
-    {
+    public function setEsDeposito(bool $esDeposito): self {
         $this->esDeposito = $esDeposito;
 
         return $this;
     }
 
-    public function getEsProduccion(): ?bool
-    {
+    public function getEsProduccion(): ?bool {
         return $this->esProduccion;
     }
 
-    public function setEsProduccion(bool $esProduccion): self
-    {
+    public function setEsProduccion(bool $esProduccion): self {
         $this->esProduccion = $esProduccion;
 
         return $this;
     }
 
-    public function getQPersonalTrans(): ?int
-    {
+    public function getQPersonalTrans(): ?int {
         return $this->qPersonalTrans;
     }
 
-    public function setQPersonalTrans(int $qPersonalTrans): self
-    {
+    public function setQPersonalTrans(int $qPersonalTrans): self {
         $this->qPersonalTrans = $qPersonalTrans;
 
         return $this;
     }
 
-    public function getQPersonalDiscapacidad(): ?int
-    {
+    public function getQPersonalDiscapacidad(): ?int {
         return $this->qPersonalDiscapacidad;
     }
 
-    public function setQPersonalDiscapacidad(int $qPersonalDiscapacidad): self
-    {
+    public function setQPersonalDiscapacidad(int $qPersonalDiscapacidad): self {
         $this->qPersonalDiscapacidad = $qPersonalDiscapacidad;
 
         return $this;
     }
 
-    public function getQPersonalResidenteAvellaneda(): ?int
-    {
+    public function getQPersonalResidenteAvellaneda(): ?int {
         return $this->qPersonalResidenteAvellaneda;
     }
 
-    public function setQPersonalResidenteAvellaneda(int $qPersonalResidenteAvellaneda): self
-    {
+    public function setQPersonalResidenteAvellaneda(int $qPersonalResidenteAvellaneda): self {
         $this->qPersonalResidenteAvellaneda = $qPersonalResidenteAvellaneda;
 
         return $this;
     }
 
-    public function getDomicilio(): ?domicilio
-    {
+    public function getDomicilio(): ?domicilio {
         return $this->domicilio;
     }
 
-    public function setDomicilio(?domicilio $domicilio): self
-    {
+    public function setDomicilio(?domicilio $domicilio): self {
         $this->domicilio = $domicilio;
 
         return $this;
     }
 
-    public function getApoderado(): ?persona
-    {
+    public function getApoderado(): ?persona {
         return $this->apoderado;
     }
 
-    public function setApoderado(?persona $apoderado): self
-    {
+    public function setApoderado(?persona $apoderado): self {
         $this->apoderado = $apoderado;
 
         return $this;
     }
 
-    public function getNumeroDecreto(): ?string
-    {
+    public function getNumeroDecreto(): ?string {
         return $this->numeroDecreto;
     }
 
-    public function setNumeroDecreto(string $numeroDecreto): self
-    {
+    public function setNumeroDecreto(string $numeroDecreto): self {
         $this->numeroDecreto = $numeroDecreto;
 
         return $this;
     }
 
-    public function getTieneResiduosIndustriales(): ?bool
-    {
+    public function getTieneResiduosIndustriales(): ?bool {
         return $this->tieneResiduosIndustriales;
     }
 
-    public function setTieneResiduosIndustriales(bool $tieneResiduosIndustriales): self
-    {
+    public function setTieneResiduosIndustriales(bool $tieneResiduosIndustriales): self {
         $this->tieneResiduosIndustriales = $tieneResiduosIndustriales;
 
         return $this;
     }
 
-    public function getTipoResiduoIndustrial(): ?general
-    {
+    public function getTipoResiduoIndustrial(): ?general {
         return $this->tipoResiduoIndustrial;
     }
 
-    public function setTipoResiduoIndustrial(?general $tipoResiduoIndustrial): self
-    {
+    public function setTipoResiduoIndustrial(?general $tipoResiduoIndustrial): self {
         $this->tipoResiduoIndustrial = $tipoResiduoIndustrial;
 
         return $this;
     }
 
-    public function getTieneEfluentesLiquidos(): ?bool
-    {
+    public function getTieneEfluentesLiquidos(): ?bool {
         return $this->tieneEfluentesLiquidos;
     }
 
-    public function setTieneEfluentesLiquidos(bool $tieneEfluentesLiquidos): self
-    {
+    public function setTieneEfluentesLiquidos(bool $tieneEfluentesLiquidos): self {
         $this->tieneEfluentesLiquidos = $tieneEfluentesLiquidos;
 
         return $this;
     }
 
-    public function getTieneTratamientoPrevioVuelco(): ?bool
-    {
+    public function getTieneTratamientoPrevioVuelco(): ?bool {
         return $this->tieneTratamientoPrevioVuelco;
     }
 
-    public function setTieneTratamientoPrevioVuelco(bool $tieneTratamientoPrevioVuelco): self
-    {
+    public function setTieneTratamientoPrevioVuelco(bool $tieneTratamientoPrevioVuelco): self {
         $this->tieneTratamientoPrevioVuelco = $tieneTratamientoPrevioVuelco;
 
         return $this;
     }
 
-    public function getTieneResiduosEspeciales(): ?bool
-    {
+    public function getTieneResiduosEspeciales(): ?bool {
         return $this->tieneResiduosEspeciales;
     }
 
-    public function setTieneResiduosEspeciales(bool $tieneResiduosEspeciales): self
-    {
+    public function setTieneResiduosEspeciales(bool $tieneResiduosEspeciales): self {
         $this->tieneResiduosEspeciales = $tieneResiduosEspeciales;
 
         return $this;
     }
 
-    public function getTipoResiduoEspecial(): ?general
-    {
+    public function getTipoResiduoEspecial(): ?general {
         return $this->tipoResiduoEspecial;
     }
 
-    public function setTipoResiduoEspecial(?general $tipoResiduoEspecial): self
-    {
+    public function setTipoResiduoEspecial(?general $tipoResiduoEspecial): self {
         $this->tipoResiduoEspecial = $tipoResiduoEspecial;
 
         return $this;
     }
 
-    public function getCorrientes(): ?general
-    {
+    public function getCorrientes(): ?general {
         return $this->corrientes;
     }
 
-    public function setCorrientes(?general $corrientes): self
-    {
+    public function setCorrientes(?general $corrientes): self {
         $this->corrientes = $corrientes;
 
         return $this;
     }
 
-    public function getTieneEmisionesGaseosas(): ?bool
-    {
+    public function getTieneEmisionesGaseosas(): ?bool {
         return $this->tieneEmisionesGaseosas;
     }
 
-    public function setTieneEmisionesGaseosas(bool $tieneEmisionesGaseosas): self
-    {
+    public function setTieneEmisionesGaseosas(bool $tieneEmisionesGaseosas): self {
         $this->tieneEmisionesGaseosas = $tieneEmisionesGaseosas;
 
         return $this;
     }
 
-    public function getTipoEmisionGaseosa(): ?general
-    {
+    public function getTipoEmisionGaseosa(): ?general {
         return $this->tipoEmisionGaseosa;
     }
 
-    public function setTipoEmisionGaseosa(?general $tipoEmisionGaseosa): self
-    {
+    public function setTipoEmisionGaseosa(?general $tipoEmisionGaseosa): self {
         $this->tipoEmisionGaseosa = $tipoEmisionGaseosa;
 
         return $this;
     }
 
-    public function getPotenciaTotalUtilizada(): ?int
-    {
+    public function getPotenciaTotalUtilizada(): ?int {
         return $this->potenciaTotalUtilizada;
     }
 
-    public function setPotenciaTotalUtilizada(?int $potenciaTotalUtilizada): self
-    {
+    public function setPotenciaTotalUtilizada(?int $potenciaTotalUtilizada): self {
         $this->potenciaTotalUtilizada = $potenciaTotalUtilizada;
 
         return $this;
     }
 
-    public function getResiduoIndustrial(): ?string
-    {
+    public function getResiduoIndustrial(): ?string {
         return $this->residuoIndustrial;
     }
 
-    public function setResiduoIndustrial(?string $residuoIndustrial): self
-    {
+    public function setResiduoIndustrial(?string $residuoIndustrial): self {
         $this->residuoIndustrial = $residuoIndustrial;
 
         return $this;
     }
 
-    public function getDestinoVuelcoTipo(): ?general
-    {
+    public function getDestinoVuelcoTipo(): ?general {
         return $this->destinoVuelcoTipo;
     }
 
-    public function setDestinoVuelcoTipo(?general $destinoVuelcoTipo): self
-    {
+    public function setDestinoVuelcoTipo(?general $destinoVuelcoTipo): self {
         $this->destinoVuelcoTipo = $destinoVuelcoTipo;
 
         return $this;
@@ -739,13 +701,11 @@ class Lugar {
     /**
      * @return Collection|HorariosTrabajo[]
      */
-    public function getHorariosTrabajo(): Collection
-    {
+    public function getHorariosTrabajo(): Collection {
         return $this->horariosTrabajo;
     }
 
-    public function addHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self
-    {
+    public function addHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self {
         if (!$this->horariosTrabajo->contains($horariosTrabajo)) {
             $this->horariosTrabajo[] = $horariosTrabajo;
             $horariosTrabajo->setLugar($this);
@@ -754,8 +714,7 @@ class Lugar {
         return $this;
     }
 
-    public function removeHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self
-    {
+    public function removeHorariosTrabajo(HorariosTrabajo $horariosTrabajo): self {
         if ($this->horariosTrabajo->removeElement($horariosTrabajo)) {
             // set the owning side to null (unless already changed)
             if ($horariosTrabajo->getLugar() === $this) {
@@ -766,13 +725,11 @@ class Lugar {
         return $this;
     }
 
-    public function getHorarioRotativo(): ?bool
-    {
+    public function getHorarioRotativo(): ?bool {
         return $this->horarioRotativo;
     }
 
-    public function setHorarioRotativo(bool $horarioRotativo): self
-    {
+    public function setHorarioRotativo(bool $horarioRotativo): self {
         $this->horarioRotativo = $horarioRotativo;
 
         return $this;
