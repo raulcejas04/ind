@@ -16,13 +16,13 @@ class CertAptitudAmbientalType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición: '])
+                ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
                 ->add('fechaOtorgDispProvincial', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
                     'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha de otorgamiento: ']
+                    'label' => 'Fecha de otorgamiento']
                 )
                 ->add('categoria', EntityType::class, [
                     'class' => General::class,
@@ -34,7 +34,7 @@ class CertAptitudAmbientalType extends AbstractType {
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
-                    'label' => 'Categoria industrial:'
+                    'label' => 'Categoria industrial'
                 ])
                 ->add('numero', TextType::class, ['label' => 'Número: '])
                 ->add('fechaOtorgamiento', DateType::class, [
@@ -42,14 +42,14 @@ class CertAptitudAmbientalType extends AbstractType {
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
                     'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha de otorgamiento: ']
+                    'label' => 'Fecha de otorgamiento']
                 )
                 ->add('fechaVencimiento', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
                     'format' => 'dd-MM-yyyy',
                     'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha de vencimiento: ']
+                    'label' => 'Fecha de vencimiento']
                 )
         ;
     }
