@@ -35,6 +35,7 @@ class DomicilioType extends AbstractType {
                 ])
                 ->add('cp', TextType::class, ['label' => 'CP: '])
                 ->add('puerta', TextType::class, ['label' => 'Número: '])
+                ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa: '])
 
         ;
 
@@ -101,8 +102,8 @@ class DomicilioType extends AbstractType {
     private function setupDepartamentoField(FormInterface $form, ?General $provincia) {
 
         if (null === $provincia) {
-            $form->remove('departamento');            
-            
+            $form->remove('departamento');
+
             return;
         }
         $provinciaId = $provincia->getAuxiliar1();

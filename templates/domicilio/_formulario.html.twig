@@ -1,7 +1,6 @@
-{{ form_start(domicilio) }}
 <div class="row">
 
-    <div class="col-6 {{esconderParaLugar == "true" ? "d-none"}}">
+    <div class="col-6">
         <div class="form-group">
             {{ form_label(domicilio.provincia) }}
             {{ form_widget(domicilio.provincia, { 
@@ -43,7 +42,7 @@
         </div>
 
     </div>
-    <div class="{{esconderParaLugar == "true" ? "col-12" : "col-6"}}">  
+    <div class="col-6">
         <div class="js-calle-target">
             {% if domicilio.calle is defined %}
                 <div class="form-group">
@@ -53,10 +52,12 @@
             {% endif %}
         </div>
         <div class="form-group">
+            {{ form_label(domicilio.calleAlternativa) }}
+            {{ form_widget(domicilio.calleAlternativa) }}
+        </div>
+        <div class="form-group">
             {{ form_label(domicilio.puerta) }}
             {{ form_widget(domicilio.puerta) }}
         </div>
-
     </div>
 </div>
-{{ form_end(domicilio) }}
