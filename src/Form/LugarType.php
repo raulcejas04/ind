@@ -116,8 +116,8 @@ class LugarType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de emisiones gaseosas'
                 ])
-                ->add('potenciaUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW):'])
-                ->add('CURT', TextType::class, ['label' => 'CURT:'])
+                ->add('potenciaUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW)'])
+                ->add('CURT', TextType::class, ['label' => 'CURT'])
                 ->add('fechaUltimaInpeccion', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
