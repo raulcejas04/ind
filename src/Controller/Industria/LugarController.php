@@ -27,7 +27,7 @@ class LugarController extends AbstractController {
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $lugar = $formulario->getData();
+            $lugar = $formulario->getData();            
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -43,7 +43,6 @@ class LugarController extends AbstractController {
             foreach ($dias as $dia) {
                 $horario = new HorariosTrabajo();
                 $horario->setDia($dia);
-                $horario->setHabilitado(false);
                 $lugar->addHorariosTrabajo($horario);
             }
         }

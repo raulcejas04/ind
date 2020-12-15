@@ -43,11 +43,6 @@ class HorariosTrabajo {
      */
     private $horaFin;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $habilitado;
-
     public function getId(): ?int {
         return $this->id;
     }
@@ -88,16 +83,6 @@ class HorariosTrabajo {
 
     public function setHoraFin(\DateTimeInterface $horaFin): self {
         $this->horaFin = $horaFin;
-
-        return $this;
-    }
-
-    public function getHabilitado(): ?bool {
-        return $this->habilitado;
-    }
-
-    public function setHabilitado(bool $habilitado): self {
-        $this->habilitado = $habilitado;
 
         return $this;
     }

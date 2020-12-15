@@ -13,9 +13,9 @@ class DomicilioCortoType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder
-                ->add('puerta', TextType::class, ['label' => 'Número: '])
-                ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa: '])
-
+        ->add('puerta', TextType::class, ['label' => 'Número: '])
+        ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa: '])
+        ->add('nomenclaturaCatastral', TextType::class, ['label' => 'Nomenclatura catastral: ', 'disabled'=>true])
         ;
     }
 
