@@ -34,6 +34,11 @@ class Domicilio {
     private $calleAlternativa;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nomenclaturaCatastral;
+
+    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $pisoDpto;
@@ -112,6 +117,16 @@ class Domicilio {
 
     public function setCalleAlternativa(string $calleAlternativa): self {
         $this->calleAlternativa = $calleAlternativa;
+
+        return $this;
+    }
+
+    public function getNomenclaturaCatastral(): ?string {
+        return $this->nomenclaturaCatastral;
+    }
+
+    public function setNomenclaturaCatastral(string $nomenclaturaCatastral): self {
+        $this->nomenclaturaCatastral = $nomenclaturaCatastral;
 
         return $this;
     }

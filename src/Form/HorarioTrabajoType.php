@@ -10,7 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class HorarioTrabajoType extends AbstractType {
 
@@ -28,7 +27,6 @@ class HorarioTrabajoType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'disabled' => true
                 ])
-                ->add('habilitado', CheckboxType::class, ['label' => false])
                 ->add('horaInicio', TimeType::class, [
                     'input' => 'datetime',
                     'widget' => 'choice'

@@ -113,18 +113,13 @@
                                 <div class="float-left">
                                     Día
                                 </div>
-                            </th>
-                            <th id="headerNombre" class="col-2">
-                                <div class="float-left">
-                                    Habilitado
-                                </div>                                       
-                            </th>
-                            <th id="headerDesc" class="col-3">
+                            </th>                            
+                            <th id="headerDesc" class="col-4">
                                 <div class="float-left">
                                     Inicio
                                 </div>
                             </th>
-                            <th id="headerDesc" class="col-3">
+                            <th id="headerDesc" class="col-4">
                                 <div class="float-left">
                                     Fin
                                 </div>
@@ -135,9 +130,8 @@
                         {% for horario in formulario.horariosTrabajo %}
                             <tr class="d-flex">
                                 <td class="col-4"> {{ form_widget(horario.dia) }}</td>
-                                <td class="col-2 text-center">{{ form_widget(horario.habilitado)}}</td>
-                                <td class="col-3 text-center">{{ form_widget(horario.horaInicio)}}</td>
-                                <td class="col-3 text-center">{{ form_widget(horario.horaFin)}}</td>
+                                <td class="col-4 text-center">{{ form_widget(horario.horaInicio)}}</td>
+                                <td class="col-4 text-center">{{ form_widget(horario.horaFin)}}</td>
                             </tr>
                         {%  endfor %}     
                     </tbody>
