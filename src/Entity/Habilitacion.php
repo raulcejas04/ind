@@ -37,23 +37,23 @@ class Habilitacion {
     private $legajoSeH;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="habilitaciones")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="habilitaciones")
      */
     private $tipo;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="rubrosHabilitados")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosHabilitados")
      * @ORM\JoinColumn(nullable=false)
      */
     private $rubroHabilitado;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="rubrosPrimarios")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosPrimarios")
      */
     private $rubroPrimario;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="rubrosSecundarios")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosSecundarios")
      */
     private $rubroSecundario;
 

@@ -69,25 +69,25 @@ class Domicilio {
     private $lugares;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $calle;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $provincia;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $localidad;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $departamento;

@@ -19,6 +19,14 @@ class IndustriaRepository extends ServiceEntityRepository
         parent::__construct($registry, Industria::class);
     }
 
+    public function buscarUnoPorCUIT($cuit): Industria {
+        return $this->createQueryBuilder('i')
+                        ->andWhere('i.CUIT = :cuit')
+                        ->setParameter(':cuit', $cuit)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Industria[] Returns an array of Industria objects
     //  */
