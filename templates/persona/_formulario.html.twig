@@ -6,11 +6,11 @@
             {{ form_widget(persona.nombre) }}
         </div>       
         <div class="form-group">
-            {{ form_label(persona.telefonoFijo) }}
+            {{ form_label(persona.telefonoFijo) }}<span  class="text-danger">*</span>:
             {{ form_widget(persona.telefonoFijo) }}
         </div>
         <div class="form-group">
-            {{ form_label(persona.email) }}
+            {{ form_label(persona.email) }}<span  class="text-danger">*</span>:
             {{ form_widget(persona.email) }}
         </div>
     </div>
@@ -20,7 +20,7 @@
             {{ form_widget(persona.apellido) }}
         </div>
         <div class="form-group">
-            {{ form_label(persona.telefonoMovil) }}
+            {{ form_label(persona.telefonoMovil) }}<span  class="text-danger">*</span>:
             {{ form_widget(persona.telefonoMovil) }}
         </div>
     </div>
