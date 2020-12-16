@@ -26,7 +26,7 @@ class IndustriaRepository extends ServiceEntityRepository
                         ->getQuery()
                         ->getOneOrNullResult();
         if(is_null($resultado)){
-            return [];
+            return new Industria();
         }else{
             return $resultado;
         }
