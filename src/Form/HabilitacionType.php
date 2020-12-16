@@ -21,8 +21,8 @@ class HabilitacionType extends AbstractType {
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "Tipo de Habilitación")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "6")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',

@@ -42,8 +42,8 @@ class LugarType extends AbstractType {
                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "Paises")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "16")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -57,7 +57,7 @@ class LugarType extends AbstractType {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.id = :tipo')
-                                ->setParameter('tipo', "10")
+                                ->setParameter('tipo', "11")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -85,7 +85,7 @@ class LugarType extends AbstractType {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                ->where('t.id = :tipo')
-                                ->setParameter('tipo', "11")
+                                ->setParameter('tipo', "13")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
