@@ -4,15 +4,22 @@ import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
     //PRINCIPAL
-    
+
     $(".searchabledropdown").select2();
+    if ($("#lugar_esProduccion").is(':checked')) {
+        $("#tabCertAptitudAmbiental").show();
+        $("#tabProduccion").show();
+    } else {
+        $("#tabCertAptitudAmbiental").hide();
+        $("#tabProduccion").hide();
+    }
     $("#lugar_esProduccion").change(function () {
         if ($(this).is(':checked')) {
-            $("#tabCertAptitudAmbiental").hide();
-            $("#tabProduccion").hide();
-        } else {
             $("#tabCertAptitudAmbiental").show();
             $("#tabProduccion").show();
+        } else {
+            $("#tabCertAptitudAmbiental").hide();
+            $("#tabProduccion").hide();
         }
     });
     //lista de paises solo aparece si checkbox exporta es checked
