@@ -20,11 +20,16 @@ class IndustriaRepository extends ServiceEntityRepository
     }
 
     public function buscarUnoPorCUIT($cuit): Industria {
-        return $this->createQueryBuilder('i')
+        $resultado = $this->createQueryBuilder('i')
                         ->andWhere('i.CUIT = :cuit')
                         ->setParameter(':cuit', $cuit)
                         ->getQuery()
                         ->getOneOrNullResult();
+        if(is_null($resultado)){
+            return [];
+        }else{
+            return $resultado;
+        }
     }
 
     // /**
