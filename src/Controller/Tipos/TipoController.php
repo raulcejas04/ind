@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Tipo;
+use App\Entity\Admin\Usuario;
 use App\Form\TipoType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -45,7 +46,8 @@ class TipoController extends AbstractController {
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $tipo = $formulario->getData();
-            $tipo->setCreadoPor(-1);
+            $user = $entityManager->getRepository(Usuario::class)->find(['id' => -1]);
+            $tipo->setCreadoPor($user);
             $tipo->setCreadoEn(new \DateTime());
             $entityManager->persist($tipo);
             $entityManager->flush();

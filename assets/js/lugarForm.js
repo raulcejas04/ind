@@ -4,11 +4,8 @@ import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
     //PRINCIPAL
+    
     $(".searchabledropdown").select2();
-    $("#industria_domicilio_calle").change(function () {
-        console.log("change");
-        console.log($("#industria_domicilio_calle").val());
-    });
     $("#lugar_esProduccion").change(function () {
         if ($(this).is(':checked')) {
             $("#tabCertAptitudAmbiental").hide();

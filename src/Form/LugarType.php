@@ -23,8 +23,8 @@ class LugarType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?'])
-                ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?'])
+                ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?','required'=>false])
+                ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?','required'=>false])
                 ->add('domicilio', DomicilioCortoType::class)
                 ->add('qPersonal', TextType::class, ['label' => 'Cant. de personal total'])
                 ->add('qPersonalFemenino', TextType::class, ['label' => 'Cant. de personal femenino'])
@@ -130,7 +130,7 @@ class LugarType extends AbstractType {
                 ->add('horariosTrabajo', CollectionType::class, [
                     'entry_type' => HorarioTrabajoType::class,
                 ])
-                ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos'])
+                ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos','required'=>false])
         ;
     }
 

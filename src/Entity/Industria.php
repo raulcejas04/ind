@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=IndustriaRepository::class)
@@ -28,29 +29,22 @@ class Industria {
     private $CUIT;
 
     /**
-     * @ORM\Column(type="time")
-     */
-    private $hInicio;
-
-    /**
-     * @ORM\Column(type="time")
-     */
-    private $hFin;
-
-    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Campo requerido")
      */
     private $razonSocial;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="industrias")
+     * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="industrias",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $domicilio;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="industriasEsTitular")
+     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="industriasEsTitular",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $titular;
 
@@ -84,26 +78,6 @@ class Industria {
                 $domicilio->setIndustria(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getHInicio(): ?\DateTimeInterface {
-        return $this->hInicio;
-    }
-
-    public function setHInicio(\DateTimeInterface $hInicio): self {
-        $this->hInicio = $hInicio;
-
-        return $this;
-    }
-
-    public function getHFin(): ?\DateTimeInterface {
-        return $this->hFin;
-    }
-
-    public function setHFin(\DateTimeInterface $hFin): self {
-        $this->hFin = $hFin;
 
         return $this;
     }

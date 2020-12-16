@@ -11,8 +11,8 @@
     <body>    
         {{ include('header.html.twig') }}        
 
-        <div class="container-fluid bg-light full-height">
-            <div class="row h-100">
+        <div class="container-fluid bg-light full-height" style="overflow: auto">
+            <div class="row">
                 <div class="col-md-8 offset-md-2">  
                     {% block body %}{% endblock %}
                 </div>

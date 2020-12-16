@@ -9,7 +9,8 @@
             </div>
             <div class="col-md-6">                       
                 {{ form_label(formulario.razonSocial) }}  
-                {{ form_widget(formulario.razonSocial) }}                               
+                {{ form_widget(formulario.razonSocial) }}    
+                {{ form_errors(formulario.razonSocial) }}   
             </div>
         </div>
 
@@ -53,8 +54,10 @@
         {% include 'lugar/grilla.html.twig' with {'lugares':lugares} only %}            
     </div>
 </div>
-
-<div class="float-right">
-    <button class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+<br/>
+<br/>
+<br/>
+<div class="float-right">    
+    <button type="submit" class="btn btn-primary ">{{ button_label|default('Guardar Cambios') }}</button>    
 </div>
 {{ form_end(formulario) }}
