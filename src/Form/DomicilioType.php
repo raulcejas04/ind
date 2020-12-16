@@ -35,7 +35,7 @@ class DomicilioType extends AbstractType {
                 ])
                 ->add('cp', TextType::class, ['label' => 'CP'])
                 ->add('puerta', TextType::class, ['label' => 'Número'])
-                ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa: '])
+                ->add('calleAlternativa', TextType::class, ['label' => 'Calle alternativa'])
 
         ;
 

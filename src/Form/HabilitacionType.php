@@ -25,7 +25,8 @@ class HabilitacionType extends AbstractType {
                                 ->setParameter('tipo', "tipoHabilitacion")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
-                    'choice_label' => 'descripcion'
+                    'choice_label' => 'descripcion',
+                    'placeholder' => 'Seleccione'
                 ])
                 ->add('expediente', TextType::class, ['label' => 'Número de expediente'])
                 ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
@@ -38,7 +39,7 @@ class HabilitacionType extends AbstractType {
                 ->add('legajo_se_h', TextType::class, ['label' => 'Legajo'])
                 ->add('rubroHabilitado', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.tipo = :tipo')
@@ -62,7 +63,7 @@ class HabilitacionType extends AbstractType {
                 ])
                 ->add('rubroSecundario', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.tipo = :tipo')
@@ -72,7 +73,7 @@ class HabilitacionType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'label' => 'Rubro secundario'
                 ])
-                ->add('rubroEspecifico', TextType::class, ['label' => 'Rubro por habilitación municipal'])
+                ->add('rubroEspecifico', TextType::class, ['label' => 'Rubro por habilitación municipal (rubro específico)'])
                 ->add('materiaPrima', TextType::class, ['label' => 'Materia prima'])
                 ->add('insumos', TextType::class, ['label' => 'Insumos'])
                 ->add('productoFinal', TextType::class, ['label' => 'Producto final elaborado'])

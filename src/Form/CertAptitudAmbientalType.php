@@ -36,7 +36,7 @@ class CertAptitudAmbientalType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'label' => 'Categoria industrial'
                 ])
-                ->add('numero', TextType::class, ['label' => 'Número: '])
+                ->add('numero', TextType::class, ['label' => 'Número'])
                 ->add('fechaOtorgamiento', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,

@@ -1,28 +1,27 @@
-{{ form_start(persona) }}
+{% form_theme persona 'required_label.html.twig' %}
 <div class="row">
     <div class="col-6">
         <div class="form-group">
-            {{ form_label(persona.nombre) }}<span  class="text-danger">*</span>:
-            {{ form_widget(persona.nombre) }}
+            {{ form_label(persona.nombre) }}
+            {{ form_widget(persona.nombre) }}            
         </div>       
         <div class="form-group">
-            {{ form_label(persona.telefonoFijo) }}<span  class="text-danger">*</span>:
-            {{ form_widget(persona.telefonoFijo) }}
+            {{ form_label(persona.telefonoFijo) }}
+            {{ form_widget(persona.telefonoFijo) }}            
         </div>
         <div class="form-group">
-            {{ form_label(persona.email) }}<span  class="text-danger">*</span>:
-            {{ form_widget(persona.email) }}
+            {{ form_label(persona.email) }}
+            {{ form_widget(persona.email) }}            
         </div>
     </div>
     <div class="col-6">
          <div class="form-group">
-            {{ form_label(persona.apellido) }}<span  class="text-danger">*</span>:
-            {{ form_widget(persona.apellido) }}
+            {{ form_label(persona.apellido) }}
+            {{ form_widget(persona.apellido) }}           
         </div>
         <div class="form-group">
-            {{ form_label(persona.telefonoMovil) }}<span  class="text-danger">*</span>:
-            {{ form_widget(persona.telefonoMovil) }}
+            {{ form_label(persona.telefonoMovil) }}
+            {{ form_widget(persona.telefonoMovil) }}           
         </div>
     </div>
 </div>
-{{ form_end(persona) }}
