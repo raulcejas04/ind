@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LugarRepository::class)
@@ -35,26 +36,31 @@ class Lugar {
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive
      */
     private $qPersonal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive
      */
     private $qPersonalFemenino;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive
      */
     private $superficieTotal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive
      */
     private $siperficieCubierta;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive
      */
     private $superficieLibre;
 
@@ -138,16 +144,19 @@ class Lugar {
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $qPersonalTrans;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $qPersonalDiscapacidad;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
      */
     private $qPersonalResidenteAvellaneda;
 
@@ -165,6 +174,11 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/^\d{4}(\-|\/)\d{4}$/",
+     *     match=true,
+     *     message="Número de decreto inválido."
+     * )
      */
     private $numeroDecreto;
 

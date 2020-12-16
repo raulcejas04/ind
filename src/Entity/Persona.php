@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,13 +26,18 @@ class Persona {
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\Regex(
+     *     pattern="/^\d{2}\-\d{8}\-\d{1}$/",
+     *     match=true,
+     *     message="CUIL inválido."
+     * )
      */
     private $CUIL;
 
     /**
      * @ORM\Column(type="string", length=50)
      *  @Assert\Regex(
-     *     pattern="/^\d+\s?\d+\-\d+$/",
+     *     pattern="/^\d+\-?\s?\d+\-?\s?\d+$/",
      *     match=true,
      *     message="Teléfono inválido."
      * )
@@ -76,7 +80,7 @@ class Persona {
     /**
      * @ORM\Column(type="string", length=50)
      *  @Assert\Regex(
-     *     pattern="/^\d+\s?\d+\-\d+$/",
+     *     pattern="/^\d+\-?\s?\d+\-?\s?\d+$/",
      *     match=true,
      *     message="Teléfono inválido."
      * )

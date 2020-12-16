@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\HabilitacionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=HabilitacionRepository::class)
@@ -23,6 +24,11 @@ class Habilitacion {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/^\d\-4004\-\d+\/\d{4}\(?\d?\)?$/",
+     *     match=true,
+     *     message="Número de expediente inválido."
+     * )
      */
     private $expediente;
 
