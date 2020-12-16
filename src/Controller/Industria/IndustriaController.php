@@ -22,7 +22,7 @@ class IndustriaController extends AbstractController {
         //si no existe el parametro username aplica -1
         $cuit = $request->get("usernane", -1);
         $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
-        if (is_null($industria)) {
+        if (count($industria)==0) {
             $industria = new Industria();
             $usuario = $this->getDoctrine()->getRepository(Usuario::class)->find(["id" => -1]);
             $industria->setCUIT($cuit);
