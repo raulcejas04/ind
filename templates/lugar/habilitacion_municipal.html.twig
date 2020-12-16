@@ -33,14 +33,16 @@
                                 {{ form_label(habilitacion.expediente) }}
                                 {{ form_widget(habilitacion.expediente) }}
                             </div> 
-                            <div class="form-group">
-                                {{ form_label(habilitacion.numeroDecreto) }}
-                                {{ form_widget(habilitacion.numeroDecreto) }}
-                            </div> 
-                            <div class="form-group">
-                                {{ form_label(habilitacion.fechaInicio) }}
-                                {{ form_widget(habilitacion.fechaInicio) }}
-                            </div> 
+                            <div id="divNoEnTramite">
+                                <div class="form-group">
+                                    {{ form_label(habilitacion.numeroDecreto) }}
+                                    {{ form_widget(habilitacion.numeroDecreto) }}
+                                </div> 
+                                <div class="form-group">
+                                    {{ form_label(habilitacion.fechaInicio) }}
+                                    {{ form_widget(habilitacion.fechaInicio) }}
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

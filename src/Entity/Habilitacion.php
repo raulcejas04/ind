@@ -34,6 +34,9 @@ class Habilitacion {
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      max = "now",
+     * )
      */
     private $fechaInicio;
 

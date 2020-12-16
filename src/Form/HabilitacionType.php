@@ -22,7 +22,7 @@ class HabilitacionType extends AbstractType {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "tipoHabilitacion")
+                                ->setParameter('tipo', "Tipo de Habilitación")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',

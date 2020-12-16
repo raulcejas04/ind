@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CertAptitudAmbRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CertAptitudAmbRepository::class)
@@ -28,6 +29,9 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      max = "now"
+     * )
      */
     private $fechaOtorgamiento;
 
@@ -39,6 +43,9 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      max = "now"
+     * )
      */
     private $fechaOtorgamientoCategoria;
 

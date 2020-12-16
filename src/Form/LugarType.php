@@ -35,7 +35,7 @@ class LugarType extends AbstractType {
                 ->add('siperficieCubierta', TextType::class, ['label' => 'Superficie cubierta'])
                 ->add('superficieLibre', TextType::class, ['label' => 'Superficie libre'])
                 ->add('apoderado', PersonaType::class)
-                ->add('esExportador', CheckboxType::class, ['label' => '¿Exporta?'])
+                ->add('esExportador', CheckboxType::class, ['label' => '¿Exporta?','required'=>false])
                 ->add('paises', EntityType::class, [
                     'class' => General::class,
                     'multiple' => true,
