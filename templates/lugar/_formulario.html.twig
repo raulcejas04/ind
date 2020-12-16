@@ -12,6 +12,9 @@
     <li class="nav-item" id="tabProduccion">
         <a class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
     </li>
+    <li class="nav-item" id="tabGuardarDatos">
+        <a class="nav-link" data-toggle="pill" href="#guardarDatos">Finalizar</a>
+    </li>
 </ul>
 <div class="tab-content">
     <div id="principal" class="container tab-pane active"><br>
@@ -26,12 +29,8 @@
     <div id="produccion" class="container tab-pane fade"><br>
         {% include 'lugar/produccion.html.twig' %}
     </div>
-</div>
-<br/>
-<br/>
-<br/>
-<div class="float-right">
-    <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Volver a Industria</a>
-    <button id="btnSubmit" class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+    <div id="guardarDatos" class="container tab-pane fade">        
+        <button id="btnSubmit" class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+    </div>
 </div>
 {{ form_end(formulario) }}
