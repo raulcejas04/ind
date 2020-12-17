@@ -34,9 +34,9 @@ class Habilitacion {
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Range(
-     *      max = "now",
-     * )
+     * @Assert\LessThanOrEqual(
+     * value="today UTC",
+     * message="Fecha inválida")
      */
     private $fechaInicio;
 
