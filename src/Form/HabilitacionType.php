@@ -28,7 +28,7 @@ class HabilitacionType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'placeholder' => 'Seleccione'
                 ])
-                ->add('expediente', TextType::class, ['label' => 'Número de expediente'])                
+                ->add('expediente', TextType::class, ['label' => 'Número de expediente'])
                 ->add('fechaInicio', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,
@@ -45,6 +45,7 @@ class HabilitacionType extends AbstractType {
                                 ->setParameter('tipo', "7")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Rubro general'
                 ])
@@ -57,6 +58,7 @@ class HabilitacionType extends AbstractType {
                                 ->setParameter('tipo', "8")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Rubro primario'
                 ])
@@ -65,10 +67,11 @@ class HabilitacionType extends AbstractType {
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                               ->where('t.id = :tipo')
+                                ->where('t.id = :tipo')
                                 ->setParameter('tipo', "9")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Rubro secundario'
                 ])

@@ -15,11 +15,11 @@ use Doctrine\ORM\EntityRepository;
 class CertAptitudAmbientalType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder             
-                
+        $builder
                 ->add('categoria', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'placeholder' => 'Seleccione',
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.id = :tipo')
