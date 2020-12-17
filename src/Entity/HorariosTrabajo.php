@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\HorariosTrabajoRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Traits\AuditTrait;
 
 /**
  * @ORM\Entity(repositoryClass=HorariosTrabajoRepository::class)
@@ -12,7 +11,6 @@ use App\Entity\Traits\AuditTrait;
  */
 class HorariosTrabajo {
 
-    use AuditTrait;
 
     /**
      * @ORM\Id

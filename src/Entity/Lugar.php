@@ -31,18 +31,21 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\Positive
+     * @Assert\NotBlank
      */
     private $qPersonal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\Positive
+     * @Assert\NotBlank
      */
     private $qPersonalFemenino;
 
@@ -161,13 +164,13 @@ class Lugar {
     private $qPersonalResidenteAvellaneda;
 
     /**
-     * @ORM\ManyToOne(targetEntity=domicilio::class, inversedBy="lugares")
+     * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="lugares")
      * @ORM\JoinColumn(nullable=false)
      */
     private $domicilio;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="lugaresEsApoderado")
+     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="lugaresEsApoderado",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $apoderado;
@@ -243,7 +246,7 @@ class Lugar {
     private $destinoVuelcoTipo;
 
     /**
-     * @ORM\OneToMany(targetEntity=HorariosTrabajo::class, mappedBy="lugar", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=HorariosTrabajo::class, mappedBy="lugar", orphanRemoval=true,cascade={"persist"})
      */
     private $horariosTrabajo;
 
@@ -386,6 +389,15 @@ class Lugar {
 
     public function setCURT(?string $CURT): self {
         $this->CURT = $CURT;
+
+        return $this;
+    }
+      public function getNombre(): ?string {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): self {
+        $this->nombre = $nombre;
 
         return $this;
     }

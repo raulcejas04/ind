@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -23,8 +24,9 @@ class LugarType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?','required'=>false])
-                ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?','required'=>false])
+                ->add('nombre', TextType::class, ['label' => 'Razón social'])
+                ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?', 'required' => false])
+                ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?', 'required' => false])
                 ->add('domicilio', DomicilioCortoType::class)
                 ->add('qPersonal', TextType::class, ['label' => 'Cant. de personal total'])
                 ->add('qPersonalFemenino', TextType::class, ['label' => 'Cant. de personal femenino'])
@@ -35,57 +37,57 @@ class LugarType extends AbstractType {
                 ->add('siperficieCubierta', TextType::class, ['label' => 'Superficie cubierta'])
                 ->add('superficieLibre', TextType::class, ['label' => 'Superficie libre'])
                 ->add('apoderado', PersonaType::class)
-                ->add('esExportador', CheckboxType::class, ['label' => '¿Exporta?'])
+                ->add('esExportador', CheckboxType::class, ['label' => '¿Exporta?', 'required' => false])
                 ->add('paises', EntityType::class, [
                     'class' => General::class,
                     'multiple' => true,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "pais")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "16")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                 ])
                 ->add('habilitacion', HabilitacionType::class)
                 ->add('certAptitudAmb', CertAptitudAmbientalType::class)
-                ->add('tieneResiduosIndustriales', CheckboxType::class, ['label' => '¿Produce residuos industriales?'])
+                ->add('tieneResiduosIndustriales', CheckboxType::class, ['label' => '¿Produce residuos industriales?', 'required' => false])
                 ->add('tipoResiduoIndustrial', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "residuoIndustrial")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "11")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de residuos'
                 ])
                 ->add('residuoIndustrial', TextType::class, ['label' => '¿Cuales?'])
-                ->add('tieneEfluentesLiquidos', CheckboxType::class, ['label' => '¿Efluentes líquidos?'])
-                ->add('tieneTratamientoPrevioVuelco', CheckboxType::class, ['label' => '¿Tratamiento previo al vuelco?'])
+                ->add('tieneEfluentesLiquidos', CheckboxType::class, ['label' => '¿Efluentes líquidos?', 'required' => false])
+                ->add('tieneTratamientoPrevioVuelco', CheckboxType::class, ['label' => '¿Tratamiento previo al vuelco?', 'required' => false])
                 ->add('destinoVuelcoTipo', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "destinoVuelcoTipo")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "12")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                     'label' => 'Destino del vuelco'
                 ])
-                ->add('tieneResiduosEspeciales', CheckboxType::class, ['label' => '¿Residuos especiales?'])
+                ->add('tieneResiduosEspeciales', CheckboxType::class, ['label' => '¿Residuos especiales?', 'required' => false])
                 ->add('tipoResiduoEspecial', EntityType::class, [
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "tipoResiduoEspecial")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "13")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
@@ -93,30 +95,30 @@ class LugarType extends AbstractType {
                 ])
                 ->add('corrientes', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "corrientes")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "14")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                     'label' => 'Corrientes'
                 ])
-                ->add('tieneEmisionesGaseosas', CheckboxType::class, ['label' => '¿Emisiones gaseosas?'])
+                ->add('tieneEmisionesGaseosas', CheckboxType::class, ['label' => '¿Emisiones gaseosas?', 'required' => false])
                 ->add('tipoEmisionGaseosa', EntityType::class, [
                     'class' => General::class,
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.tipo = :tipo')
-                                ->setParameter('tipo', "tipoEmisionGaseosa")
+                                ->where('t.id = :tipo')
+                                ->setParameter('tipo', "15")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de emisiones gaseosas'
                 ])
-                ->add('potenciaUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW)'])
+                ->add('potenciaTotalUtilizada', TextType::class, ['label' => 'Potencia total utilizada (HP/KW)'])
                 ->add('CURT', TextType::class, ['label' => 'CURT'])
                 ->add('fechaUltimaInpeccion', DateType::class, [
                     'widget' => 'single_text',
@@ -125,12 +127,22 @@ class LugarType extends AbstractType {
                     'attr' => ['class' => 'js-datepicker'],
                     'label' => 'Fecha última inspección'
                 ])
-                ->add('tieneDenuncia', CheckboxType::class, ['label' => '¿Tiene antecedente de reclamo de vecinos o denuncias?'])
+                ->add('tieneDenuncia', CheckboxType::class, ['label' => '¿Tiene antecedente de reclamo de vecinos o denuncias?', 'required' => false])
                 ->add('denunciasEspecificaciones', TextareaType::class, ['label' => 'Especifique los motivos'])
                 ->add('horariosTrabajo', CollectionType::class, [
                     'entry_type' => HorarioTrabajoType::class,
                 ])
-                ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos','required'=>false])
+                ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos', 'required' => false])
+                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
+                ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
+                ->add('fechaOtorgDispProv', DateType::class, [
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => ['class' => 'js-datepicker'],
+                    'label' => 'Fecha de otorgamiento']
+                )
+                            
         ;
     }
 

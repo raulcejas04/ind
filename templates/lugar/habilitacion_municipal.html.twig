@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12">            
                     <!-- Expediente de habilitacion municipal -->
                     <div class="card">
                         <div class="card-body">
@@ -33,14 +33,16 @@
                                 {{ form_label(habilitacion.expediente) }}
                                 {{ form_widget(habilitacion.expediente) }}
                             </div> 
-                            <div class="form-group">
-                                {{ form_label(habilitacion.numeroDecreto) }}
-                                {{ form_widget(habilitacion.numeroDecreto) }}
-                            </div> 
-                            <div class="form-group">
-                                {{ form_label(habilitacion.fechaInicio) }}
-                                {{ form_widget(habilitacion.fechaInicio) }}
-                            </div> 
+                            <div id="divNoEnTramite">
+                                <div class="form-group">
+                                    {{ form_label(numeroDecreto) }}
+                                    {{ form_widget(numeroDecreto) }}
+                                </div> 
+                                <div class="form-group">
+                                    {{ form_label(habilitacion.fechaInicio) }}
+                                    {{ form_widget(habilitacion.fechaInicio) }}
+                                </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,38 +64,42 @@
             </div>
         </div>
         <div class="col-6">
-            <!-- Rubro habilitado -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Rubro habilitado</h5>
-                    <div class="form-group">
-                        {{ form_label(habilitacion.rubroHabilitado) }}
-                        {{ form_widget(habilitacion.rubroHabilitado) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.rubroPrimario) }}
-                        {{ form_widget(habilitacion.rubroPrimario) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.rubroSecundario) }}
-                        {{ form_widget(habilitacion.rubroSecundario) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.rubroEspecifico) }}
-                        {{ form_widget(habilitacion.rubroEspecifico) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.materiaPrima) }}
-                        {{ form_widget(habilitacion.materiaPrima) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.insumos) }}
-                        {{ form_widget(habilitacion.insumos) }}
-                    </div> 
-                    <div class="form-group">
-                        {{ form_label(habilitacion.productoFinal) }}
-                        {{ form_widget(habilitacion.productoFinal) }}
-                    </div> 
+            <div class="row">
+                <div class="col-12">
+                    <!-- Rubro habilitado -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Rubro habilitado</h5>
+                            <div class="form-group">
+                                {{ form_label(habilitacion.rubroHabilitado) }}
+                                {{ form_widget(habilitacion.rubroHabilitado, { 'attr': {'class': 'js-example-responsive','style':'width: 100%'} }) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.rubroPrimario) }}
+                                {{ form_widget(habilitacion.rubroPrimario, { 'attr': {'class': 'js-example-responsive','style':'width: 100%'} }) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.rubroSecundario) }}
+                                {{ form_widget(habilitacion.rubroSecundario, { 'attr': {'class': 'js-example-responsive','style':'width: 100%'} }) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.rubroEspecifico) }}
+                                {{ form_widget(habilitacion.rubroEspecifico) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.materiaPrima) }}
+                                {{ form_widget(habilitacion.materiaPrima) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.insumos) }}
+                                {{ form_widget(habilitacion.insumos) }}
+                            </div> 
+                            <div class="form-group">
+                                {{ form_label(habilitacion.productoFinal) }}
+                                {{ form_widget(habilitacion.productoFinal) }}
+                            </div> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,7 +119,7 @@
                 <p>Crisólogo Larralde Nº4969, esq. Magdalena. Edificio ITE, Villa Dominico, de 9 a 14hs.</p>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-primary " href="{{ path("industria_nuevo") }}">Volver a Industria</a>
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>

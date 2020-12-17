@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CertAptitudAmbRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CertAptitudAmbRepository::class)
@@ -28,6 +29,9 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Range(
+     *      max = "now"
+     * )
      */
     private $fechaOtorgamiento;
 
@@ -36,11 +40,6 @@ class CertAptitudAmb {
      * @ORM\JoinColumn(nullable=false)
      */
     private $categoria;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $fechaOtorgamientoCategoria;
 
     /**
      * @ORM\Column(type="date")
@@ -82,16 +81,6 @@ class CertAptitudAmb {
 
     public function setCategoria(?general $categoria): self {
         $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    public function getFechaOtorgamientoCategoria(): ?\DateTimeInterface {
-        return $this->fechaOtorgamientoCategoria;
-    }
-
-    public function setFechaOtorgamientoCategoria(\DateTimeInterface $fechaOtorgamientoCategoria): self {
-        $this->fechaOtorgamientoCategoria = $fechaOtorgamientoCategoria;
 
         return $this;
     }

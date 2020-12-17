@@ -42,6 +42,20 @@ $(document).ready(function () {
 //  solo se muestra el campo Número de expediente
 //  Si es "Provisoria" o "Definitiva" se muestran los tres campos en
 //  Expediente de habilitación municipal
+    $("#lugar_habilitacion_tipo").change(function () {
+        var selected = $(this).val();
+        if (selected === '') {
+            $("#divHabilitacion").hide();
+        } else {
+            $("#divHabilitacion").show();
+            //si es "Inicio de tramite"
+            if (selected === '35075') {
+                $("#divNoEnTramite").hide();
+            } else {
+                $("#divNoEnTramite").show();
+            }
+        }
+    });
     if ($("#lugar_habilitacion_expediente").val() === '') {
         $("#divHabilitacion").hide();
         $("#divTipoHabilitacion").hide();
@@ -49,6 +63,7 @@ $(document).ready(function () {
     $("#btnHabilitacionSi").click(function () {
         $("#divHabilitacion").show();
         $("#divTipoHabilitacion").show();
+        $("#lugar_habilitacion_tipo").val(null).trigger('change');
     });
     $("#btnHabilitacionNo").click(function () {
         $("#divHabilitacion").hide();
@@ -70,7 +85,7 @@ $(document).ready(function () {
 
 
     //CERTIFICADO DE APTITUD AMBIENTAL
-    if ($("#lugar_certAptitudAmb_dispocisionProvincial").val() === '') {
+    if ($("#lugar_dispocisionProvincial").val() === '') {
         $("#divDisposicion").hide();
     }
     $("#btnDisposicionSi").click(function () {
@@ -78,8 +93,8 @@ $(document).ready(function () {
     });
     $("#btnDisposicionNo").click(function () {
         $("#divDisposicion").hide();
-        $("#lugar_certAptitudAmb_dispocisionProvincial").val('');
-        $("#lugar_certAptitudAmb_fechaOtorgDispProvincial").val('');
+        $("#lugar_dispocisionProvincial").val('');
+        $("#lugar_fechaOtorgDispProv").val('');
         $('#lugar_certAptitudAmb_categoria').val(null).trigger('change');
     });
 

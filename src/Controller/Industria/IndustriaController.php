@@ -62,7 +62,7 @@ class IndustriaController extends AbstractController {
         }
         return $this->render('industria/nuevo.html.twig', [
                     'formulario' => $formulario->createView(),
-                    'lugares' => $industria->getLugares()
+                    'lugares' => $industria->getLugares(),
         ]);
     }
 

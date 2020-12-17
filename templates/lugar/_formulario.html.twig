@@ -18,10 +18,10 @@
         {% include('lugar/principal.html.twig') %}
     </div>
     <div id="habilitacion" class="container tab-pane fade"><br>
-        {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion} only %}
+        {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion,'numeroDecreto':formulario.numeroDecreto} only %}
     </div>
     <div id="certAptitudAmbiental" class="container tab-pane fade"><br>
-        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb} only %}
+        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb,'dispocisionProvincial':formulario.dispocisionProvincial,'fechaOtorgDispProv':formulario.fechaOtorgDispProv} only %}
     </div>
     <div id="produccion" class="container tab-pane fade"><br>
         {% include 'lugar/produccion.html.twig' %}
@@ -32,6 +32,6 @@
 <br/>
 <div class="float-right">
     <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Volver a Industria</a>
-    <button id="btnSubmit" class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+    <button type="submit" class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
 </div>
 {{ form_end(formulario) }}
