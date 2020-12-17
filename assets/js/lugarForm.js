@@ -85,7 +85,7 @@ $(document).ready(function () {
 
 
     //CERTIFICADO DE APTITUD AMBIENTAL
-    if ($("#lugar_certAptitudAmb_dispocisionProvincial").val() === '') {
+    if ($("#lugar_dispocisionProvincial").val() === '') {
         $("#divDisposicion").hide();
     }
     $("#btnDisposicionSi").click(function () {
@@ -93,8 +93,8 @@ $(document).ready(function () {
     });
     $("#btnDisposicionNo").click(function () {
         $("#divDisposicion").hide();
-        $("#lugar_certAptitudAmb_dispocisionProvincial").val('');
-        $("#lugar_certAptitudAmb_fechaOtorgDispProvincial").val('');
+        $("#lugar_dispocisionProvincial").val('');
+        $("#lugar_fechaOtorgDispProv").val('');
         $('#lugar_certAptitudAmb_categoria').val(null).trigger('change');
     });
 

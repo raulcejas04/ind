@@ -43,14 +43,6 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Range(
-     *      max = "now"
-     * )
-     */
-    private $fechaOtorgamientoCategoria;
-
-    /**
-     * @ORM\Column(type="date")
      */
     private $fechaVencimiento;
 
@@ -89,16 +81,6 @@ class CertAptitudAmb {
 
     public function setCategoria(?general $categoria): self {
         $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    public function getFechaOtorgamientoCategoria(): ?\DateTimeInterface {
-        return $this->fechaOtorgamientoCategoria;
-    }
-
-    public function setFechaOtorgamientoCategoria(\DateTimeInterface $fechaOtorgamientoCategoria): self {
-        $this->fechaOtorgamientoCategoria = $fechaOtorgamientoCategoria;
 
         return $this;
     }

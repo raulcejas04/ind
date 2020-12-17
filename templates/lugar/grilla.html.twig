@@ -12,7 +12,7 @@
             <table class="table table-hover table-bordered ">
                 <thead class="thead-light">
                     <tr class="d-flex" >
-                        <th id="headerRazonSocial" class="col-4" data-nombre="razonSocial">
+                        <th id="headerRazonSocial" class="col-3" data-nombre="razonSocial">
                             <div class="float-left">
                                 Razón Social
                             </div>
@@ -20,7 +20,7 @@
                                 <span class="fa fa-xs"/>
                             </div>
                         </th>
-                        <th id="headerDomicilio" class="col-4" data-nombre="domicilio">
+                        <th id="headerDomicilio" class="col-3" data-nombre="domicilio">
                             <div class="float-left">
                                 Domicilio
                             </div>
@@ -44,13 +44,14 @@
                                 <span class="fa fa-xs"/>
                             </div>
                         </th>
+                        <th class="col-2"></th>
                     </tr>
                 </thead>
                 <tbody>               
                     {% for lugar in lugares %}
                         <tr class="d-flex">
-                            <td class="col-4">{{ lugar.razonSocial }}</td>
-                            <td class="col-4">{{ lugar.domicilio.calle + " " + lugar.domicilio.puerta}}</td>
+                            <td class="col-3">{{ lugar.nombre }}</td>
+                            <td class="col-3">{{ lugar.domicilio.calleAlternativa ~ ", " ~ lugar.domicilio.puerta}}</td>
                             <td class="col-2">
                                 <input type="checkbox"
                                        {{ lugar.esDeposito ? 'checked' : ''}}/>
@@ -58,6 +59,9 @@
                             <td class="col-2">
                                 <input type="checkbox"
                                        {{ lugar.esProduccion ? 'checked' : ''}}/>
+                            </td>
+                            <td class="col-2">
+                                 {{ include('lugar/_acciones.html.twig') }}            
                             </td>
                         </tr>
                     {%  endfor %}     

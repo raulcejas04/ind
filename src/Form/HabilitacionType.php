@@ -28,8 +28,7 @@ class HabilitacionType extends AbstractType {
                     'choice_label' => 'descripcion',
                     'placeholder' => 'Seleccione'
                 ])
-                ->add('expediente', TextType::class, ['label' => 'Número de expediente'])
-                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
+                ->add('expediente', TextType::class, ['label' => 'Número de expediente'])                
                 ->add('fechaInicio', DateType::class, [
                     'widget' => 'single_text',
                     'html5' => false,

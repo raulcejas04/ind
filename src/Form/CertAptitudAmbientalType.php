@@ -15,15 +15,8 @@ use Doctrine\ORM\EntityRepository;
 class CertAptitudAmbientalType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
-                ->add('fechaOtorgDispProvincial', DateType::class, [
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'format' => 'dd-MM-yyyy',
-                    'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha de otorgamiento']
-                )
+        $builder             
+                
                 ->add('categoria', EntityType::class, [
                     'class' => General::class,
                    'query_builder' => function (EntityRepository $er) {
