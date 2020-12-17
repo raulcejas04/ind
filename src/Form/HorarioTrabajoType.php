@@ -34,6 +34,7 @@ class HorarioTrabajoType extends AbstractType {
                 ->add('horaFin', TimeType::class, [
                     'input' => 'datetime',
                     'widget' => 'choice',
+                    'label'=>''
                 ])
         ;
     }

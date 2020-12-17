@@ -85,6 +85,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\LessThanOrEqual(
+     * value="today UTC",
+     * message="Fecha inválida")
      */
     private $fechaUltimaInpeccion;
 
@@ -110,16 +113,21 @@ class Lugar {
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\LessThanOrEqual(
+     * value="today UTC",
+     * message="Fecha inválida")
      */
     private $fechaOtorgDispProv;
 
     /**
      * @ORM\OneToOne(targetEntity=Habilitacion::class, inversedBy="lugar", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $habilitacion;
 
     /**
      * @ORM\OneToOne(targetEntity=CertAptitudAmb::class, inversedBy="lugar", cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $certAptitudAmb;
 
@@ -247,6 +255,7 @@ class Lugar {
 
     /**
      * @ORM\OneToMany(targetEntity=HorariosTrabajo::class, mappedBy="lugar", orphanRemoval=true,cascade={"persist"})
+     * @Assert\Valid
      */
     private $horariosTrabajo;
 

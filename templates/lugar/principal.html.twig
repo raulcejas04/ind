@@ -123,7 +123,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 pb-2">
-                <table class="table table-hover table-bordered ">
+                <table class="table table-hover table-bordered table-lg">
                     <thead class="thead-light">
                         <tr class="d-flex" >
                             <th id="headerId" class="col-4">
@@ -145,11 +145,24 @@
                     </thead>
                     <tbody>
                         {% for horario in formulario.horariosTrabajo %}
-                            <tr class="d-flex">
-                                <td class="col-4"> {{ form_widget(horario.dia) }}</td>
-                                <td class="col-4 text-center">{{ form_widget(horario.horaInicio)}}</td>
-                                <td class="col-4 text-center">{{ form_widget(horario.horaFin)}}</td>
+                            <tr class="d-flex" >
+                                <td class="col-4"> 
+                                    {{ form_widget(horario.dia) }}
+                                </td>
+                                <td class="col-4 text-center">
+                                    {{ form_widget(horario.horaInicio)}}
+                                </td>
+                                <td class="col-4 text-center">
+                                    {{ form_widget(horario.horaFin)}}
+                                </td>
                             </tr>
+                            {% if form_errors(horario.horaFin) %}
+                                <tr class="d-flex" colspan="12">
+                                    <td class="center-text">
+                                        {{ form_errors(horario.horaFin) }}
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {%  endfor %}     
                     </tbody>
                 </table>

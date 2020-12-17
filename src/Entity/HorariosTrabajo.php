@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\HorariosTrabajoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=HorariosTrabajoRepository::class)
@@ -37,8 +38,12 @@ class HorariosTrabajo {
     private $horaInicio;
 
     /**
-     * @ORM\Column(type="time")
-     */
+     * @ORM\Column(type="time")     
+     * @Assert\GreaterThan(
+     * propertyPath="horaInicio",
+     * message="Hora fin debe ser mayor a hora de inicio"
+     * )
+     */     
     private $horaFin;
 
     public function getId(): ?int {

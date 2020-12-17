@@ -29,9 +29,9 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Range(
-     *      max = "now"
-     * )
+     * @Assert\LessThanOrEqual(
+     * value="today UTC",
+     * message="Fecha inválida")
      */
     private $fechaOtorgamiento;
 
@@ -43,6 +43,9 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThan(
+     * propertyPath="fechaOtorgamiento",
+     * message="Fecha inválida")
      */
     private $fechaVencimiento;
 
