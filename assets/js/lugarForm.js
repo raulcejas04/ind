@@ -36,12 +36,6 @@ $(document).ready(function () {
         }
     });
 //HABILITACION
-//  To-Do: 
-//  Agregar funcionalidad dependiente del tipo de habilitacion seleccionado
-//  Si es "Inicio de tramite" en Expediente de habilitación municipal  
-//  solo se muestra el campo Número de expediente
-//  Si es "Provisoria" o "Definitiva" se muestran los tres campos en
-//  Expediente de habilitación municipal
     $("#lugar_habilitacion_tipo").change(function () {
         var selected = $(this).val();
         if (selected === '') {
@@ -100,32 +94,49 @@ $(document).ready(function () {
         $("#modalNoHabilitado").modal('show');
     });
 
-
+console.log("changes");
     //CERTIFICADO DE APTITUD AMBIENTAL
-    if ($("#lugar_dispocisionProvincial").val() === '') {
+    if ($("#lugar_dispCatProvincial_numero").val() === '') {        
         $("#divDisposicion").hide();
+        $("#lugar_dispCatProvincial_fechaOtorgDispProv").val('01-01-1800');
+        $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
+        $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
+    }else{
+         $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
     }
     $("#btnDisposicionSi").click(function () {
         $("#divDisposicion").show();
+        $("#lugar_dispCatProvincial_fechaOtorgDispProv").val('');
+        $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
     });
     $("#btnDisposicionNo").click(function () {
         $("#divDisposicion").hide();
-        $("#lugar_dispocisionProvincial").val('');
-        $("#lugar_fechaOtorgDispProv").val('');
-        $('#lugar_certAptitudAmb_categoria').val(null).trigger('change');
+        $("#lugar_dispCatProvincial_numero").val('');
+        $("#lugar_dispCatProvincial_fechaOtorgDispProv").val('01-01-1800');
+        $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
+        $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
     });
 
     if ($("#lugar_certAptitudAmb_numero").val() === '') {
         $("#divCertAptitudAmbiental").hide();
+        $("#lugar_certAptitudAmb_fechaOtorgamiento").val('01-01-1800');
+        $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
+        $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
+    }else{
+        $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('si');
     }
     $("#btnCertSi").click(function () {
         $("#divCertAptitudAmbiental").show();
+        $("#lugar_certAptitudAmb_fechaOtorgamiento").val('');
+        $("#lugar_certAptitudAmb_fechaVencimiento").val('');
+        $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('si');
     });
     $("#btnCertNo").click(function () {
         $("#divCertAptitudAmbiental").hide();
         $("#lugar_certAptitudAmb_numero").val('');
-        $("#lugar_certAptitudAmb_fechaOtorgamiento").val('');
-        $("#lugar_certAptitudAmb_fechaVencimiento").val('');
+        $("#lugar_certAptitudAmb_fechaOtorgamiento").val('01-01-1800');
+        $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
+        $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
     });
 
     //PRODUCCION
