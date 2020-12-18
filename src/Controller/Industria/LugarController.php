@@ -60,11 +60,39 @@ class LugarController extends AbstractController {
         if ($lugar->getDomicilio() == null) {
             $this->SetearDomicilio($lugar);
         }
-        $formulario = $this->createForm(LugarType::class, $lugar);
+        $validationGroups = [];
+        if (!is_null($request->request->get('lugar'))) {
+            $validationGroups = $this->GetGruposValidacion($request, $lugar);
+        } else {
+            array_push($validationGroups, "Default");
+        }
+        if (count($validationGroups) == 0) {
+            $formulario = $this->createForm(LugarType::class, $lugar, array(
+                'validation_groups' => false,
+            ));
+        } else {
+            $formulario = $this->createForm(LugarType::class, $lugar, array(
+                'validation_groups' => $validationGroups,
+            ));
+        }
+
         $formulario->handleRequest($request);
+
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
+            if ($request->request->get('lugar')["habilitacion"]["tieneHabilitacion"] == 'si') {
+                $habilitacion = $lugar->getHabilitacion();
+                if ($habilitacion->getTipo()->getId() == 35075) {
+                    $habilitacion->setFechaInicio(null);
+                }
+                $entityManager->persist($habilitacion);
+            } else {
+                $habilitacion = $lugar->getHabilitacion();
+                $lugar->setHabilitacion(null);
+                $entityManager->remove($habilitacion);
+                $entityManager->flush();
+            }
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $entityManager->persist($lugar);
@@ -72,7 +100,8 @@ class LugarController extends AbstractController {
             return $this->redirectToRoute('industria_nuevo');
         }
         return $this->render('lugar/modificar.html.twig', [
-                    'formulario' => $formulario->createView(), 'lugar' => $lugar,
+                    'formulario' => $formulario->createView(),
+                    'lugar' => $lugar,
                     'button_label' => 'Guardar Cambios'
         ]);
     }
@@ -106,6 +135,24 @@ class LugarController extends AbstractController {
         $domicilio->setProvincia($provincia);
         $domicilio->setDepartamento($departamento);
         $lugar->setDomicilio($domicilio);
+    }
+
+    public function GetGruposValidacion($request) {
+        $validationGroups = [];
+        $lugar = $request->request->get('lugar');
+        if ($lugar["habilitacion"]["tieneHabilitacion"] == 'si') {
+            $tipoHabilitacion = $lugar["habilitacion"]["tipo"];
+            array_push($validationGroups, "habilitacion");
+            if ($tipoHabilitacion == 35075) {
+                array_push($validationGroups, "expediente");
+            }
+            if ($tipoHabilitacion == 35074 || $tipoHabilitacion == 35073) {
+                array_push($validationGroups, "expediente");
+                array_push($validationGroups, "definitiva");
+            }
+        }
+
+        return $validationGroups;
     }
 
 }

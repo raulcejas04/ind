@@ -46,40 +46,57 @@ $(document).ready(function () {
         var selected = $(this).val();
         if (selected === '') {
             $("#divHabilitacion").hide();
+            $("#lugar_habilitacion_fechaInicio").val('01-01-1800');
+            $("#lugar_habilitacion_legajo_se_h").val('');
+            $('#lugar_habilitacion_rubroHabilitado').val(null).trigger('change');
+            $('#lugar_habilitacion_rubroPrimario').val(null).trigger('change');
+            $('#lugar_habilitacion_rubroSecundario').val(null).trigger('change');
+            $("#lugar_habilitacion_rubroEspecifico").val('');
+            $("#lugar_habilitacion_materiaPrima").val('');
+            $("#lugar_habilitacion_insumos").val('');
+            $("#lugar_habilitacion_productoFinal").val('');
+            $("#lugar_habilitacion_expediente").val('');
+            $("#lugar_numeroDecreto").val('');
         } else {
             $("#divHabilitacion").show();
             //si es "Inicio de tramite"
             if (selected === '35075') {
                 $("#divNoEnTramite").hide();
+                $("#lugar_habilitacion_fechaInicio").val('01-01-1800');
+                $("#lugar_numeroDecreto").val('');
             } else {
                 $("#divNoEnTramite").show();
+                $("#lugar_habilitacion_fechaInicio").val('');
             }
         }
     });
+    if ($("#lugar_habilitacion_tipo").val() !== "") {
+        if ($("#lugar_habilitacion_tipo").val() === "35075") {
+            $("#divNoEnTramite").hide();
+        } else {
+            $("#divNoEnTramite").show();
+        }
+    }
+
     if ($("#lugar_habilitacion_expediente").val() === '') {
         $("#divHabilitacion").hide();
         $("#divTipoHabilitacion").hide();
+        $("#lugar_habilitacion_tieneHabilitacion").val('no');
+    } else {
+        $("#lugar_habilitacion_tieneHabilitacion").val('si');
     }
     $("#btnHabilitacionSi").click(function () {
+        $("#lugar_habilitacion_fechaInicio").val('');
         $("#divHabilitacion").show();
         $("#divTipoHabilitacion").show();
         $("#lugar_habilitacion_tipo").val(null).trigger('change');
+        $("#lugar_habilitacion_tieneHabilitacion").val('si');
     });
     $("#btnHabilitacionNo").click(function () {
         $("#divHabilitacion").hide();
         $("#divTipoHabilitacion").hide();
-        $("#lugar_habilitacion_expediente").val('');
-        $("#lugar_habilitacion_numeroDecreto").val('');
-        $("#lugar_habilitacion_fechaInicio").val('');
-        $("#lugar_habilitacion_legajo_se_h").val('');
-        $('#lugar_habilitacion_rubroHabilitado').val(null).trigger('change');
-        $('#lugar_habilitacion_rubroPrimario').val(null).trigger('change');
-        $('#lugar_habilitacion_rubroSecundario').val(null).trigger('change');
-        $("#lugar_habilitacion_rubroEspecifico").val('');
-        $("#lugar_habilitacion_materiaPrima").val('');
-        $("#lugar_habilitacion_insumos").val('');
-        $("#lugar_habilitacion_productoFinal").val('');
         $('#lugar_habilitacion_tipo').val(null).trigger('change');
+        $("#lugar_habilitacion_tieneHabilitacion").val('no');
         $("#modalNoHabilitado").modal('show');
     });
 

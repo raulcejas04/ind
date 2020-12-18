@@ -138,7 +138,10 @@ class LugarType extends AbstractType {
                     'entry_type' => HorarioTrabajoType::class,
                 ])
                 ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos', 'required' => false])
-                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
+                ->add('numeroDecreto', TextType::class, [
+                    'label' => 'Número de decreto',
+                    'empty_data' => '',
+                    ])
                 ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
                 ->add('fechaOtorgDispProv', DateType::class, [
                     'widget' => 'single_text',
