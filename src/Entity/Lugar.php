@@ -98,6 +98,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"denuncias"},
+     * message="Campo requerido.")
      */
     private $denunciasEspecificaciones;
 
@@ -186,6 +189,10 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduoIndustrial")
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoIndustrial;
 
@@ -206,11 +213,19 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduosEspeciales")
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoEspecial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $corrientes;
 
@@ -221,6 +236,10 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"emisionesGaseosas"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoEmisionGaseosa;
 
@@ -231,11 +250,19 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $residuoIndustrial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $destinoVuelcoTipo;
 
