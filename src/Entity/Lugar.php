@@ -25,7 +25,7 @@ class Lugar {
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=general::class, mappedBy="lugar")
+     * @ORM\OneToMany(targetEntity=General::class, mappedBy="lugar")
      */
     private $tipo;
 
@@ -120,8 +120,8 @@ class Lugar {
     private $fechaOtorgDispProv;
 
     /**
-     * @ORM\OneToOne(targetEntity=Habilitacion::class, inversedBy="lugar", cascade={"persist", "remove"})
-     * @Assert\Valid
+     * @ORM\OneToOne(targetEntity=Habilitacion::class, inversedBy="lugar")
+     * @Assert\Valid(groups={"habilitacion"})
      */
     private $habilitacion;
 
@@ -188,8 +188,12 @@ class Lugar {
      * @Assert\Regex(
      *     pattern="/^\d{4}(\-|\/)\d{4}$/",
      *     match=true,
-     *     message="Número de decreto inválido."
+     *     message="Número de decreto inválido.",
+     *     groups={"definitiva"})
      * )
+     * @Assert\NotBlank(
+     * groups={"definitiva"},
+     * message="Campo requerido.")
      */
     private $numeroDecreto;
 
@@ -401,7 +405,8 @@ class Lugar {
 
         return $this;
     }
-      public function getNombre(): ?string {
+
+    public function getNombre(): ?string {
         return $this->nombre;
     }
 

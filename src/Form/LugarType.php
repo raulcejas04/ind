@@ -16,7 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -48,6 +47,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "16")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                 ])
                 ->add('habilitacion', HabilitacionType::class)
@@ -62,6 +62,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "11")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de residuos'
                 ])
@@ -77,6 +78,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "12")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Destino del vuelco'
                 ])
@@ -90,6 +92,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "13")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de residuos'
                 ])
@@ -102,6 +105,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "14")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Corrientes'
                 ])
@@ -115,6 +119,7 @@ class LugarType extends AbstractType {
                                 ->setParameter('tipo', "15")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
+                    'placeholder' => 'Seleccione',
                     'choice_label' => 'descripcion',
                     'label' => 'Tipo de emisiones gaseosas'
                 ])
@@ -133,7 +138,10 @@ class LugarType extends AbstractType {
                     'entry_type' => HorarioTrabajoType::class,
                 ])
                 ->add('horarioRotativo', CheckboxType::class, ['label' => 'Horarios rotativos', 'required' => false])
-                ->add('numeroDecreto', TextType::class, ['label' => 'Número de decreto'])
+                ->add('numeroDecreto', TextType::class, [
+                    'label' => 'Número de decreto',
+                    'empty_data' => '',
+                    ])
                 ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
                 ->add('fechaOtorgDispProv', DateType::class, [
                     'widget' => 'single_text',
@@ -142,7 +150,7 @@ class LugarType extends AbstractType {
                     'attr' => ['class' => 'js-datepicker'],
                     'label' => 'Fecha de otorgamiento']
                 )
-                            
+
         ;
     }
 

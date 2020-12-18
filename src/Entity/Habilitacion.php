@@ -24,70 +24,106 @@ class Habilitacion {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     * groups={"expediente"},
+     * message="Campo requerido."
+     * )
      * @Assert\Regex(
      *     pattern="/^\d\-4004\-\d+\/\d{4}\(?\d?\)?$/",
      *     match=true,
-     *     message="Número de expediente inválido."
+     *     message="Número de expediente inválido.",
+     *     groups={"expediente"}
      * )
      */
     private $expediente;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank(
+     * groups={"definitiva"},
+     * message="Campo requerido")
      * @Assert\LessThanOrEqual(
      * value="today UTC",
-     * message="Fecha inválida")
+     * message="Fecha inválida",
+     * groups={"definitiva"})
      */
     private $fechaInicio;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $legajoSeH;
 
     /**
      * @ORM\ManyToOne(targetEntity=General::class, inversedBy="habilitaciones")
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $tipo;
 
     /**
      * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosHabilitados")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $rubroHabilitado;
 
     /**
      * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosPrimarios")
+     * @Assert\NotNull(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $rubroPrimario;
 
     /**
      * @ORM\ManyToOne(targetEntity=General::class, inversedBy="rubrosSecundarios")
+     * @Assert\NotNull(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $rubroSecundario;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $materiaPrima;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $productoFinal;
 
     /**
-     * @ORM\OneToOne(targetEntity=Lugar::class, mappedBy="habilitacion", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Lugar::class, mappedBy="habilitacion")
      */
     private $lugar;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $rubroEspecifico;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     * groups={"habilitacion"},
+     * message="Campo requerido.")
      */
     private $insumos;
 
@@ -109,7 +145,7 @@ class Habilitacion {
         return $this->fechaInicio;
     }
 
-    public function setFechaInicio(\DateTimeInterface $fechaInicio): self {
+    public function setFechaInicio(?\DateTimeInterface $fechaInicio): self {
         $this->fechaInicio = $fechaInicio;
 
         return $this;
