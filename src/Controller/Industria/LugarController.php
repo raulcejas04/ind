@@ -151,6 +151,9 @@ class LugarController extends AbstractController {
             }
             array_push($validationGroups, "produccion");
         }
+        if(array_key_exists("esExportador", $lugar)){
+            array_push($validationGroups, "paises");
+        }
 
         return $validationGroups;
     }
