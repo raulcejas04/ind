@@ -34,10 +34,10 @@ class LugarController extends AbstractController {
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $lugar = $formulario->getData();            
+            $lugar = $formulario->getData();
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
-            $this->PersistirEntidadesOpcionales($request, $lugar);
+            $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -67,8 +67,8 @@ class LugarController extends AbstractController {
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
-            $this->PersistirEntidadesOpcionales($request, $lugar);
-            $this->RemoverEntidadesOpcionales($request, $lugar);
+            $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
+            $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);            
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $entityManager->persist($lugar);
@@ -127,7 +127,12 @@ class LugarController extends AbstractController {
                 array_push($validationGroups, "definitiva");
             }
         }
-
+        if ($lugar["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
+            array_push($validationGroups, "certAptitudAmb");
+        }
+        if ($lugar["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
+            array_push($validationGroups, "catProvincial");
+        }
         return $validationGroups;
     }
 
@@ -150,24 +155,52 @@ class LugarController extends AbstractController {
         return $formulario;
     }
 
-    public function PersistirEntidadesOpcionales($request, $lugar) {
-        $entityManager = $this->getDoctrine()->getManager();
+    public function PersistirEntidadesOpcionales($request, $lugar, $entityManager) {
         if ($request->request->get('lugar')["habilitacion"]["tieneHabilitacion"] == 'si') {
             $habilitacion = $lugar->getHabilitacion();
             if ($habilitacion->getTipo()->getId() == 35075) {
                 $habilitacion->setFechaInicio(null);
             }
             $entityManager->persist($habilitacion);
+        } else {
+            $lugar->setHabilitacion(null);
+        }
+        if ($request->request->get('lugar')["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
+            $certAptitudAmb = $lugar->getCertAptitudAmb();
+            $entityManager->persist($certAptitudAmb);
+        } else {
+            $lugar->setCertAptitudAmb(null);
+        }
+        if ($request->request->get('lugar')["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
+            $disp = $lugar->getDispCatProvincial();
+            $entityManager->persist($disp);
+        } else {
+            $lugar->setDispCatProvincial(null);
         }
     }
 
-    public function RemoverEntidadesOpcionales($request, $lugar) {
-        $entityManager = $this->getDoctrine()->getManager();
+    public function RemoverEntidadesOpcionales($request, $lugar, $entityManager) {
         if ($request->request->get('lugar')["habilitacion"]["tieneHabilitacion"] == 'no') {
             $habilitacion = $lugar->getHabilitacion();
-            $lugar->setHabilitacion(null);
-            $entityManager->remove($habilitacion);
-            $entityManager->flush();
+            if ($habilitacion != null) {
+                $lugar->setHabilitacion(null);
+                $entityManager->remove($habilitacion);
+            }
+        }
+        if ($request->request->get('lugar')["certAptitudAmb"]["tieneCertAptitudAmb"] == 'no') {
+            $certAptitudAmb = $lugar->getCertAptitudAmb();
+            if ($certAptitudAmb != null) {
+                $entityManager->remove($certAptitudAmb);
+                $lugar->setCertAptitudAmb(null);
+            }
+        }
+
+        if ($request->request->get('lugar')["dispCatProvincial"]["tieneCatProvincial"] == 'no') {
+            $disp = $lugar->getDispCatProvincial();
+            if ($disp != null) {
+                $entityManager->remove($disp);
+                $lugar->setDispCatProvincial(null);
+            }
         }
     }
 

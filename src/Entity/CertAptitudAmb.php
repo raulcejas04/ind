@@ -24,6 +24,10 @@ class CertAptitudAmb {
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(
+     * message="Campo requerido.",
+     * groups={"certAptitudAmb"}
+     * )
      */
     private $numero;
 
@@ -31,21 +35,25 @@ class CertAptitudAmb {
      * @ORM\Column(type="date")
      * @Assert\LessThanOrEqual(
      * value="today UTC",
-     * message="Fecha inválida")
+     * message="Fecha inválida"),
+     * groups={"certAptitudAmb"})
+     * @Assert\NotBlank(
+     * message="Campo requerido.",
+     * groups={"certAptitudAmb"}
+     * )
      */
     private $fechaOtorgamiento;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="certAptitudAmbs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $categoria;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\GreaterThan(
      * propertyPath="fechaOtorgamiento",
-     * message="Fecha inválida")
+     * message="Fecha inválida",
+     * groups={"certAptitudAmb"})
+     * @Assert\NotBlank(
+     * message="Campo requerido.",
+     * groups={"certAptitudAmb"}
+     * )
      */
     private $fechaVencimiento;
 
@@ -62,7 +70,7 @@ class CertAptitudAmb {
         return $this->numero;
     }
 
-    public function setNumero(int $numero): self {
+    public function setNumero(?int $numero): self {
         $this->numero = $numero;
 
         return $this;
@@ -77,17 +85,7 @@ class CertAptitudAmb {
 
         return $this;
     }
-
-    public function getCategoria(): ?general {
-        return $this->categoria;
-    }
-
-    public function setCategoria(?general $categoria): self {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
+    
     public function getFechaVencimiento(): ?\DateTimeInterface {
         return $this->fechaVencimiento;
     }

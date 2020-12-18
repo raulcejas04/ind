@@ -102,31 +102,13 @@ class Lugar {
     private $denunciasEspecificaciones;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $dispocisionProvincial;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nroDispProv;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\LessThanOrEqual(
-     * value="today UTC",
-     * message="Fecha inválida")
-     */
-    private $fechaOtorgDispProv;
-
-    /**
      * @ORM\OneToOne(targetEntity=Habilitacion::class, inversedBy="lugar")
      * @Assert\Valid(groups={"habilitacion"})
      */
     private $habilitacion;
 
     /**
-     * @ORM\OneToOne(targetEntity=CertAptitudAmb::class, inversedBy="lugar", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=CertAptitudAmb::class, inversedBy="lugar")
      * @Assert\Valid
      */
     private $certAptitudAmb;
@@ -267,6 +249,12 @@ class Lugar {
      * @ORM\Column(type="boolean")
      */
     private $horarioRotativo;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DispCatProvincial::class, cascade={"persist", "remove"})
+     * @Assert\Valid
+     */
+    private $dispCatProvincial;
 
     public function __construct() {
         $this->industria = new ArrayCollection();
@@ -442,36 +430,6 @@ class Lugar {
 
     public function setDenunciasEspecificaciones(?string $denunciasEspecificaciones): self {
         $this->denunciasEspecificaciones = $denunciasEspecificaciones;
-
-        return $this;
-    }
-
-    public function getDispocisionProvincial(): ?bool {
-        return $this->dispocisionProvincial;
-    }
-
-    public function setDispocisionProvincial(?bool $dispocisionProvincial): self {
-        $this->dispocisionProvincial = $dispocisionProvincial;
-
-        return $this;
-    }
-
-    public function getNroDispProv(): ?int {
-        return $this->nroDispProv;
-    }
-
-    public function setNroDispProv(?int $nroDispProv): self {
-        $this->nroDispProv = $nroDispProv;
-
-        return $this;
-    }
-
-    public function getFechaOtorgDispProv(): ?\DateTimeInterface {
-        return $this->fechaOtorgDispProv;
-    }
-
-    public function setFechaOtorgDispProv(?\DateTimeInterface $fechaOtorgDispProv): self {
-        $this->fechaOtorgDispProv = $fechaOtorgDispProv;
 
         return $this;
     }
@@ -771,6 +729,16 @@ class Lugar {
 
     public function setHorarioRotativo(bool $horarioRotativo): self {
         $this->horarioRotativo = $horarioRotativo;
+
+        return $this;
+    }
+
+    public function getDispCatProvincial(): ?dispCatProvincial {
+        return $this->dispCatProvincial;
+    }
+
+    public function setDispCatProvincial(?dispCatProvincial $dispCatProvincial): self {
+        $this->dispCatProvincial = $dispCatProvincial;
 
         return $this;
     }

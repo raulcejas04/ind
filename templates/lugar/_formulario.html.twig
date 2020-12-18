@@ -22,7 +22,7 @@
         {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion,'numeroDecreto':formulario.numeroDecreto} only %}
     </div>
     <div id="certAptitudAmbiental" class="container tab-pane fade"><br>
-        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb,'dispocisionProvincial':formulario.dispocisionProvincial,'fechaOtorgDispProv':formulario.fechaOtorgDispProv} only %}
+        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb,'dispCatProvincial':formulario.dispCatProvincial} only %}
     </div>
     <div id="produccion" class="container tab-pane fade"><br>
         {% include 'lugar/produccion.html.twig' %}

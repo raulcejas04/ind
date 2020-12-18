@@ -8,6 +8,7 @@ use App\Form\DomicilioCortoType;
 use App\Form\PersonaType;
 use App\Form\HabilitacionType;
 use App\Form\CertAptitudAmbientalType;
+use App\Form\DispCatProvincialType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -52,6 +53,7 @@ class LugarType extends AbstractType {
                 ])
                 ->add('habilitacion', HabilitacionType::class)
                 ->add('certAptitudAmb', CertAptitudAmbientalType::class)
+                ->add('dispCatProvincial', DispCatProvincialType::class)
                 ->add('tieneResiduosIndustriales', CheckboxType::class, ['label' => '¿Produce residuos industriales?', 'required' => false])
                 ->add('tipoResiduoIndustrial', EntityType::class, [
                     'class' => General::class,
@@ -141,16 +143,7 @@ class LugarType extends AbstractType {
                 ->add('numeroDecreto', TextType::class, [
                     'label' => 'Número de decreto',
                     'empty_data' => '',
-                    ])
-                ->add('dispocisionProvincial', TextType::class, ['label' => 'Nro. de disposición'])
-                ->add('fechaOtorgDispProv', DateType::class, [
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'format' => 'dd-MM-yyyy',
-                    'attr' => ['class' => 'js-datepicker'],
-                    'label' => 'Fecha de otorgamiento']
-                )
-
+                ])   
         ;
     }
 

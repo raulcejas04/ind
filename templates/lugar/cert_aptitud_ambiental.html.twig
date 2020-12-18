@@ -12,6 +12,8 @@
             <div class="btn-group mr-2" role="group">            
                 <button id="btnDisposicionNo" type="button" class="btn btn-primary">No</button>
             </div>
+            {{ form_widget(dispCatProvincial.tieneCatProvincial) }}
+            {{ form_widget(certAptitudAmbiental.tieneCertAptitudAmb) }}
         </div> 
     </div>  
 </div>
@@ -23,22 +25,22 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            {{ form_label(dispocisionProvincial) }}
-                            {{ form_widget(dispocisionProvincial) }}
+                            {{ form_label(dispCatProvincial.numero) }}
+                            {{ form_widget(dispCatProvincial.numero) }}
                         </div> 
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            {{ form_label(fechaOtorgDispProv) }}
-                            {{ form_widget(fechaOtorgDispProv) }}
+                            {{ form_label(dispCatProvincial.fechaOtorgDispProv) }}
+                            {{ form_widget(dispCatProvincial.fechaOtorgDispProv) }}
                         </div> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            {{ form_label(certAptitudAmbiental.categoria) }}
-                            {{ form_widget(certAptitudAmbiental.categoria) }}
+                            {{ form_label(dispCatProvincial.categoria) }}
+                            {{ form_widget(dispCatProvincial.categoria) }}
                         </div>
                     </div> 
                 </div>
