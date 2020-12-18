@@ -69,6 +69,9 @@ class LugarController extends AbstractController {
             $lugar = $formulario->getData();
             $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
+            if (!$lugar->getEsProduccion()){
+                $lugar->setFechaUltimaInpeccion(null);
+            }
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $entityManager->persist($lugar);
@@ -127,24 +130,28 @@ class LugarController extends AbstractController {
                 array_push($validationGroups, "definitiva");
             }
         }
-        if ($lugar["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
-            array_push($validationGroups, "certAptitudAmb");
-        }
-        if ($lugar["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
-            array_push($validationGroups, "catProvincial");
-        }
-        if (array_key_exists ("tieneResiduosIndustriales",$lugar)) {
-            array_push($validationGroups, "residuosIndustriales");
-        }
-         if (array_key_exists ("tieneResiduosEspeciales",$lugar)) {
-            array_push($validationGroups, "residuosEspeciales");
-            if(array_key_exists ("tieneEmisionesGaseosas",$lugar)){
-                array_push($validationGroups, "emisionesGaseosas");
+        if (array_key_exists("esProduccion", $lugar)) {
+            if ($lugar["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
+                array_push($validationGroups, "certAptitudAmb");
             }
+            if ($lugar["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
+                array_push($validationGroups, "catProvincial");
+            }
+            if (array_key_exists("tieneResiduosIndustriales", $lugar)) {
+                array_push($validationGroups, "residuosIndustriales");
+            }
+            if (array_key_exists("tieneResiduosEspeciales", $lugar)) {
+                array_push($validationGroups, "residuosEspeciales");
+                if (array_key_exists("tieneEmisionesGaseosas", $lugar)) {
+                    array_push($validationGroups, "emisionesGaseosas");
+                }
+            }
+            if (array_key_exists("tieneDenuncia", $lugar)) {
+                array_push($validationGroups, "denuncias");
+            }
+            array_push($validationGroups, "produccion");
         }
-         if (array_key_exists ("tieneDenuncia",$lugar)) {
-            array_push($validationGroups, "denuncias");
-        }
+
         return $validationGroups;
     }
 

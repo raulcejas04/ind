@@ -4,7 +4,6 @@ import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
     //PRINCIPAL
-
     $(".searchabledropdown").select2();
     if ($("#lugar_esProduccion").is(':checked')) {
         $("#tabCertAptitudAmbiental").show();
@@ -17,9 +16,18 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $("#tabCertAptitudAmbiental").show();
             $("#tabProduccion").show();
+            $("#lugar_fechaUltimaInpeccion").val("");
         } else {
             $("#tabCertAptitudAmbiental").hide();
             $("#tabProduccion").hide();
+            $("#lugar_fechaUltimaInpeccion").val('01-01-1800');
+            $("#lugar_CURT").val("");
+            $("#lugar_potenciaTotalUtilizada").val("");
+            $("#lugar_tieneResiduosIndustriales").prop('checked', false).trigger('change');
+            $("#lugar_tieneResiduosEspeciales").prop('checked', false).trigger('change');
+            $("#lugar_tieneDenuncia").prop('checked', false).trigger('change');
+            $('#btnDisposicionNo').trigger('click');
+            $('#btnCertNo').trigger('click');
         }
     });
     //lista de paises solo aparece si checkbox exporta es checked
@@ -94,15 +102,15 @@ $(document).ready(function () {
         $("#modalNoHabilitado").modal('show');
     });
 
-console.log("changes");
+    console.log("changes");
     //CERTIFICADO DE APTITUD AMBIENTAL
-    if ($("#lugar_dispCatProvincial_numero").val() === '') {        
+    if ($("#lugar_dispCatProvincial_numero").val() === '') {
         $("#divDisposicion").hide();
         $("#lugar_dispCatProvincial_fechaOtorgDispProv").val('01-01-1800');
         $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
         $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
-    }else{
-         $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
+    } else {
+        $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
     }
     $("#btnDisposicionSi").click(function () {
         $("#divDisposicion").show();
@@ -122,7 +130,7 @@ console.log("changes");
         $("#lugar_certAptitudAmb_fechaOtorgamiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
-    }else{
+    } else {
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('si');
     }
     $("#btnCertSi").click(function () {

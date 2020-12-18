@@ -80,6 +80,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $CURT;
 
@@ -88,6 +91,9 @@ class Lugar {
      * @Assert\LessThanOrEqual(
      * value="today UTC",
      * message="Fecha inválida")
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $fechaUltimaInpeccion;
 
@@ -245,6 +251,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $potenciaTotalUtilizada;
 
