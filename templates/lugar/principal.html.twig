@@ -191,6 +191,7 @@
                     {{ form_widget(formulario.esExportador) }}
                 </div> 
                 <div class="form-group" id="divSeleccionPaises">
+                    {{ form_errors(formulario.paises)}}
                     {{ form_widget(formulario.paises, { 'attr': {'class': 'searchabledropdown'} }) }}
                 </div> 
             </div> 

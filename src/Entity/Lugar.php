@@ -130,7 +130,14 @@ class Lugar {
 
     /**
      * @ORM\ManyToMany(targetEntity=General::class)
-     * @ORM\JoinTable(name="lugares_paises")
+     * @ORM\JoinTable(name="lugares_paises")     
+     * @Assert\Count(
+     *      groups={"paises"},
+     *      min = 1,
+     *      max = 104,
+     *      minMessage = "Debe elegir al menos un país.",
+     *      maxMessage = "No puede elegir más de {{ limit }} paises."
+     * )
      */
     private $paises;
 
