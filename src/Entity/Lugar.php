@@ -80,6 +80,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $CURT;
 
@@ -88,6 +91,9 @@ class Lugar {
      * @Assert\LessThanOrEqual(
      * value="today UTC",
      * message="Fecha inválida")
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $fechaUltimaInpeccion;
 
@@ -98,6 +104,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"denuncias"},
+     * message="Campo requerido.")
      */
     private $denunciasEspecificaciones;
 
@@ -186,6 +195,10 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduoIndustrial")
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoIndustrial;
 
@@ -206,11 +219,19 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduosEspeciales")
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoEspecial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $corrientes;
 
@@ -221,21 +242,36 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"emisionesGaseosas"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoEmisionGaseosa;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $potenciaTotalUtilizada;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $residuoIndustrial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $destinoVuelcoTipo;
 
