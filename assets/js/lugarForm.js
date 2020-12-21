@@ -3,6 +3,9 @@ import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
+    console.log("took");
+    $("#divConfirmar").hide();
+
     //PRINCIPAL
     $(".searchabledropdown").select2();
     if ($("#lugar_esProduccion").is(':checked')) {
@@ -101,8 +104,6 @@ $(document).ready(function () {
         $("#lugar_habilitacion_tieneHabilitacion").val('no');
         $("#modalNoHabilitado").modal('show');
     });
-
-    console.log("changes");
     //CERTIFICADO DE APTITUD AMBIENTAL
     if ($("#lugar_dispCatProvincial_numero").val() === '') {
         $("#divDisposicion").hide();
@@ -318,3 +319,27 @@ $(document).ready(function () {
 
 
 });
+$("#tabFinalizar").click(function () {
+    showBtnGuardar(false);
+});
+$("#tabPrincipal").click(function () {
+    showBtnGuardar(true);
+});
+$("#tabHabilitacion").click(function () {
+    showBtnGuardar(true);
+});
+$("#tabCertAptitudAmbiental").click(function () {
+    showBtnGuardar(true);
+});
+$("#tabProduccion").click(function () {
+    showBtnGuardar(true);
+});
+function showBtnGuardar(show) {
+    if (show) {
+        $("#divConfirmar").hide();
+        $("#divGuardar").show();
+    } else {
+        $("#divConfirmar").show();
+        $("#divGuardar").hide();
+    }
+}

@@ -33,7 +33,7 @@ class Lugar {
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
      * message="Campo requerido",
-     * groups={"principal"})
+     * groups={"principal","requerido"})
      */
     private $nombre;
 
@@ -220,12 +220,14 @@ class Lugar {
     /**
      * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="lugares")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"principal","requerido"})
      */
     private $domicilio;
 
     /**
      * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="lugaresEsApoderado",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"principal","requerido"})
      */
     private $apoderado;
 
@@ -346,6 +348,11 @@ class Lugar {
      * @Assert\Valid
      */
     private $dispCatProvincial;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $esConfirmado;
 
     public function __construct() {
         $this->industria = new ArrayCollection();
@@ -830,6 +837,18 @@ class Lugar {
 
     public function setDispCatProvincial(?dispCatProvincial $dispCatProvincial): self {
         $this->dispCatProvincial = $dispCatProvincial;
+
+        return $this;
+    }
+
+    public function getEsConfirmado(): ?bool
+    {
+        return $this->esConfirmado;
+    }
+
+    public function setEsConfirmado(bool $esConfirmado): self
+    {
+        $this->esConfirmado = $esConfirmado;
 
         return $this;
     }

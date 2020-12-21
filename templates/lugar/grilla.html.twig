@@ -7,67 +7,70 @@
         </div>
     </div>       
 {% else %}
-    <div class="row">
-        <div class="col-sm-12 pb-2">
-            <table class="table table-hover table-bordered ">
-                <thead class="thead-light">
-                    <tr class="d-flex" >
-                        <th id="headerRazonSocial" class="col-3" data-nombre="razonSocial">
-                            <div class="float-left">
-                                Razón Social
-                            </div>
-                            <div class="float-right align-bottom">
-                                <span class="fa fa-xs"/>
-                            </div>
-                        </th>
-                        <th id="headerDomicilio" class="col-3" data-nombre="domicilio">
-                            <div class="float-left">
-                                Domicilio
-                            </div>
-                            <div class="float-right align-bottom">
-                                <span class="fa fa-xs "/>
-                            </div>
-                        </th>  
-                        <th id="headerEsDeposito" class="col-2" data-nombre="esDeposito">
-                            <div class="float-left">
-                                Depósito
-                            </div>
-                            <div class="float-right align-bottom">
-                                <span class="fa fa-xs"/>
-                            </div>
-                        </th>
-                        <th id="headerEsProduccion" class="col-2" data-nombre="esProduccion">
-                            <div class="float-left">
-                                Producción
-                            </div>
-                            <div class="float-right align-bottom">
-                                <span class="fa fa-xs"/>
-                            </div>
-                        </th>
-                        <th class="col-2"></th>
-                    </tr>
-                </thead>
-                <tbody>               
-                    {% for lugar in lugares %}
-                        <tr class="d-flex">
-                            <td class="col-3">{{ lugar.nombre }}</td>
-                            <td class="col-3">{{ lugar.domicilio.calleAlternativa ~ ", " ~ lugar.domicilio.puerta}}</td>
-                            <td class="col-2">
-                                <input type="checkbox"
-                                       {{ lugar.esDeposito ? 'checked' : ''}}/>
-                            </td>
-                            <td class="col-2">
-                                <input type="checkbox"
-                                       {{ lugar.esProduccion ? 'checked' : ''}}/>
-                            </td>
-                            <td class="col-2">
-                                 {{ include('lugar/_acciones.html.twig') }}            
-                            </td>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 pb-2">
+                <table class="table table-hover table-bordered ">
+                    <thead class="thead-light">
+                        <tr>
+                            <th id="headerRazonSocial" scope="col" data-nombre="razonSocial" class="al">
+                                <div class="float-left">
+                                    Razón Social
+                                </div>
+                                <div class="float-right align-bottom">
+                                    <span class="fa fa-xs"/>
+                                </div>
+                            </th>
+                            <th id="headerDomicilio" scope="col" data-nombre="domicilio">
+                                <div class="float-left">
+                                    Domicilio
+                                </div>
+                                <div class="float-right align-bottom">
+                                    <span class="fa fa-xs "/>
+                                </div>
+                            </th>  
+                            <th id="headerEsDeposito" scope="col" data-nombre="esDeposito">
+                                <div class="float-left">
+                                    Depósito
+                                </div>
+                                <div class="float-right align-bottom">
+                                    <span class="fa fa-xs"/>
+                                </div>
+                            </th>
+                            <th id="headerEsProduccion" scope="col" data-nombre="esProduccion">
+                                <div class="float-left">
+                                    Producción
+                                </div>
+                                <div class="float-right align-bottom">
+                                    <span class="fa fa-xs"/>
+                                </div>
+                            </th>
+                            <th scope="col"></th>
                         </tr>
-                    {%  endfor %}     
-                </tbody>
+                    </thead>
+                    <tbody>               
+                        {% for lugar in lugares %}
+                            
+                            <tr class={{(lugar.esConfirmado) ? "" : "table-warning" }}>
+                                <td>{{ lugar.nombre }}</td>
+                                <td>{{ lugar.domicilio.calleAlternativa ~ ", " ~ lugar.domicilio.puerta}}</td>
+                                <td>
+                                    <input type="checkbox"
+                                           {{ lugar.esDeposito ? 'checked' : ''}}/>
+                                </td>
+                                <td>
+                                    <input type="checkbox"
+                                           {{ lugar.esProduccion ? 'checked' : ''}}/>
+                                </td>
+                                <td>
+                                    {{ include('lugar/_acciones.html.twig') }}            
+                                </td>
+                            </tr>
+                        {%  endfor %}     
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
         </div>
     </div>   
 {% endif %}
