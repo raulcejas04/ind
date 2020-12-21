@@ -31,39 +31,69 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
-     * @Assert\NotBlank
+     * @ORM\Column(type="integer", nullable=true)     
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
-     * @Assert\NotBlank
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonalFemenino;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $superficieTotal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $siperficieCubierta;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $superficieLibre;
 
@@ -153,19 +183,37 @@ class Lugar {
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonalTrans;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonalDiscapacidad;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonalResidenteAvellaneda;
 
@@ -563,7 +611,7 @@ class Lugar {
         return $this->qPersonalTrans;
     }
 
-    public function setQPersonalTrans(int $qPersonalTrans): self {
+    public function setQPersonalTrans(?int $qPersonalTrans): self {
         $this->qPersonalTrans = $qPersonalTrans;
 
         return $this;
@@ -573,7 +621,7 @@ class Lugar {
         return $this->qPersonalDiscapacidad;
     }
 
-    public function setQPersonalDiscapacidad(int $qPersonalDiscapacidad): self {
+    public function setQPersonalDiscapacidad(?int $qPersonalDiscapacidad): self {
         $this->qPersonalDiscapacidad = $qPersonalDiscapacidad;
 
         return $this;
@@ -583,7 +631,7 @@ class Lugar {
         return $this->qPersonalResidenteAvellaneda;
     }
 
-    public function setQPersonalResidenteAvellaneda(int $qPersonalResidenteAvellaneda): self {
+    public function setQPersonalResidenteAvellaneda(?int $qPersonalResidenteAvellaneda): self {
         $this->qPersonalResidenteAvellaneda = $qPersonalResidenteAvellaneda;
 
         return $this;

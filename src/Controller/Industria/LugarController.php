@@ -38,6 +38,7 @@ class LugarController extends AbstractController {
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
+            $this->EliminarHorariosTrabajoInvalidos($lugar);
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -61,6 +62,7 @@ class LugarController extends AbstractController {
         if ($lugar->getDomicilio() == null) {
             $this->SetearDomicilio($lugar);
         }
+        $this->CrearHorariosTrabajo($lugar);
         $formulario = $this->GetFormularioConValidacion($request, $lugar);
         $formulario->handleRequest($request);
 
@@ -69,11 +71,12 @@ class LugarController extends AbstractController {
             $lugar = $formulario->getData();
             $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
-            if (!$lugar->getEsProduccion()){
+            if (!$lugar->getEsProduccion()) {
                 $lugar->setFechaUltimaInpeccion(null);
             }
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
+            $this->EliminarHorariosTrabajoInvalidos($lugar);
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -97,14 +100,40 @@ class LugarController extends AbstractController {
     }
 
     public function CrearHorariosTrabajo(Lugar $lugar) {
+        $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
         if ($lugar->getHorariosTrabajo()->count() == 0) {
-            $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
             foreach ($dias as $dia) {
                 $horario = new HorariosTrabajo();
                 $horario->setDia($dia);
                 $lugar->addHorariosTrabajo($horario);
             }
+        } else {
+            foreach ($dias as $dia) {
+                $tieneDia = false;
+                foreach ($lugar->getHorariosTrabajo() as $diaExistente) {
+                    if ($diaExistente->getDia() == $dia) {
+                        $tieneDia = true;
+                    }
+                    if ($tieneDia) {
+                        break;
+                    }
+                }
+                if (!$tieneDia) {
+                    $horario = new HorariosTrabajo();
+                    $horario->setDia($dia);
+                    $lugar->addHorariosTrabajo($horario);
+                }
+            }
         }
+    }
+
+    public function EliminarHorariosTrabajoInvalidos(Lugar $lugar) {
+        foreach ($lugar->getHorariosTrabajo() as $dia) {
+            if ($dia->getHoraInicio()->getTimestamp() == "0" && $dia->getHoraFin()->getTimestamp() == "0") {
+                $lugar->removeHorariosTrabajo($dia);
+            }
+        }
+        return $lugar;
     }
 
     public function SetearDomicilio(Lugar $lugar) {
@@ -119,6 +148,7 @@ class LugarController extends AbstractController {
     public function GetGruposValidacion($request) {
         $validationGroups = [];
         $lugar = $request->request->get('lugar');
+        array_push($validationGroups, "principal");
         if ($lugar["habilitacion"]["tieneHabilitacion"] == 'si') {
             $tipoHabilitacion = $lugar["habilitacion"]["tipo"];
             array_push($validationGroups, "habilitacion");
@@ -151,7 +181,7 @@ class LugarController extends AbstractController {
             }
             array_push($validationGroups, "produccion");
         }
-        if(array_key_exists("esExportador", $lugar)){
+        if (array_key_exists("esExportador", $lugar)) {
             array_push($validationGroups, "paises");
         }
 
