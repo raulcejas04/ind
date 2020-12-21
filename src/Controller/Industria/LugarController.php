@@ -44,7 +44,33 @@ class LugarController extends AbstractController {
             return $this->redirectToRoute('industria_nuevo');
         }
         return $this->render('lugar/nuevo.html.twig', [
-                    'formulario' => $formulario->createView(), 'lugar' => $lugar
+                    'formulario' => $formulario->createView(), 'lugar' => $lugar,
+                    'showButton' => true
+        ]);
+    }
+
+    /**
+     * @Route("/industria/lugar/consultar/{id}",name="lugar_consultar")
+     */
+    public function Consultar(Request $request, $id): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        $lugar = $entityManager->getRepository(Lugar::class)->find($id);
+        if (!$lugar) {
+            throw $this->createNotFoundException(
+                    'No existe un lugar con este id: ' . $id
+            );
+        }
+        if ($lugar->getDomicilio() == null) {
+            $this->SetearDomicilio($lugar);
+        }
+        $this->CrearHorariosTrabajo($lugar);
+        $formulario = $this->createForm(LugarType::class, $lugar, array(
+            'disabled' => true,
+        ));
+        return $this->render('lugar/modificar.html.twig', [
+                    'formulario' => $formulario->createView(),
+                    'lugar' => $lugar,
+                    'showButton' => false
         ]);
     }
 
@@ -84,7 +110,8 @@ class LugarController extends AbstractController {
         return $this->render('lugar/modificar.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,
-                    'button_label' => 'Guardar Cambios'
+                    'button_label' => 'Guardar Cambios',
+                    'showButton' => true
         ]);
     }
 
