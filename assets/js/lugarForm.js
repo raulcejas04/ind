@@ -4,8 +4,8 @@ import select2 from 'select2/dist/js/select2';
 $(document).ready(function () {
     $("#divConfirmar").hide();
     $("#btnPrev").hide();
-    var esConsulta = $("#lugar_esConfirmado").val() === "1" ? true : false;
-    
+    var esConsulta = $("#hiddenEsConsulta").val() === "1" ? true : false;
+    console.log(esConsulta);
     if (esConsulta) {
         $("#lugar_guardar").hide();
         $("#lugar_confirmar").hide();

@@ -52,6 +52,7 @@ class LugarController extends AbstractController {
         return $this->render('lugar/nuevo.html.twig', [
                     'formulario' => $formulario->createView(), 'lugar' => $lugar,
                     'showButton' => true,
+                    'consulta' => false,
         ]);
     }
 
@@ -76,7 +77,8 @@ class LugarController extends AbstractController {
         return $this->render('lugar/modificar.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,
-                    'showButton' => false
+                    'showButton' => false,
+                    'consulta' => true
         ]);
     }
 
@@ -122,7 +124,8 @@ class LugarController extends AbstractController {
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,
                     'button_label' => 'Guardar Cambios',
-                    'showButton' => true
+                    'showButton' => true,
+                    'consulta' => false
         ]);
     }
 
@@ -296,4 +299,5 @@ class LugarController extends AbstractController {
             }
         }
     }
+
 }
