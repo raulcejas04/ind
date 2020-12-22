@@ -58,6 +58,11 @@ class Lugar {
      * @Assert\NotBlank(
      * message="Campo requerido",
      * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalFemenino;
 
@@ -69,7 +74,7 @@ class Lugar {
      * groups={"principal"})
      * @Assert\NotBlank(
      * message="Campo requerido",
-     * groups={"principal"})
+     * groups={"principal"})     
      */
     private $superficieTotal;
 
@@ -90,7 +95,7 @@ class Lugar {
      * @Assert\GreaterThanOrEqual(
      * value = 0,
      * message="Ingrese un número positivo o 0",
-     * groups={"principal"})
+     * groups={"principal"})     
      * @Assert\NotBlank(
      * message="Campo requerido",
      * groups={"principal"})
@@ -190,6 +195,11 @@ class Lugar {
      * @Assert\NotBlank(
      * message="Campo requerido",
      * groups={"principal"})
+     *  @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalTrans;
 
@@ -202,6 +212,11 @@ class Lugar {
      * @Assert\NotBlank(
      * message="Campo requerido",
      * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalDiscapacidad;
 
@@ -214,6 +229,11 @@ class Lugar {
      * @Assert\NotBlank(
      * message="Campo requerido",
      * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalResidenteAvellaneda;
 
@@ -841,13 +861,11 @@ class Lugar {
         return $this;
     }
 
-    public function getEsConfirmado(): ?bool
-    {
+    public function getEsConfirmado(): ?bool {
         return $this->esConfirmado;
     }
 
-    public function setEsConfirmado(bool $esConfirmado): self
-    {
+    public function setEsConfirmado(bool $esConfirmado): self {
         $this->esConfirmado = $esConfirmado;
 
         return $this;
