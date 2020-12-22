@@ -1,14 +1,11 @@
-<form method="post" action="{{ path('lugar_eliminar', {'id': lugar.id}) }}" onsubmit="return confirm('¿Está seguro que desea eliminar este lugar?');">
-    <div class="float-right"> 
-        <div class="btn-group" role="group">
-            <a class="btn btn-info" href="{{ path("lugar_consultar",{"id":lugar.id}) }}"><span class="fa fa-search"></span></a>               
-
-            {% if industriaConfirmada == 0 %}
-                <a class="btn btn-success" href="{{ path("lugar_modificar",{"id":lugar.id}) }}"><span class="fa fa-edit"></span></a>     
-                    {#   <input type="hidden" name="_method" value="DELETE">
-                           <input type="hidden" name="_token" value="{{ csrf_token('eliminar' ~ lugar.id) }}">
-                           <button class="btn btn-danger"><span class="fa fa-trash"></span></button> #}
-                {% endif %}
-        </div>
+<div class="float-right"> 
+    <div class="btn-group" role="group">
+        {% if industriaConfirmada == 1 %}
+             <a class="btn btn-info" href="{{ path("lugar_consultar",{"id":lugar.id}) }}"><span class="fa fa-search"></span></a>   
+        {% else %}
+            <button type="submit" name="modificarLugar" class="btn btn-success"><span class="fa fa-edit"></span></button>     
+            <input type="hidden" name="_idLugar" value="{{ lugar.id }}">
+            <button type="submit" name="eliminarLugar" class="btn btn-danger"><span class="fa fa-trash"></span></button> 
+            {% endif %}
     </div>
-</form>
+</div>

@@ -49,7 +49,6 @@ class LugarController extends AbstractController {
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
         }
-        $errors = $formulario->getErrors();
         return $this->render('lugar/nuevo.html.twig', [
                     'formulario' => $formulario->createView(), 'lugar' => $lugar,
                     'showButton' => true,
@@ -297,5 +296,4 @@ class LugarController extends AbstractController {
             }
         }
     }
-
 }
