@@ -12,9 +12,11 @@
     <li class="nav-item" id="tabProduccion">
         <a id="btnProduccion" class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
     </li>
-    <li class="nav-item" id="tabFinalizar">
-        <a id="btnFinalizar" class="nav-link" data-toggle="pill" href="#finalizar">Finalizar</a>
-    </li>
+    {% if showButton %}
+        <li class="nav-item" id="tabFinalizar">
+            <a id="btnFinalizar" class="nav-link" data-toggle="pill" href="#finalizar">Finalizar</a>
+        </li>
+    {% endif %}
 </ul>
 <div class="tab-content">
     <div id="principal" class="container tab-pane active"><br>
@@ -29,8 +31,10 @@
     <div id="produccion" class="container tab-pane fade"><br>
         {% include 'lugar/produccion.html.twig' %}
     </div>
+     {% if showButton %}
     <div id="finalizar" class="container tab-pane fade"><br>
     </div>
+    {% endif %}
 </div>
 <br/>
 <hr/>
@@ -52,14 +56,12 @@
         </div>
     </div>
     <div class="col-3">
-        {% if showButton %}
-            <div id="divGuardar" class="center-block text-center">
-                {{ form_widget(formulario.guardar) }}  
-            </div>
-            <div id="divConfirmar" class="center-block text-center">               
-                {{ form_widget(formulario.confirmar) }}
-            </div>
-        {% endif %}
+        <div id="divGuardar" class="center-block text-center">
+            {{ form_widget(formulario.guardar) }}  
+        </div>
+        <div id="divConfirmar" class="center-block text-center">               
+            {{ form_widget(formulario.confirmar) }}
+        </div>
     </div>
 </div>
 

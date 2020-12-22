@@ -32,11 +32,16 @@ class IndustriaController extends AbstractController {
             $em->persist($industria);
             $em->flush();
         }
-        $formulario = $this->createForm(Industriatype::class, $industria);
+        $formulario = $this->GetFormularioConValidacion($request, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
+            $esConfirmado = false;
+            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+                $this->RemoverLugaresNoConfirmados($industria, $entityManager);
+            }
             $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
             if ($d != null) {
@@ -54,8 +59,9 @@ class IndustriaController extends AbstractController {
                 }
             }
 
-
-            $industria->getTitular()->setCUIL('123135465');
+            $industria->setEsConfirmado($esConfirmado);
+            $industria->setDomicilio($domicilio);
+            $entityManager->persist($domicilio);
             $entityManager->persist($industria);
             $entityManager->flush();
             return $this->redirectToRoute('admin_usuarios');
@@ -63,6 +69,7 @@ class IndustriaController extends AbstractController {
         return $this->render('industria/nuevo.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugares' => $industria->getLugares(),
+                    'industriaConfirmada' => $industria->getEsConfirmado()
         ]);
     }
 
@@ -115,6 +122,36 @@ class IndustriaController extends AbstractController {
         return $this->render('domicilio/_calle.html.twig', [
                     'domicilio' => $form->createView(),
         ]);
+    }
+
+    public function GetFormularioConValidacion($request, $industria) {
+        $industriaRequest = $request->request->get('industria');
+        $disabled = false;
+        if ($industria->getEsConfirmado()) {
+            $disabled = true;
+        }
+        if (is_null($request->request->get('industria')) || array_key_exists("confirmarIndustria", $industriaRequest)) {
+            $formulario = $this->createForm(IndustriaType::class, $industria, array(
+                'validation_groups' => "industria",
+                'disabled' => $disabled
+            ));
+        } else {
+            $formulario = $this->createForm(IndustriaType::class, $industria, array(
+                'validation_groups' => false,
+                'disabled' => $disabled
+            ));
+        }
+        return $formulario;
+    }
+
+    public function RemoverLugaresNoConfirmados(Industria $industria, $entityManager) {
+        $lugares = $industria->getLugares();
+        foreach ($lugares as $lugar) {
+            if (!$lugar->getEsConfirmado()) {
+                $entityManager->remove($lugar);
+                $industria->removeLugare($lugar);
+            }
+        }
     }
 
 }

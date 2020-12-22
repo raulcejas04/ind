@@ -149,7 +149,7 @@ class LugarType extends AbstractType {
                 ])
                 ->add('guardar', SubmitType::class, ['label' => 'Guardar datos'])
                 ->add('confirmar', SubmitType::class, ['label' => 'Confirmar datos'])
-                ->add('esConfirmado', HiddenType::class, [ 'empty_data' => false,])
+                ->add('esConfirmado', HiddenType::class, ['empty_data' => false,])
         ;
     }
 

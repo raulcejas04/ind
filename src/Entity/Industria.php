@@ -53,6 +53,11 @@ class Industria {
      */
     private $lugares;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $esConfirmado;
+
     public function __construct() {
         $this->lugares = new ArrayCollection();
     }
@@ -146,6 +151,18 @@ class Industria {
                 $lugare->setIndustria(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEsConfirmado(): ?bool
+    {
+        return $this->esConfirmado;
+    }
+
+    public function setEsConfirmado(bool $esConfirmado): self
+    {
+        $this->esConfirmado = $esConfirmado;
 
         return $this;
     }

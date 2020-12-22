@@ -53,7 +53,6 @@ class LugarController extends AbstractController {
         return $this->render('lugar/nuevo.html.twig', [
                     'formulario' => $formulario->createView(), 'lugar' => $lugar,
                     'showButton' => true,
-                    'errors' => $errors
         ]);
     }
 
