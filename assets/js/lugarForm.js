@@ -3,6 +3,9 @@ import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 
 $(document).ready(function () {
+    console.log("took");
+    $("#divConfirmar").hide();
+    $("#btnPrincipal").trigger('click');
     //PRINCIPAL
     $(".searchabledropdown").select2();
     if ($("#lugar_esProduccion").is(':checked')) {
@@ -101,8 +104,6 @@ $(document).ready(function () {
         $("#lugar_habilitacion_tieneHabilitacion").val('no');
         $("#modalNoHabilitado").modal('show');
     });
-
-    console.log("changes");
     //CERTIFICADO DE APTITUD AMBIENTAL
     if ($("#lugar_dispCatProvincial_numero").val() === '') {
         $("#divDisposicion").hide();
@@ -315,6 +316,85 @@ $(document).ready(function () {
             }
         });
     });
+    var i, items = $('.nav-link'), pane = $('.tab-pane');
+    $('.btnNext').click(function () {
+
+        for (i = 0; i < items.length; i++) {
+            if ($(items[i]).hasClass('active') === true) {
+                break;
+            }
+        }
+        if (i < items.length - 1) {
+            if (i === 1 && !$("#lugar_esProduccion").is(':checked')) {
+                $("#btnFinalizar").trigger('click');
+            } else if (i === 3 && $("#lugar_esProduccion").is(':checked')) {
+                $("#btnFinalizar").trigger('click');
+            } else {
+                $(items[i]).removeClass('active');
+                $(items[i + 1]).addClass('active');
+                $(pane[i]).removeClass('show active');
+                $(pane[i + 1]).addClass('show active');
+                $("#btnPrev").show();
+                $("#btnNext").show();
+            }
+        }
+    });
+
+    $('.btnPrevious').click(function () {
+        for (i = 0; i < items.length; i++) {
+            if ($(items[i]).hasClass('active') === true) {
+                break;
+            }
+        }
+        if (i !== 0) {
+            if (i === 4 && !$("#lugar_esProduccion").is(':checked')) {
+                $("#btnHabilitacion").trigger('click');
+            } else if (i === 1) {
+                $("#btnPrincipal").trigger('click');
+            } else {
+                $(items[i]).removeClass('active');
+                $(items[i - 1]).addClass('active');
+                $(pane[i]).removeClass('show active');
+                $(pane[i - 1]).addClass('show active');
+                $("#btnPrev").show();
+                $("#btnNext").show();
+            }
+        }
+    });
 
 
 });
+$("#btnFinalizar").click(function () {
+    showBtnGuardar(false);
+    $("#btnPrev").show();
+    $("#btnNext").hide();
+});
+$("#btnPrincipal").click(function () {
+    showBtnGuardar(true);
+    $("#btnPrev").hide();
+    $("#btnNext").show();
+});
+$("#btnHabilitacion").click(function () {
+    showBtnGuardar(true);
+    $("#btnPrev").show();
+    $("#btnNext").show();
+});
+$("#btnCertAptitudAmbiental").click(function () {
+    showBtnGuardar(true);
+    $("#btnPrev").show();
+    $("#btnNext").show();
+});
+$("#btnProduccion").click(function () {
+    showBtnGuardar(true);
+    $("#btnPrev").show();
+    $("#btnNext").show();
+});
+function showBtnGuardar(show) {
+    if (show) {
+        $("#divConfirmar").hide();
+        $("#divGuardar").show();
+    } else {
+        $("#divConfirmar").show();
+        $("#divGuardar").hide();
+    }
+}

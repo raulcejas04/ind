@@ -12,8 +12,9 @@ class PersonaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('nombre', TextType::class, ['label' => 'Nombre','required'=>true])
+                ->add('nombre', TextType::class, ['label' => 'Nombre'])
                 ->add('apellido', TextType::class, ['label' => 'Apellido'])
+                ->add('CUIL', TextType::class, ['label' => 'CUIL'])
                 ->add('telefonoFijo', TextType::class, ['label' => 'Tel. Fijo'])
                 ->add('telefonoMovil', TextType::class, ['label' => 'Tel. Movil'])
                 ->add('email', TextType::class, ['label' => 'E-Mail'])

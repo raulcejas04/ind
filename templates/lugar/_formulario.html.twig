@@ -1,16 +1,19 @@
 {{ form_start(formulario, {'attr': {'novalidate': 'novalidate'}}) }}
 <ul class="nav nav-pills" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="pill" href="#principal">Principal</a>
+    <li class="nav-item" id="tabPrincipal">
+        <a id="btnPrincipal" class="nav-link active" data-toggle="pill" href="#principal">Principal</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="pill" href="#habilitacion">Habilitación</a>
+    <li class="nav-item" id="tabHabilitacion">
+        <a id="btnHabilitacion" class="nav-link" data-toggle="pill" href="#habilitacion">Habilitación</a>
     </li>    
     <li class="nav-item" id="tabCertAptitudAmbiental">
-        <a class="nav-link" data-toggle="pill" href="#certAptitudAmbiental">Cert. Aptitud Ambiental</a>
+        <a id="btnCertAptitudAmbiental" class="nav-link" data-toggle="pill" href="#certAptitudAmbiental">Cert. Aptitud Ambiental</a>
     </li>
     <li class="nav-item" id="tabProduccion">
-        <a class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
+        <a id="btnProduccion" class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
+    </li>
+    <li class="nav-item" id="tabFinalizar">
+        <a id="btnFinalizar" class="nav-link" data-toggle="pill" href="#finalizar">Finalizar</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -18,20 +21,48 @@
         {% include('lugar/principal.html.twig') %}
     </div>
     <div id="habilitacion" class="container tab-pane fade"><br>
-        {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion,'numeroDecreto':formulario.numeroDecreto} only %}
+        {% include 'lugar/habilitacion_municipal.html.twig' with {'habilitacion':formulario.habilitacion,'numeroDecreto':formulario.numeroDecreto,'showButton':showButton} only %}
     </div>
     <div id="certAptitudAmbiental" class="container tab-pane fade"><br>
-        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb,'dispCatProvincial':formulario.dispCatProvincial} only %}
+        {% include 'lugar/cert_aptitud_ambiental.html.twig' with {'certAptitudAmbiental':formulario.certAptitudAmb,'dispCatProvincial':formulario.dispCatProvincial,'showButton':showButton} only %}
     </div>
     <div id="produccion" class="container tab-pane fade"><br>
         {% include 'lugar/produccion.html.twig' %}
     </div>
+    <div id="finalizar" class="container tab-pane fade"><br>
+    </div>
 </div>
 <br/>
+<hr/>
 <br/>
-<br/>
-<div class="float-right">
-    <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Volver a Industria</a>
-    <button type="submit" class="btn btn-primary ">{{ button_label|default('Crear') }}</button>    
+<div class="row">
+    <div class="col-3">
+        <div class="center-block text-center">
+            {% if showButton %}
+                <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Cancelar</a>
+            {% else %}
+                <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Volver</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="center-block text-center">            
+            <button id="btnPrev" type="button" class="btn btn-primary btnPrevious"><i class="fa fa-arrow-left"></i></button>          
+            <button id="btnNext" type="button" class="btn btn-primary btnNext"><i class="fa fa-arrow-right"></i></button>          
+        </div>
+    </div>
+    <div class="col-3">
+        {% if showButton %}
+            <div id="divGuardar" class="center-block text-center">
+                {{ form_widget(formulario.guardar) }}  
+            </div>
+            <div id="divConfirmar" class="center-block text-center">               
+                {{ form_widget(formulario.confirmar) }}
+            </div>
+        {% endif %}
+    </div>
 </div>
+
+
+
 {{ form_end(formulario) }}
