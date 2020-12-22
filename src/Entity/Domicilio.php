@@ -26,8 +26,8 @@ class Domicilio {
 
     /**
      * @ORM\Column(type="string", length=50),
-     * @Assert\Positive(message="Ingrese un número válido",groups={"principal","requerido"}),
-     * @Assert\NotBlank(message="Campo requerido",groups={"principal","requerido"})
+     * @Assert\Positive(message="Ingrese un número válido",groups={"principal","requerido","industria"}),
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","requerido","industria"})
      */
     private $puerta;
 
@@ -49,6 +49,7 @@ class Domicilio {
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Campo requerido",groups={"industria"})
      */
     private $CP;
 

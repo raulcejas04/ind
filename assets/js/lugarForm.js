@@ -1,12 +1,20 @@
 const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
-
 $(document).ready(function () {
-    console.log("took");
     $("#divConfirmar").hide();
-    $("#btnPrincipal").trigger('click');
-    //PRINCIPAL
+    $("#btnPrev").hide();
+    var esConsulta = $("#lugar_esConfirmado").val() === "1" ? true : false;
+    
+    if (esConsulta) {
+        $("#lugar_guardar").hide();
+        $("#lugar_confirmar").hide();
+    }
+    if($("#industria_esConfirmado").val() === "1"){
+        $("#industria_guardarIndustria").hide();
+        $("#industria_confirmarIndustria").hide();
+    }
+//PRINCIPAL
     $(".searchabledropdown").select2();
     if ($("#lugar_esProduccion").is(':checked')) {
         $("#tabCertAptitudAmbiental").show();
@@ -125,7 +133,6 @@ $(document).ready(function () {
         $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
         $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
     });
-
     if ($("#lugar_certAptitudAmb_numero").val() === '') {
         $("#divCertAptitudAmbiental").hide();
         $("#lugar_certAptitudAmb_fechaOtorgamiento").val('01-01-1800');
@@ -147,7 +154,6 @@ $(document).ready(function () {
         $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
     });
-
     //PRODUCCION
     // Residuos industriales
     if (!$("#lugar_tieneResiduosIndustriales").is(':checked')) {
@@ -165,7 +171,6 @@ $(document).ready(function () {
             $('#lugar_destinoVuelcoTipo').val(null).trigger('change');
         }
     });
-
     // Residuos especiales
     if (!$("#lugar_tieneResiduosEspeciales").is(':checked')) {
         $("#divResiduosEspeciales").hide();
@@ -209,7 +214,6 @@ $(document).ready(function () {
             $('#lugar_tipoEmisionGaseosa').val(null).trigger('change');
         }
     });
-
     //denuncias y reclamos
     if (!$("#lugar_tieneDenuncia").is(':checked')) {
         $("#divEspecificacionDenuncia").hide();
@@ -228,7 +232,6 @@ $(document).ready(function () {
     var $provinciaSelect = $('.js-industria-form-provincia');
     var $departamentoTarget = $('.js-departamento-target');
     $provinciaSelect.on('change', function (e) {
-        console.log($provinciaSelect.val());
         if ($provinciaSelect.val() === '') {
             $departamentoTarget.find('select').remove();
             $departamentoTarget.addClass('d-none');
@@ -265,7 +268,6 @@ $(document).ready(function () {
                     }
                     $.ajax({
                         url: $departamentoSelect.data('localidad-url'),
-
                         data: {
                             id: $departamentoSelect.val()
                         },
@@ -291,7 +293,6 @@ $(document).ready(function () {
                                 }
                                 $.ajax({
                                     url: $localidadSelect.data('calle-url'),
-
                                     data: {
                                         id: $localidadSelect.val()
                                     },
@@ -325,8 +326,13 @@ $(document).ready(function () {
             }
         }
         if (i < items.length - 1) {
-            if (i === 1 && !$("#lugar_esProduccion").is(':checked')) {
+            if (i === 0 && esConsulta) {
+                $("#btnHabilitacion").trigger('click');
+            } else if (i === 1 && !$("#lugar_esProduccion").is(':checked')) {
                 $("#btnFinalizar").trigger('click');
+
+            } else if (i === 2 && esConsulta) {
+                $("#btnProduccion").trigger('click');
             } else if (i === 3 && $("#lugar_esProduccion").is(':checked')) {
                 $("#btnFinalizar").trigger('click');
             } else {
@@ -339,7 +345,6 @@ $(document).ready(function () {
             }
         }
     });
-
     $('.btnPrevious').click(function () {
         for (i = 0; i < items.length; i++) {
             if ($(items[i]).hasClass('active') === true) {
@@ -362,33 +367,42 @@ $(document).ready(function () {
         }
     });
 
+    $("#btnFinalizar").click(function () {
+        showBtnGuardar(false);
+        $("#btnPrev").show();
+        $("#btnNext").hide();
+    });
+    $("#btnPrincipal").click(function () {
+        showBtnGuardar(true);
+        $("#btnPrev").hide();
+        $("#btnNext").show();
+    });
+    $("#btnHabilitacion").click(function () {
+        showBtnGuardar(true);
+        $("#btnNext").show();
+        if (esConsulta && !$("#lugar_esProduccion").is(':checked')) {
+            $("#btnNext").hide();
+        }
+        $("#btnPrev").show();
+    });
+    $("#btnCertAptitudAmbiental").click(function () {
+        showBtnGuardar(true);
+        $("#btnPrev").show();
+        $("#btnNext").show();
+    });
+    $("#btnProduccion").click(function () {
+        showBtnGuardar(true);
+        console.log(esConsulta);
+        if (!esConsulta) {
+            $("#btnNext").show();
+        } else {
+            $("#btnNext").hide();
+        }
+        $("#btnPrev").show();
 
+    });
 });
-$("#btnFinalizar").click(function () {
-    showBtnGuardar(false);
-    $("#btnPrev").show();
-    $("#btnNext").hide();
-});
-$("#btnPrincipal").click(function () {
-    showBtnGuardar(true);
-    $("#btnPrev").hide();
-    $("#btnNext").show();
-});
-$("#btnHabilitacion").click(function () {
-    showBtnGuardar(true);
-    $("#btnPrev").show();
-    $("#btnNext").show();
-});
-$("#btnCertAptitudAmbiental").click(function () {
-    showBtnGuardar(true);
-    $("#btnPrev").show();
-    $("#btnNext").show();
-});
-$("#btnProduccion").click(function () {
-    showBtnGuardar(true);
-    $("#btnPrev").show();
-    $("#btnNext").show();
-});
+
 function showBtnGuardar(show) {
     if (show) {
         $("#divConfirmar").hide();
