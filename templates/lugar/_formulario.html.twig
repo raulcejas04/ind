@@ -1,19 +1,19 @@
 {{ form_start(formulario, {'attr': {'novalidate': 'novalidate'}}) }}
 <ul class="nav nav-pills" role="tablist">
     <li class="nav-item" id="tabPrincipal">
-        <a class="nav-link active" data-toggle="pill" href="#principal">Principal</a>
+        <a id="btnPrincipal" class="nav-link active" data-toggle="pill" href="#principal">Principal</a>
     </li>
     <li class="nav-item" id="tabHabilitacion">
-        <a class="nav-link" data-toggle="pill" href="#habilitacion">Habilitación</a>
+        <a id="btnHabilitacion" class="nav-link" data-toggle="pill" href="#habilitacion">Habilitación</a>
     </li>    
     <li class="nav-item" id="tabCertAptitudAmbiental">
-        <a class="nav-link" data-toggle="pill" href="#certAptitudAmbiental">Cert. Aptitud Ambiental</a>
+        <a id="btnCertAptitudAmbiental" class="nav-link" data-toggle="pill" href="#certAptitudAmbiental">Cert. Aptitud Ambiental</a>
     </li>
     <li class="nav-item" id="tabProduccion">
-        <a class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
+        <a id="btnProduccion" class="nav-link" data-toggle="pill" href="#produccion">Producción</a>
     </li>
     <li class="nav-item" id="tabFinalizar">
-        <a class="nav-link" data-toggle="pill" href="#finalizar">Finalizar</a>
+        <a id="btnFinalizar" class="nav-link" data-toggle="pill" href="#finalizar">Finalizar</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -30,27 +30,39 @@
         {% include 'lugar/produccion.html.twig' %}
     </div>
     <div id="finalizar" class="container tab-pane fade"><br>
-        <div class="row">
-            <div class="col-12">
-                <div id="divConfirmar" class="center-block text-center">
-                    <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Cancelar</a>
-                    {{ form_widget(formulario.confirmar) }}
-                </div>
-            </div>
+    </div>
+</div>
+<br/>
+<hr/>
+<br/>
+<div class="row">
+    <div class="col-3">
+        <div class="center-block text-center">
+            {% if showButton %}
+                <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Cancelar</a>
+            {% else %}
+                <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Volver</a>
+            {% endif %}
         </div>
+    </div>
+    <div class="col-6">
+        <div class="center-block text-center">            
+            <button id="btnPrev" type="button" class="btn btn-primary btnPrevious"><i class="fa fa-arrow-left"></i></button>          
+            <button id="btnNext" type="button" class="btn btn-primary btnNext"><i class="fa fa-arrow-right"></i></button>          
+        </div>
+    </div>
+    <div class="col-3">
+        {% if showButton %}
+            <div id="divGuardar" class="center-block text-center">
+                {{ form_widget(formulario.guardar) }}  
+            </div>
+            <div id="divConfirmar" class="center-block text-center">               
+                {{ form_widget(formulario.confirmar) }}
+            </div>
+        {% endif %}
     </div>
 </div>
 
-{% if showButton %}
-    <br/>
-    <br/>
-    <br/>
-    <div class="float-right">   
-        <span id="divGuardar">
-            <a class="btn btn-secondary " href="{{ path("industria_nuevo") }}">Cancelar</a>
-            {{ form_widget(formulario.guardar) }}  
-        </span>
-    </div>
-{% endif %}
+
 
 {{ form_end(formulario) }}
