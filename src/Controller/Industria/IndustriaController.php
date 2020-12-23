@@ -20,6 +20,7 @@ class IndustriaController extends AbstractController {
      */
     public function nuevo(Request $request): Response {
 //si no existe el parametro username aplica -1
+        $showAlertLugares = false;
         $cuit = $request->get("usernane", -1);
         $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
         if (is_null($industria->getCUIT())) {
@@ -41,7 +42,13 @@ class IndustriaController extends AbstractController {
             $esConfirmado = false;
             if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
                 $esConfirmado = true;
-                $this->RemoverLugaresNoConfirmados($industria, $entityManager);
+                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
+                return $this->render('industria/nuevo.html.twig', [
+                            'formulario' => $formulario->createView(),
+                            'lugares' => $industria->getLugares(),
+                            'industriaConfirmada' => $industria->getEsConfirmado(),
+                            'showAlertLugares' => $showAlertLugares
+                ]);
             }
             $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
@@ -79,7 +86,8 @@ class IndustriaController extends AbstractController {
         return $this->render('industria/nuevo.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugares' => $industria->getLugares(),
-                    'industriaConfirmada' => $industria->getEsConfirmado()
+                    'industriaConfirmada' => $industria->getEsConfirmado(),
+                    'showAlertLugares' => $showAlertLugares
         ]);
     }
 
@@ -154,14 +162,16 @@ class IndustriaController extends AbstractController {
         return $formulario;
     }
 
-    public function RemoverLugaresNoConfirmados(Industria $industria, $entityManager) {
+    public function ValidarNoLugaresPendientes(Industria $industria): bool {
+        $hayNoConfirmados = false;
         $lugares = $industria->getLugares();
         foreach ($lugares as $lugar) {
             if (!$lugar->getEsConfirmado()) {
-                $entityManager->remove($lugar);
-                $industria->removeLugare($lugar);
+                $hayNoConfirmados = true;
+                break;
             }
         }
+        return $hayNoConfirmados;
     }
 
 }
