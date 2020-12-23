@@ -8,9 +8,8 @@
         {% if industriaConfirmada == 1 %}
             <a class="btn btn-info" href="{{ path("lugar_consultar",{"id":lugar.id}) }}"><span class="fa fa-search"></span></a>   
             {% else %}
-            <button type="submit" name="modificarLugar" class="btn btn-success"><span class="fa fa-edit"></span></button>     
-            <input type="hidden" name="_idLugar" value="{{ lugar.id }}">
-            <button type="submit" name="eliminarLugar" class="btn btn-danger"><span class="fa fa-trash"></span></button> 
+            <button type="submit" name="modificarLugar" class="btn btn-success"><span class="fa fa-edit"></span></button>                 
+            <button type="button" data-lugar-id="{{ lugar.id }}" class="btnEliminarLugar btn btn-danger"><span class="fa fa-trash"></span></button> 
             {% endif %}
     </div>
 </div>

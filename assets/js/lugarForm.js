@@ -2,6 +2,13 @@ const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 $(document).ready(function () {
+    $(".btnEliminarLugar").click(function () {
+        $("#hiddenIdLugar").val($(this).data("lugarId"));
+        $("#modalEliminarLugar").modal('show');
+    });
+    $("#btnAbrirModalConfirmarIndustria").click(function () {
+        $("#modalConfirmarIndustria").modal('show');
+    });
     $("#divConfirmar").hide();
     $("#btnPrev").hide();
     var esConsulta = $("#hiddenEsConsulta").val() === "1" ? true : false;
@@ -10,7 +17,7 @@ $(document).ready(function () {
         $("#lugar_guardar").hide();
         $("#lugar_confirmar").hide();
     }
-    if($("#industria_esConfirmado").val() === "1"){
+    if ($("#industria_esConfirmado").val() === "1") {
         $("#industria_guardarIndustria").hide();
         $("#industria_confirmarIndustria").hide();
     }
