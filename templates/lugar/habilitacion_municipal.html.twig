@@ -5,13 +5,14 @@
             <div class="pr-4 pt-2">
                 ¿Tiene habilitación municipal?
             </div>
-            <div class="btn-group mr-2" role="group">
-                <button id="btnHabilitacionSi" type="button" class="btn btn-primary">Si</button>
-            </div>
-            <div class="btn-group mr-2" role="group">            
-                <button id="btnHabilitacionNo" type="button" class="btn btn-primary">No</button>
-            </div>
-            
+            {% if showButton %}
+                <div class="btn-group mr-2" role="group">
+                    <button id="btnHabilitacionSi" type="button" class="btn btn-primary">Si</button>
+                </div>
+                <div class="btn-group mr-2" role="group">            
+                    <button id="btnHabilitacionNo" type="button" class="btn btn-primary">No</button>
+                </div>
+            {% endif %}
             {{ form_widget(habilitacion.tieneHabilitacion) }}
         </div> 
     </div>

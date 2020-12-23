@@ -25,13 +25,15 @@ class Domicilio {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     * @Assert\Positive
+     * @ORM\Column(type="string", length=50),
+     * @Assert\Positive(message="Ingrese un número válido",groups={"principal","requerido","industria"}),
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","requerido","industria"})
      */
     private $puerta;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255),
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","requerido"})
      */
     private $calleAlternativa;
 
@@ -47,6 +49,7 @@ class Domicilio {
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Campo requerido",groups={"industria"})
      */
     private $CP;
 

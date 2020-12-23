@@ -30,20 +30,55 @@ class LugarController extends AbstractController {
         if ($lugar->getDomicilio() == null) {
             $this->SetearDomicilio($lugar);
         }
+
         $formulario = $this->GetFormularioConValidacion($request, $lugar);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $esConfirmado = false;
+            if ($formulario->getClickedButton() && 'confirmar' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
+            $lugar->setEsConfirmado($esConfirmado);
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
+            $this->EliminarHorariosTrabajoInvalidos($lugar);
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
         }
         return $this->render('lugar/nuevo.html.twig', [
-                    'formulario' => $formulario->createView(), 'lugar' => $lugar
+                    'formulario' => $formulario->createView(), 'lugar' => $lugar,
+                    'showButton' => true,
+                    'consulta' => false,
+        ]);
+    }
+
+    /**
+     * @Route("/industria/lugar/consultar/{id}",name="lugar_consultar")
+     */
+    public function Consultar(Request $request, $id): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        $lugar = $entityManager->getRepository(Lugar::class)->find($id);
+        if (!$lugar) {
+            throw $this->createNotFoundException(
+                    'No existe un lugar con este id: ' . $id
+            );
+        }
+        if ($lugar->getDomicilio() == null) {
+            $this->SetearDomicilio($lugar);
+        }
+        $this->CrearHorariosTrabajo($lugar);
+        $formulario = $this->createForm(LugarType::class, $lugar, array(
+            'disabled' => true,
+        ));
+        return $this->render('lugar/modificar.html.twig', [
+                    'formulario' => $formulario->createView(),
+                    'lugar' => $lugar,
+                    'showButton' => false,
+                    'consulta' => true
         ]);
     }
 
@@ -61,16 +96,26 @@ class LugarController extends AbstractController {
         if ($lugar->getDomicilio() == null) {
             $this->SetearDomicilio($lugar);
         }
+
+        $this->CrearHorariosTrabajo($lugar);
         $formulario = $this->GetFormularioConValidacion($request, $lugar);
         $formulario->handleRequest($request);
-
         if ($formulario->isSubmitted() && $formulario->isValid()) {
+            $esConfirmado = false;
+            if ($formulario->getClickedButton() && 'confirmar' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
             $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
-            $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);            
+            $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
+            if (!$lugar->getEsProduccion()) {
+                $lugar->setFechaUltimaInpeccion(null);
+            }
+            $lugar->setEsConfirmado($esConfirmado);
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
+            $this->EliminarHorariosTrabajoInvalidos($lugar);
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -78,7 +123,9 @@ class LugarController extends AbstractController {
         return $this->render('lugar/modificar.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,
-                    'button_label' => 'Guardar Cambios'
+                    'button_label' => 'Guardar Cambios',
+                    'showButton' => true,
+                    'consulta' => false
         ]);
     }
 
@@ -94,14 +141,40 @@ class LugarController extends AbstractController {
     }
 
     public function CrearHorariosTrabajo(Lugar $lugar) {
+        $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
         if ($lugar->getHorariosTrabajo()->count() == 0) {
-            $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
             foreach ($dias as $dia) {
                 $horario = new HorariosTrabajo();
                 $horario->setDia($dia);
                 $lugar->addHorariosTrabajo($horario);
             }
+        } else {
+            foreach ($dias as $dia) {
+                $tieneDia = false;
+                foreach ($lugar->getHorariosTrabajo() as $diaExistente) {
+                    if ($diaExistente->getDia() == $dia) {
+                        $tieneDia = true;
+                    }
+                    if ($tieneDia) {
+                        break;
+                    }
+                }
+                if (!$tieneDia) {
+                    $horario = new HorariosTrabajo();
+                    $horario->setDia($dia);
+                    $lugar->addHorariosTrabajo($horario);
+                }
+            }
         }
+    }
+
+    public function EliminarHorariosTrabajoInvalidos(Lugar $lugar) {
+        foreach ($lugar->getHorariosTrabajo() as $dia) {
+            if ($dia->getHoraInicio()->getTimestamp() == "0" && $dia->getHoraFin()->getTimestamp() == "0") {
+                $lugar->removeHorariosTrabajo($dia);
+            }
+        }
+        return $lugar;
     }
 
     public function SetearDomicilio(Lugar $lugar) {
@@ -116,22 +189,45 @@ class LugarController extends AbstractController {
     public function GetGruposValidacion($request) {
         $validationGroups = [];
         $lugar = $request->request->get('lugar');
-        if ($lugar["habilitacion"]["tieneHabilitacion"] == 'si') {
-            $tipoHabilitacion = $lugar["habilitacion"]["tipo"];
-            array_push($validationGroups, "habilitacion");
-            if ($tipoHabilitacion == 35075) {
-                array_push($validationGroups, "expediente");
+        if (array_key_exists("confirmar", $lugar)) {
+            array_push($validationGroups, "principal");
+            if ($lugar["habilitacion"]["tieneHabilitacion"] == 'si') {
+                $tipoHabilitacion = $lugar["habilitacion"]["tipo"];
+                array_push($validationGroups, "habilitacion");
+                if ($tipoHabilitacion == 35075) {
+                    array_push($validationGroups, "expediente");
+                }
+                if ($tipoHabilitacion == 35074 || $tipoHabilitacion == 35073) {
+                    array_push($validationGroups, "expediente");
+                    array_push($validationGroups, "definitiva");
+                }
             }
-            if ($tipoHabilitacion == 35074 || $tipoHabilitacion == 35073) {
-                array_push($validationGroups, "expediente");
-                array_push($validationGroups, "definitiva");
+            if (array_key_exists("esProduccion", $lugar)) {
+                if ($lugar["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
+                    array_push($validationGroups, "certAptitudAmb");
+                }
+                if ($lugar["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
+                    array_push($validationGroups, "catProvincial");
+                }
+                if (array_key_exists("tieneResiduosIndustriales", $lugar)) {
+                    array_push($validationGroups, "residuosIndustriales");
+                }
+                if (array_key_exists("tieneResiduosEspeciales", $lugar)) {
+                    array_push($validationGroups, "residuosEspeciales");
+                    if (array_key_exists("tieneEmisionesGaseosas", $lugar)) {
+                        array_push($validationGroups, "emisionesGaseosas");
+                    }
+                }
+                if (array_key_exists("tieneDenuncia", $lugar)) {
+                    array_push($validationGroups, "denuncias");
+                }
+                array_push($validationGroups, "produccion");
             }
-        }
-        if ($lugar["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
-            array_push($validationGroups, "certAptitudAmb");
-        }
-        if ($lugar["dispCatProvincial"]["tieneCatProvincial"] == 'si') {
-            array_push($validationGroups, "catProvincial");
+            if (array_key_exists("esExportador", $lugar)) {
+                array_push($validationGroups, "paises");
+            }
+        } else {
+            array_push($validationGroups, "requerido");
         }
         return $validationGroups;
     }

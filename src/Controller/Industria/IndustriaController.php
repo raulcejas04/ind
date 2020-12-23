@@ -19,7 +19,7 @@ class IndustriaController extends AbstractController {
      * @Route("/industria/nuevo",name="industria_nuevo")
      */
     public function nuevo(Request $request): Response {
-        //si no existe el parametro username aplica -1
+//si no existe el parametro username aplica -1
         $cuit = $request->get("usernane", -1);
         $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
         if (is_null($industria->getCUIT())) {
@@ -32,11 +32,17 @@ class IndustriaController extends AbstractController {
             $em->persist($industria);
             $em->flush();
         }
-        $formulario = $this->createForm(Industriatype::class, $industria);
+        $formulario = $this->GetFormularioConValidacion($request, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
+            $esConfirmado = false;
+            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+                $this->RemoverLugaresNoConfirmados($industria, $entityManager);
+            }
             $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
             if ($d != null) {
@@ -54,15 +60,26 @@ class IndustriaController extends AbstractController {
                 }
             }
 
-
-            $industria->getTitular()->setCUIL('123135465');
+            $industria->setEsConfirmado($esConfirmado);
+            $industria->setDomicilio($domicilio);
+            $entityManager->persist($domicilio);
             $entityManager->persist($industria);
             $entityManager->flush();
-            return $this->redirectToRoute('admin_usuarios');
+            if ($request->request->has('nuevoLugar')) {
+                return $this->redirectToRoute('lugar_nuevo');
+            } else if ($request->request->has('modificarLugar')) {
+                $idLugar = $request->request->get('_idLugar');
+                return $this->redirectToRoute('lugar_modificar', array('id' => $idLugar));
+            } else if ($request->request->has('eliminarLugar')) {
+                $idLugar = $request->request->get('_idLugar');
+                return $this->redirectToRoute('lugar_eliminar', array('id' => $idLugar));
+            }
+            return $this->redirectToRoute('industria_nuevo');
         }
         return $this->render('industria/nuevo.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugares' => $industria->getLugares(),
+                    'industriaConfirmada' => $industria->getEsConfirmado()
         ]);
     }
 
@@ -74,7 +91,7 @@ class IndustriaController extends AbstractController {
         $provincia = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('provincia'));
         $domicilio->setProvincia($provincia);
         $form = $this->createForm(DomicilioType::class, $domicilio);
-        // no field? Return an empty response
+// no field? Return an empty response
         if (!$form->has('departamento')) {
             return new Response(null, 204);
         }
@@ -91,7 +108,7 @@ class IndustriaController extends AbstractController {
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setDepartamento($id);
         $form = $this->createForm(DomicilioType::class, $domicilio);
-        // no field? Return an empty response
+// no field? Return an empty response
         if (!$form->has('localidad')) {
             return new Response(null, 204);
         }
@@ -108,13 +125,43 @@ class IndustriaController extends AbstractController {
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setLocalidad($id);
         $form = $this->createForm(DomicilioType::class, $domicilio);
-        // no field? Return an empty response
+// no field? Return an empty response
         if (!$form->has('calle')) {
             return new Response(null, 204);
         }
         return $this->render('domicilio/_calle.html.twig', [
                     'domicilio' => $form->createView(),
         ]);
+    }
+
+    public function GetFormularioConValidacion($request, $industria) {
+        $industriaRequest = $request->request->get('industria');
+        $disabled = false;
+        if ($industria->getEsConfirmado()) {
+            $disabled = true;
+        }
+        if (is_null($request->request->get('industria')) || array_key_exists("confirmarIndustria", $industriaRequest)) {
+            $formulario = $this->createForm(IndustriaType::class, $industria, array(
+                'validation_groups' => "industria",
+                'disabled' => $disabled
+            ));
+        } else {
+            $formulario = $this->createForm(IndustriaType::class, $industria, array(
+                'validation_groups' => false,
+                'disabled' => $disabled
+            ));
+        }
+        return $formulario;
+    }
+
+    public function RemoverLugaresNoConfirmados(Industria $industria, $entityManager) {
+        $lugares = $industria->getLugares();
+        foreach ($lugares as $lugar) {
+            if (!$lugar->getEsConfirmado()) {
+                $entityManager->remove($lugar);
+                $industria->removeLugare($lugar);
+            }
+        }
     }
 
 }

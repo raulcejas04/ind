@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class HorarioTrabajoType extends AbstractType {
 
@@ -17,7 +18,7 @@ class HorarioTrabajoType extends AbstractType {
         $builder
                 ->add('dia', EntityType::class, [
                     'class' => General::class,
-                   'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
                                 ->where('t.tipo = :tipo')
@@ -34,7 +35,7 @@ class HorarioTrabajoType extends AbstractType {
                 ->add('horaFin', TimeType::class, [
                     'input' => 'datetime',
                     'widget' => 'choice',
-                    'label'=>''
+                    'label' => ''
                 ])
         ;
     }

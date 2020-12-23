@@ -31,39 +31,74 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal","requerido"})
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
-     * @Assert\NotBlank
+     * @ORM\Column(type="integer", nullable=true)     
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $qPersonal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
-     * @Assert\NotBlank
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalFemenino;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})     
      */
     private $superficieTotal;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $siperficieCubierta;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})     
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
      */
     private $superficieLibre;
 
@@ -80,6 +115,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $CURT;
 
@@ -88,6 +126,9 @@ class Lugar {
      * @Assert\LessThanOrEqual(
      * value="today UTC",
      * message="Fecha inválida")
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $fechaUltimaInpeccion;
 
@@ -98,6 +139,9 @@ class Lugar {
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"denuncias"},
+     * message="Campo requerido.")
      */
     private $denunciasEspecificaciones;
 
@@ -121,7 +165,14 @@ class Lugar {
 
     /**
      * @ORM\ManyToMany(targetEntity=General::class)
-     * @ORM\JoinTable(name="lugares_paises")
+     * @ORM\JoinTable(name="lugares_paises")     
+     * @Assert\Count(
+     *      groups={"paises"},
+     *      min = 1,
+     *      max = 104,
+     *      minMessage = "Debe elegir al menos un país.",
+     *      maxMessage = "No puede elegir más de {{ limit }} paises."
+     * )
      */
     private $paises;
 
@@ -137,31 +188,66 @@ class Lugar {
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
+     *  @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalTrans;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalDiscapacidad;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive
+     * @Assert\GreaterThanOrEqual(
+     * value = 0,
+     * message="Ingrese un número positivo o 0",
+     * groups={"principal"})
+     * @Assert\NotBlank(
+     * message="Campo requerido",
+     * groups={"principal"})
+     * @Assert\LessThanOrEqual(
+     * message="No puede ser mayor que la cantidad total de personal",
+     * propertyPath="qPersonal",
+     * groups={"principal"}
+     * )
      */
     private $qPersonalResidenteAvellaneda;
 
     /**
      * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="lugares")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"principal","requerido"})
      */
     private $domicilio;
 
     /**
      * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="lugaresEsApoderado",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"principal","requerido"})
      */
     private $apoderado;
 
@@ -186,6 +272,10 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduoIndustrial")
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoIndustrial;
 
@@ -206,11 +296,19 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduosEspeciales")
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoResiduoEspecial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosEspeciales"},
+     * message="Campo requerido."
+     * )
      */
     private $corrientes;
 
@@ -221,21 +319,36 @@ class Lugar {
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"emisionesGaseosas"},
+     * message="Campo requerido."
+     * )
      */
     private $tipoEmisionGaseosa;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(
+     * groups={"produccion"},
+     * message="Campo requerido.")
      */
     private $potenciaTotalUtilizada;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $residuoIndustrial;
 
     /**
      * @ORM\ManyToOne(targetEntity=general::class)
+     * @Assert\NotBlank(
+     * groups={"residuosIndustriales"},
+     * message="Campo requerido."
+     * )
      */
     private $destinoVuelcoTipo;
 
@@ -255,6 +368,11 @@ class Lugar {
      * @Assert\Valid
      */
     private $dispCatProvincial;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $esConfirmado;
 
     public function __construct() {
         $this->industria = new ArrayCollection();
@@ -520,7 +638,7 @@ class Lugar {
         return $this->qPersonalTrans;
     }
 
-    public function setQPersonalTrans(int $qPersonalTrans): self {
+    public function setQPersonalTrans(?int $qPersonalTrans): self {
         $this->qPersonalTrans = $qPersonalTrans;
 
         return $this;
@@ -530,7 +648,7 @@ class Lugar {
         return $this->qPersonalDiscapacidad;
     }
 
-    public function setQPersonalDiscapacidad(int $qPersonalDiscapacidad): self {
+    public function setQPersonalDiscapacidad(?int $qPersonalDiscapacidad): self {
         $this->qPersonalDiscapacidad = $qPersonalDiscapacidad;
 
         return $this;
@@ -540,7 +658,7 @@ class Lugar {
         return $this->qPersonalResidenteAvellaneda;
     }
 
-    public function setQPersonalResidenteAvellaneda(int $qPersonalResidenteAvellaneda): self {
+    public function setQPersonalResidenteAvellaneda(?int $qPersonalResidenteAvellaneda): self {
         $this->qPersonalResidenteAvellaneda = $qPersonalResidenteAvellaneda;
 
         return $this;
@@ -739,6 +857,16 @@ class Lugar {
 
     public function setDispCatProvincial(?dispCatProvincial $dispCatProvincial): self {
         $this->dispCatProvincial = $dispCatProvincial;
+
+        return $this;
+    }
+
+    public function getEsConfirmado(): ?bool {
+        return $this->esConfirmado;
+    }
+
+    public function setEsConfirmado(bool $esConfirmado): self {
+        $this->esConfirmado = $esConfirmado;
 
         return $this;
     }

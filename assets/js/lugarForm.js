@@ -1,10 +1,20 @@
 const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
-
 $(document).ready(function () {
-    //PRINCIPAL
-
+    $("#divConfirmar").hide();
+    $("#btnPrev").hide();
+    var esConsulta = $("#hiddenEsConsulta").val() === "1" ? true : false;
+    console.log(esConsulta);
+    if (esConsulta) {
+        $("#lugar_guardar").hide();
+        $("#lugar_confirmar").hide();
+    }
+    if($("#industria_esConfirmado").val() === "1"){
+        $("#industria_guardarIndustria").hide();
+        $("#industria_confirmarIndustria").hide();
+    }
+//PRINCIPAL
     $(".searchabledropdown").select2();
     if ($("#lugar_esProduccion").is(':checked')) {
         $("#tabCertAptitudAmbiental").show();
@@ -17,9 +27,18 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $("#tabCertAptitudAmbiental").show();
             $("#tabProduccion").show();
+            $("#lugar_fechaUltimaInpeccion").val("");
         } else {
             $("#tabCertAptitudAmbiental").hide();
             $("#tabProduccion").hide();
+            $("#lugar_fechaUltimaInpeccion").val('01-01-1800');
+            $("#lugar_CURT").val("");
+            $("#lugar_potenciaTotalUtilizada").val("");
+            $("#lugar_tieneResiduosIndustriales").prop('checked', false).trigger('change');
+            $("#lugar_tieneResiduosEspeciales").prop('checked', false).trigger('change');
+            $("#lugar_tieneDenuncia").prop('checked', false).trigger('change');
+            $('#btnDisposicionNo').trigger('click');
+            $('#btnCertNo').trigger('click');
         }
     });
     //lista de paises solo aparece si checkbox exporta es checked
@@ -93,16 +112,14 @@ $(document).ready(function () {
         $("#lugar_habilitacion_tieneHabilitacion").val('no');
         $("#modalNoHabilitado").modal('show');
     });
-
-console.log("changes");
     //CERTIFICADO DE APTITUD AMBIENTAL
-    if ($("#lugar_dispCatProvincial_numero").val() === '') {        
+    if ($("#lugar_dispCatProvincial_numero").val() === '') {
         $("#divDisposicion").hide();
         $("#lugar_dispCatProvincial_fechaOtorgDispProv").val('01-01-1800');
         $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
         $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
-    }else{
-         $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
+    } else {
+        $("#lugar_dispCatProvincial_tieneCatProvincial").val('si');
     }
     $("#btnDisposicionSi").click(function () {
         $("#divDisposicion").show();
@@ -116,13 +133,12 @@ console.log("changes");
         $('#lugar_dispCatProvincial_categoria').val(null).trigger('change');
         $("#lugar_dispCatProvincial_tieneCatProvincial").val('no');
     });
-
     if ($("#lugar_certAptitudAmb_numero").val() === '') {
         $("#divCertAptitudAmbiental").hide();
         $("#lugar_certAptitudAmb_fechaOtorgamiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
-    }else{
+    } else {
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('si');
     }
     $("#btnCertSi").click(function () {
@@ -138,7 +154,6 @@ console.log("changes");
         $("#lugar_certAptitudAmb_fechaVencimiento").val('01-01-1800');
         $("#lugar_certAptitudAmb_tieneCertAptitudAmb").val('no');
     });
-
     //PRODUCCION
     // Residuos industriales
     if (!$("#lugar_tieneResiduosIndustriales").is(':checked')) {
@@ -156,7 +171,6 @@ console.log("changes");
             $('#lugar_destinoVuelcoTipo').val(null).trigger('change');
         }
     });
-
     // Residuos especiales
     if (!$("#lugar_tieneResiduosEspeciales").is(':checked')) {
         $("#divResiduosEspeciales").hide();
@@ -200,7 +214,6 @@ console.log("changes");
             $('#lugar_tipoEmisionGaseosa').val(null).trigger('change');
         }
     });
-
     //denuncias y reclamos
     if (!$("#lugar_tieneDenuncia").is(':checked')) {
         $("#divEspecificacionDenuncia").hide();
@@ -219,7 +232,6 @@ console.log("changes");
     var $provinciaSelect = $('.js-industria-form-provincia');
     var $departamentoTarget = $('.js-departamento-target');
     $provinciaSelect.on('change', function (e) {
-        console.log($provinciaSelect.val());
         if ($provinciaSelect.val() === '') {
             $departamentoTarget.find('select').remove();
             $departamentoTarget.addClass('d-none');
@@ -256,7 +268,6 @@ console.log("changes");
                     }
                     $.ajax({
                         url: $departamentoSelect.data('localidad-url'),
-
                         data: {
                             id: $departamentoSelect.val()
                         },
@@ -282,7 +293,6 @@ console.log("changes");
                                 }
                                 $.ajax({
                                     url: $localidadSelect.data('calle-url'),
-
                                     data: {
                                         id: $localidadSelect.val()
                                     },
@@ -307,6 +317,98 @@ console.log("changes");
             }
         });
     });
+    var i, items = $('.nav-link'), pane = $('.tab-pane');
+    $('.btnNext').click(function () {
 
+        for (i = 0; i < items.length; i++) {
+            if ($(items[i]).hasClass('active') === true) {
+                break;
+            }
+        }
+        if (i < items.length - 1) {
+            if (i === 0 && esConsulta) {
+                $("#btnHabilitacion").trigger('click');
+            } else if (i === 1 && !$("#lugar_esProduccion").is(':checked')) {
+                $("#btnFinalizar").trigger('click');
 
+            } else if (i === 2 && esConsulta) {
+                $("#btnProduccion").trigger('click');
+            } else if (i === 3 && $("#lugar_esProduccion").is(':checked')) {
+                $("#btnFinalizar").trigger('click');
+            } else {
+                $(items[i]).removeClass('active');
+                $(items[i + 1]).addClass('active');
+                $(pane[i]).removeClass('show active');
+                $(pane[i + 1]).addClass('show active');
+                $("#btnPrev").show();
+                $("#btnNext").show();
+            }
+        }
+    });
+    $('.btnPrevious').click(function () {
+        for (i = 0; i < items.length; i++) {
+            if ($(items[i]).hasClass('active') === true) {
+                break;
+            }
+        }
+        if (i !== 0) {
+            if (i === 4 && !$("#lugar_esProduccion").is(':checked')) {
+                $("#btnHabilitacion").trigger('click');
+            } else if (i === 1) {
+                $("#btnPrincipal").trigger('click');
+            } else {
+                $(items[i]).removeClass('active');
+                $(items[i - 1]).addClass('active');
+                $(pane[i]).removeClass('show active');
+                $(pane[i - 1]).addClass('show active');
+                $("#btnPrev").show();
+                $("#btnNext").show();
+            }
+        }
+    });
+
+    $("#btnFinalizar").click(function () {
+        showBtnGuardar(false);
+        $("#btnPrev").show();
+        $("#btnNext").hide();
+    });
+    $("#btnPrincipal").click(function () {
+        showBtnGuardar(true);
+        $("#btnPrev").hide();
+        $("#btnNext").show();
+    });
+    $("#btnHabilitacion").click(function () {
+        showBtnGuardar(true);
+        $("#btnNext").show();
+        if (esConsulta && !$("#lugar_esProduccion").is(':checked')) {
+            $("#btnNext").hide();
+        }
+        $("#btnPrev").show();
+    });
+    $("#btnCertAptitudAmbiental").click(function () {
+        showBtnGuardar(true);
+        $("#btnPrev").show();
+        $("#btnNext").show();
+    });
+    $("#btnProduccion").click(function () {
+        showBtnGuardar(true);
+        console.log(esConsulta);
+        if (!esConsulta) {
+            $("#btnNext").show();
+        } else {
+            $("#btnNext").hide();
+        }
+        $("#btnPrev").show();
+
+    });
 });
+
+function showBtnGuardar(show) {
+    if (show) {
+        $("#divConfirmar").hide();
+        $("#divGuardar").show();
+    } else {
+        $("#divConfirmar").show();
+        $("#divGuardar").hide();
+    }
+}

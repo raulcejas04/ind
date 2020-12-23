@@ -29,8 +29,10 @@ class Persona {
      * @Assert\Regex(
      *     pattern="/^\d{2}\-\d{8}\-\d{1}$/",
      *     match=true,
-     *     message="CUIL inválido."
+     *     message="CUIL inválido.",
+     *     groups={"principal","industria"}
      * )
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $CUIL;
 
@@ -39,16 +41,20 @@ class Persona {
      *  @Assert\Regex(
      *     pattern="/^\d+\-?\s?\d+\-?\s?\d+$/",
      *     match=true,
-     *     message="Teléfono inválido."
+     *     message="Teléfono inválido.",
+     *     groups={"principal","industria"}
      * )
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $telefonoFijo;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email(
-     *     message = "El e-mail '{{ value }}' no es válido."
+     *     message = "El e-mail '{{ value }}' no es válido.",
+     *     groups={"principal","industria"}
      * )
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $email;
 
@@ -69,11 +75,13 @@ class Persona {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $apellido;
 
@@ -82,8 +90,10 @@ class Persona {
      *  @Assert\Regex(
      *     pattern="/^\d+\-?\s?\d+\-?\s?\d+$/",
      *     match=true,
-     *     message="Teléfono inválido."
+     *     message="Teléfono inválido.",
+     *     groups={"principal","industria"}
      * )
+     * @Assert\NotBlank(message="Campo requerido",groups={"principal","industria"})
      */
     private $telefonoMovil;
 

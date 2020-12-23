@@ -121,6 +121,18 @@
                 </div> 
             </div>
         </div>
+        {% if showButton %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        Si la hora de inicio y la hora de fin es 00:00, no se considerará un día de trabajo.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
             <div class="col-sm-12 pb-2">
                 <table class="table table-hover table-bordered table-lg">
@@ -144,7 +156,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for horario in formulario.horariosTrabajo %}
+                        {% for horario in formulario.horariosTrabajo|sort((a, b) => a.dia <=> b.dia) %}
                             <tr class="d-flex" >
                                 <td class="col-4"> 
                                     {{ form_widget(horario.dia) }}
@@ -191,6 +203,7 @@
                     {{ form_widget(formulario.esExportador) }}
                 </div> 
                 <div class="form-group" id="divSeleccionPaises">
+                    {{ form_errors(formulario.paises)}}
                     {{ form_widget(formulario.paises, { 'attr': {'class': 'searchabledropdown'} }) }}
                 </div> 
             </div> 
