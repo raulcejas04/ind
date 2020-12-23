@@ -78,7 +78,7 @@ class IndustriaController extends AbstractController {
                 $idLugar = $request->request->get('_idLugar');
                 return $this->redirectToRoute('lugar_modificar', array('id' => $idLugar));
             } else if ($request->request->has('eliminarLugar')) {
-                $idLugar = $request->request->get('_idLugar');
+                $idLugar = $request->request->get('_idLugarEliminar');
                 return $this->redirectToRoute('lugar_eliminar', array('id' => $idLugar));
             }
             return $this->redirectToRoute('industria_nuevo');

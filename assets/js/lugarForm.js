@@ -2,6 +2,7 @@ const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 $(document).ready(function () {
+    $(".hideProduccion").hide();
     $(".btnEliminarLugar").click(function () {
         $("#hiddenIdLugar").val($(this).data("lugarId"));
         $("#modalEliminarLugar").modal('show');
@@ -163,6 +164,52 @@ $(document).ready(function () {
     });
     //PRODUCCION
     // Residuos industriales
+    $("#btnResiduosIndustrialesSi").click(function () {
+        $("#lugar_tieneResiduosIndustriales").prop('checked', true);
+        $("#lugar_tieneResiduosIndustriales").trigger('change');
+    });
+    $("#btnResiduosIndustrialesNo").click(function () {
+        $("#lugar_tieneResiduosIndustriales").prop('checked', false);
+        $("#lugar_tieneResiduosIndustriales").trigger('change');
+    });
+    $("#btnEfluentesLiquidosSi").click(function () {
+        $("#lugar_tieneEfluentesLiquidos").prop('checked', true);
+        $("#lugar_tieneEfluentesLiquidos").trigger('change');
+    });
+    $("#btnEfluentesLiquidosNo").click(function () {
+        $("#lugar_tieneEfluentesLiquidos").prop('checked', false);
+        $("#lugar_tieneEfluentesLiquidos").trigger('change');
+    });
+    $("#btnTratamientoPrevioSi").click(function () {
+        $("#lugar_tieneTratamientoPrevioVuelco").prop('checked', true);
+    });
+    $("#btnTratamientoPrevioNo").click(function () {
+        $("#lugar_tieneTratamientoPrevioVuelco").prop('checked', false);
+    });
+    $("#btnResiduosEspecialesSi").click(function () {
+        $("#lugar_tieneResiduosEspeciales").prop('checked', true);
+        $("#lugar_tieneResiduosEspeciales").trigger('change');
+    });
+    $("#btnResiduosEspecialesNo").click(function () {
+        $("#lugar_tieneResiduosEspeciales").prop('checked', false);
+        $("#lugar_tieneResiduosEspeciales").trigger('change');
+    });
+    $("#btnEmisionesSi").click(function () {
+        $("#lugar_tieneEmisionesGaseosas").prop('checked', true);
+        $("#lugar_tieneEmisionesGaseosas").trigger('change');
+    });
+    $("#btnEmisionesNo").click(function () {
+        $("#lugar_tieneEmisionesGaseosas").prop('checked', false);
+        $("#lugar_tieneEmisionesGaseosas").trigger('change');
+    });
+    $("#btnDenunciasSi").click(function () {
+        $("#lugar_tieneDenuncia").prop('checked', true);
+        $("#lugar_tieneDenuncia").trigger('change');
+    });
+    $("#btnDenunciasNo").click(function () {
+        $("#lugar_tieneDenuncia").prop('checked', false);
+        $("#lugar_tieneDenuncia").trigger('change');
+    });
     if (!$("#lugar_tieneResiduosIndustriales").is(':checked')) {
         $("#divResiduosIndustriales").hide();
     }
