@@ -1,19 +1,13 @@
 {{ form_start(formulario, {'attr': {'novalidate': 'novalidate'}}) }}
-<div class="row">
-    <div class="col-md-12">
-
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_label(formulario.cuit) }}   
-                {{ form_widget(formulario.cuit) }}
-            </div>
-            <div class="col-md-6">                       
-                {{ form_label(formulario.razonSocial) }}  
-                {{ form_widget(formulario.razonSocial) }}    
-                {{ form_errors(formulario.razonSocial) }}   
-            </div>
-        </div>
-
+<div class="row pr-3 pl-3">
+    <div class="col-md-6">
+        {{ form_label(formulario.cuit) }}   
+        {{ form_widget(formulario.cuit) }}
+    </div>
+    <div class="col-md-6">                       
+        {{ form_label(formulario.razonSocial) }}  
+        {{ form_widget(formulario.razonSocial) }}    
+        {{ form_errors(formulario.razonSocial) }}   
     </div>
 </div>
 <hr/>
@@ -41,7 +35,7 @@
 <hr/>
 <div class="row">
     <div class="col-md-12">    
-        <div class="row pb-2">
+        <div class="row pb-2 pr-3 pl-3">
             <div class="col-sm-9 pt-1">
                 <h5>Lugares de producción y/o depósito dentro del partido</h5>
             </div>
@@ -54,7 +48,7 @@
             {% endif %}
         </div>
         {% if showAlertLugares %}
-            <div class="row  p-3">
+            <div class="row p-3">
                 <div class="col-12">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">                        
                         Tiene lugares de producción y/o depósito pendientes de confirmación (resaltados en amarillo). Ingrese a confirmarlos o eliminelos, e intente de nuevo.
@@ -75,7 +69,28 @@
 <div class="float-right">    
     <div class="center-block text-center">
         {{ form_widget(formulario.guardarIndustria) }}  
-        {{ form_widget(formulario.confirmarIndustria) }}
+        <button type="button" id="btnAbrirModalConfirmarIndustria" class="btn btn-primary">Confirmar datos</button> 
+
+    </div>
+</div>
+<div class="modal fade" id="modalConfirmarIndustria" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarIndustria" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">                
+                <p>No podrá realizar cambios tras firmar la declaración jurada.</p>
+                <p>¿Está seguro que desea continuar?</p>
+            </div>
+            <div class="modal-footer">
+                <input id="hiddenIdLugar" type="hidden" name="_idLugar" value="">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                {{ form_widget(formulario.confirmarIndustria) }}
+            </div>
+        </div>
     </div>
 </div>
 {{ form_end(formulario) }}

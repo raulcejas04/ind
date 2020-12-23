@@ -22,7 +22,7 @@ class IndustriaType extends AbstractType {
                 ->add('domicilio', DomicilioType::class)
                 ->add('titular', PersonaType::class)
                 ->add('guardarIndustria', SubmitType::class, ['label' => 'Guardar datos'])
-                ->add('confirmarIndustria', SubmitType::class, ['label' => 'Confirmar datos'])
+                ->add('confirmarIndustria', SubmitType::class, ['label' => 'Aceptar'])
                 ->add('esConfirmado', HiddenType::class, ['empty_data' => false,]);
     }
 
