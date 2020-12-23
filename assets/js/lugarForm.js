@@ -2,6 +2,11 @@ const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 $(document).ready(function () {
+    $(".btnEliminarLugar").click(function(){
+        console.log($(this).data("lugarId"));
+        $("#hiddenIdLugar").val($(this).data("lugarId"));        
+         $("#modalEliminarLugar").modal('show');
+    });
     $("#divConfirmar").hide();
     $("#btnPrev").hide();
     var esConsulta = $("#hiddenEsConsulta").val() === "1" ? true : false;
