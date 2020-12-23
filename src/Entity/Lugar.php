@@ -420,7 +420,7 @@ class Lugar {
         $this->nobre = $nobre;
 
         return $this;
-    }
+    }    
 
     public function getQPersonal(): ?int {
         return $this->qPersonal;
@@ -869,6 +869,33 @@ class Lugar {
         $this->esConfirmado = $esConfirmado;
 
         return $this;
+    }
+
+    /**
+     * @Assert\IsTrue(
+     * message="Debe seleccionar al menos un tipo de lugar.",
+     * groups={"principal","requerido"}
+     * )
+     */
+    public function hasEsDeposito(): bool {
+        if ($this->esProduccion || $this->esDeposito) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * @Assert\IsTrue(
+     * message="La suma de superficie cubierta y libre no pueden sobrepasar la superficie total.",
+     * groups={"principal"}
+     * )
+     */
+    public function hasSuperficieTotal(): bool {
+        if ($this->superficieLibre + $this->siperficieCubierta > $this->superficieTotal) {
+            return false;
+        }
+        return true;
     }
 
 }

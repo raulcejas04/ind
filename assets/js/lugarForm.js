@@ -2,6 +2,8 @@ const $ = require('jquery');
 import '../css/select2.scss';
 import select2 from 'select2/dist/js/select2';
 $(document).ready(function () {
+    var esDepositoLabel = $("label[for='lugar_esDeposito']");
+    esDepositoLabel.css('color', 'black');
     $(".hideProduccion").hide();
     $(".btnEliminarLugar").click(function () {
         $("#hiddenIdLugar").val($(this).data("lugarId"));
@@ -455,8 +457,15 @@ $(document).ready(function () {
         $("#btnPrev").show();
 
     });
+   
+    $("#divSpinner").addClass('d-none');
+    $("#divFormContent").removeClass('d-none');
 });
-
+$("#formulario").submit(function (event) {
+    $("#divFormContent").addClass('d-none');
+    $("#divSpinner").removeClass('d-none');
+    $("#modalConfirmarIndustria").modal('hide');
+});
 function showBtnGuardar(show) {
     if (show) {
         $("#divConfirmar").hide();

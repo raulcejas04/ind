@@ -12,6 +12,7 @@ use App\Entity\HorariosTrabajo;
 use App\Entity\Industria;
 use App\Form\LugarType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 class LugarController extends AbstractController {
 
