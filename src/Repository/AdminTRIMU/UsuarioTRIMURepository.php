@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository\Admin;
+namespace App\Repository\AdminTRIMU;
 
-use App\Entity\Admin\UsuarioTRIMU;
+use App\Entity\AdminTRIMU\UsuarioTRIMU;
+use App\Entity\AdminTRIMU\ContribuyenteTRIMU;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,10 +19,20 @@ class UsuarioTRIMURepository extends ServiceEntityRepository{
         parent::__construct($registry, UsuarioTRIMU::class);
     }
 
-    public function buscarUsuarioById($id): array {
-        return $this->createQueryBuilder('u')                
-                        ->andWhere('u.id == :busqueda ')
+    public function buscarUnoPorId($id) {
+        $resultado =  $this->createQueryBuilder('u')                
+                        ->andWhere('u.id = :busqueda ')                                           
                         ->setParameter(':busqueda',  $id)
+                        ->orderBy('u.id', 'ASC')
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        return $resultado;
+    }
+    
+    public function buscarUsuarioByToken($token): array {
+        return $this->createQueryBuilder('u')                
+                        ->andWhere('u.token == :busqueda ')
+                        ->setParameter(':busqueda',  $token)
                         ->orderBy('u.id', 'ASC')
                         ->getQuery()
                         ->getResult()

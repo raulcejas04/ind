@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=IndustriaRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table("industria")
  */
 class Industria {
     use AuditTrait;
