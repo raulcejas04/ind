@@ -35,7 +35,7 @@ class IndustriaController extends AbstractController {
             if (!is_null($s->get("cuit")))
                 $cuit = $s->get("cuit");
             else {
-                 $this->redirect ($this->urlLoginTRIMU);
+                return false;
                 die("Faltan datos del usuario");
             }
         }
@@ -46,7 +46,7 @@ class IndustriaController extends AbstractController {
             if (!is_null($s->get("session")))
                 $session = $s->get("session");
             else {                
-                $this->redirect ($this->urlLoginTRIMU);
+                return false;
                 die("Faltan credenciales");
             }
         }
@@ -89,7 +89,9 @@ class IndustriaController extends AbstractController {
      */
     public function nuevo(Request $request): Response {        
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        
+        if ($cuit === false){
+            return $this->redirect ($this->urlLoginTRIMU);
+        }
         
         $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);        
         
@@ -171,6 +173,10 @@ class IndustriaController extends AbstractController {
      */
     public function getDepartamentoSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
+        if ($cuit === false){
+            return $this->redirect ($this->urlLoginTRIMU);
+        }
+
         $domicilio = new Domicilio();
         $provincia = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('provincia'));
         $domicilio->setProvincia($provincia);
@@ -189,6 +195,10 @@ class IndustriaController extends AbstractController {
      */
     public function getLocalidadSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
+        if ($cuit === false){
+            return $this->redirect ($this->urlLoginTRIMU);
+        }
+
         $domicilio = new Domicilio();
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setDepartamento($id);
@@ -207,6 +217,10 @@ class IndustriaController extends AbstractController {
      */
     public function getCalleSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
+        if ($cuit === false){
+            return $this->redirect ($this->urlLoginTRIMU);
+        }
+
         $domicilio = new Domicilio();
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setLocalidad($id);
@@ -222,6 +236,10 @@ class IndustriaController extends AbstractController {
 
     public function GetFormularioConValidacion($request, $industria) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
+        if ($cuit === false){
+            return $this->redirect ($this->urlLoginTRIMU);
+        }
+
         $industriaRequest = $request->request->get('industria');
         $disabled = false;
         if ($industria->getEsConfirmado()) {
