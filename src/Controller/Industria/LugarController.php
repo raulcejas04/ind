@@ -13,6 +13,7 @@ use App\Entity\Industria;
 use App\Form\LugarType;
 use App\Entity\AdminTRIMU\UsuarioTRIMU;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormError;
 
 class LugarController extends AbstractController {
 
@@ -94,10 +95,11 @@ class LugarController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
             $lugar->setEsConfirmado($esConfirmado);
+            $this->EliminarHorariosTrabajoInvalidos($lugar);
             $domicilio = $lugar->getDomicilio();
             $entityManager->persist($domicilio);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
-            $this->EliminarHorariosTrabajoInvalidos($lugar);
+
             $entityManager->persist($lugar);
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
@@ -191,7 +193,30 @@ class LugarController extends AbstractController {
         $cuit = $this->chequeaLogueoTRIMU($request);
         $entityManager = $this->getDoctrine()->getManager();
         $lugar = $entityManager->getRepository(Lugar::class)->find($id);
+        $habilitacion = $lugar->getHabilitacion();
+        if ($habilitacion != null) {
+            $lugar->setHabilitacion(null);
+            $entityManager->remove($habilitacion);
+        }
+
+        $cert = $lugar->getCertAptitudAmb();
+        if ($cert != null) {
+            $lugar->setCertAptitudAmb(null);
+            $entityManager->remove($cert);
+        }
+        $apoderado = $lugar->getApoderado();
+
+        $domicilio = $lugar->getDomicilio();
         $entityManager->remove($lugar);
+        $entityManager->flush();
+        if ($domicilio != null) {
+            $lugar->setDomicilio(null);
+            $entityManager->remove($domicilio);
+        }
+        if ($apoderado != null) {
+            $lugar->setApoderado(null);
+            $entityManager->remove($apoderado);
+        }
         $entityManager->flush();
         return $this->redirectToRoute('industria_nuevo');
     }
@@ -316,6 +341,7 @@ class LugarController extends AbstractController {
             $habilitacion = $lugar->getHabilitacion();
             if ($habilitacion->getTipo()->getId() == 35075) {
                 $habilitacion->setFechaInicio(null);
+                $habilitacion->setLugar($lugar);
             }
             $entityManager->persist($habilitacion);
         } else {
@@ -323,6 +349,7 @@ class LugarController extends AbstractController {
         }
         if ($request->request->get('lugar')["certAptitudAmb"]["tieneCertAptitudAmb"] == 'si') {
             $certAptitudAmb = $lugar->getCertAptitudAmb();
+            $certAptitudAmb->setLugar($lugar);
             $entityManager->persist($certAptitudAmb);
         } else {
             $lugar->setCertAptitudAmb(null);

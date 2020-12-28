@@ -1,69 +1,109 @@
-{{ form_start(formulario, {'attr': {'novalidate': 'novalidate'}}) }}
-<div class="row">
-    <div class="col-md-12">
-
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_label(formulario.cuit) }}   
-                {{ form_widget(formulario.cuit) }}
+<div id="divSpinner" class="row">
+    <div class="col-12">
+        <div class="center-block text-center pt-md-5 pb-md-5 mt-lg-5 mb-lg-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
             </div>
-            <div class="col-md-6">                       
-                {{ form_label(formulario.razonSocial) }}  
-                {{ form_widget(formulario.razonSocial) }}    
-                {{ form_errors(formulario.razonSocial) }}   
-            </div>
-        </div>
-
-    </div>
-</div>
-<hr/>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Domicilio Legal</h5>
-                {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
+            <div class="pt-3">
+                <p>Aguarde un momento...</p>
             </div>
         </div>
     </div>
 </div>
-<hr/>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Titular</h5>
-                {% include 'persona/_formulario.html.twig' with {'persona':formulario.titular} only %}
-            </div>
+{{ form_start(formulario, {'attr': {'novalidate': 'novalidate','id':'formulario'}}) }}
+<div id="divFormContent" class="d-none">
+    <div class="row pr-3 pl-3">
+        <div class="col-md-6">
+            {{ form_label(formulario.cuit) }}   
+            {{ form_widget(formulario.cuit) }}
+        </div>
+        <div class="col-md-6">                       
+            {{ form_label(formulario.razonSocial) }}  
+            {{ form_widget(formulario.razonSocial) }}    
+            {{ form_errors(formulario.razonSocial) }}   
         </div>
     </div>
-</div>
-<hr/>
-<div class="row">
-    <div class="col-md-12">    
-        <div class="row pb-2">
-            <div class="col-sm-9 pt-1">
-                <h5>Lugares de producción y/o depósito dentro del partido</h5>
-            </div>
-            {% if industriaConfirmada == false %}
-                <div class="col-sm-3 ">
-                    <div class="float-right ">
-                        <button type="submit" name="nuevoLugar" class="btn btn-primary " href="{{ path("lugar_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo Lugar</button>
-                    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Domicilio Legal</h5>
+                    {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
                 </div>
-            {% endif %}
+            </div>
         </div>
-        {% include 'lugar/grilla.html.twig' with {'lugares':lugares,'industriaConfirmada':industriaConfirmada} only %}            
     </div>
-</div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Titular</h5>
+                    {% include 'persona/_formulario.html.twig' with {'persona':formulario.titular} only %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">    
+            <div class="row pb-2 pr-3 pl-3">
+                <div class="col-sm-9 pt-1">
+                    <h5>Lugares de producción y/o depósito dentro del partido</h5>
+                </div>
+                {% if industriaConfirmada == false %}
+                    <div class="col-sm-3 ">
+                        <div class="float-right ">
+                            <button type="submit" name="nuevoLugar" class="btn btn-primary " href="{{ path("lugar_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo Lugar</button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {% if showAlertLugares %}
+                <div class="row p-3">
+                    <div class="col-12">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">                        
+                            Tiene lugares de producción y/o depósito pendientes de confirmación (resaltados en amarillo). Ingrese a confirmarlos o eliminelos, e intente de nuevo.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>       
+            {% endif %}
+            {% include 'lugar/grilla.html.twig' with {'lugares':lugares,'industriaConfirmada':industriaConfirmada} only %}            
+        </div>
+    </div>
 
-<br/>
-<br/>
-<br/>
-<div class="float-right">    
-    <div class="center-block text-center">
-        {{ form_widget(formulario.guardarIndustria) }}  
-        {{ form_widget(formulario.confirmarIndustria) }}
+    <br/>
+    <br/>
+    <br/>
+    <div class="float-right">    
+        <div class="center-block text-center">
+            {{ form_widget(formulario.guardarIndustria) }}  
+            <button type="button" id="btnAbrirModalConfirmarIndustria" class="btn btn-primary">Confirmar datos</button> 
+
+        </div>
+    </div>
+    <div class="modal fade" id="modalConfirmarIndustria" tabindex="-1" role="dialog" aria-labelledby="modalConfirmarIndustria" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">                
+                    <p>No podrá realizar cambios tras firmar la declaración jurada.</p>
+                    <p>¿Está seguro que desea continuar?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    {{ form_widget(formulario.confirmarIndustria) }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {{ form_end(formulario) }}

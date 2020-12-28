@@ -54,6 +54,12 @@ class Habilitacion {
      * @Assert\NotBlank(
      * groups={"habilitacion"},
      * message="Campo requerido.")
+     * @Assert\Regex(
+     *     pattern="/^\d{1,6}$/",
+     *     match=true,
+     *     message="Número de legajo inválido.",
+     *     groups={"habilitacion"})
+     * )
      */
     private $legajoSeH;
 
