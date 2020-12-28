@@ -168,6 +168,7 @@ class IndustriaController extends AbstractController {
      * @Route("/industria/departamento-select", name="industria_departamento_select")
      */
     public function getDepartamentoSelect(Request $request) {
+        $cuit = $this->chequeaLogueoTRIMU($request, 180);
         $domicilio = new Domicilio();
         $provincia = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('provincia'));
         $domicilio->setProvincia($provincia);
@@ -185,6 +186,7 @@ class IndustriaController extends AbstractController {
      * @Route("/industria/localidad-select", name="industria_localidad_select")
      */
     public function getLocalidadSelect(Request $request) {
+        $cuit = $this->chequeaLogueoTRIMU($request, 180);
         $domicilio = new Domicilio();
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setDepartamento($id);
@@ -202,6 +204,7 @@ class IndustriaController extends AbstractController {
      * @Route("/industria/calle-select", name="industria_calle_select")
      */
     public function getCalleSelect(Request $request) {
+        $cuit = $this->chequeaLogueoTRIMU($request, 180);
         $domicilio = new Domicilio();
         $id = $this->getDoctrine()->getRepository(General::class)->find($request->query->get('id'));
         $domicilio->setLocalidad($id);
@@ -216,6 +219,7 @@ class IndustriaController extends AbstractController {
     }
 
     public function GetFormularioConValidacion($request, $industria) {
+        $cuit = $this->chequeaLogueoTRIMU($request, 180);
         $industriaRequest = $request->request->get('industria');
         $disabled = false;
         if ($industria->getEsConfirmado()) {
