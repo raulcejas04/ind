@@ -35,6 +35,7 @@ class IndustriaController extends AbstractController {
             if (!is_null($s->get("cuit")))
                 $cuit = $s->get("cuit");
             else {
+                return $this->redirect ($this->urlLoginTRIMU);
                 die("Faltan datos del usuario");
             }
         }
@@ -45,6 +46,7 @@ class IndustriaController extends AbstractController {
             if (!is_null($s->get("session")))
                 $session = $s->get("session");
             else {                
+                return $this->redirect ($this->urlLoginTRIMU);
                 die("Faltan credenciales");
             }
         }
