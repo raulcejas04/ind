@@ -11,24 +11,95 @@ use App\Entity\General;
 use App\Entity\Admin\Usuario;
 use App\Form\DomicilioType;
 use App\Form\IndustriaType;
+use App\Entity\AdminTRIMU\UsuarioTRIMU;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class IndustriaController extends AbstractController {
+    
+    private $urlLoginTRIMU = "http://132.146.70.1:8090";
+    
+    private function encriptar( $q ) {
+        $cryptKey  = 'qJB0rGtIn5UB1xG03efMda';
+        $qEncoded  =  md5($cryptKey."".$q);
+        return( $qEncoded );
+    }
+    
+    private function chequeaLogueoTRIMU($request, $tiempo = 180) {
+        //rutina para chequear credenciales;        
+        $cuit = $request->get("cuit", null);
+        $session = $request->get("session", null);
+        $s = $request->getSession();
+        
+        if (is_null($cuit)){
+            if (!is_null($s->get("cuit")))
+                $cuit = $s->get("cuit");
+            else {
+                die("Faltan datos del usuario");
+            }
+        }
+            $s->set('cuit', $cuit);
+        
+        
+        if (is_null($session)){
+            if (!is_null($s->get("session")))
+                $session = $s->get("session");
+            else {                
+                die("Faltan credenciales");
+            }
+        }
+            $s->set('session', $session);
+        
+                        
+        $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');               
+        
+        $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
+                                
+        if (!is_null($usuarioTRIMU->getId())){
+            $token = $usuarioTRIMU->getToken();
+            if ($session != $this->encriptar($token))
+                die("No cumple con las credenciales");
+            // chequear que la session no este activa luego de 3 hs 180min?
+            $token_s = explode("|MDA|", $token);
+            //el segundo elemento es la fecha/hora de logueo 
+            $fechaLogin = $datetime1 = new \DateTime($token_s[1]); 
+            $now = $datetime1 = new \DateTime();
+            $interval = $now->diff($fechaLogin);
+            $minutos = $interval->format('%i');
+            if ($minutos * 1 > $tiempo)
+                return $this->redirect ($this->urlLoginTRIMU);
+        }
 
+        return $cuit;
+    }
+    
+    
     /**
      * @Route("/industria/nuevo",name="industria_nuevo")
      */
-    public function nuevo(Request $request): Response {
-//si no existe el parametro username aplica -1
-        $showAlertLugares = false;
-        $cuit = $request->get("usernane", -1);
-        $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
-        if (is_null($industria->getCUIT())) {
+    public function nuevoSinParametros(Request $request): Response {                
+        return $this->nuevo($request);
+    }
+
+        
+    /**
+     * @Route("/industria/nuevo/{cuit}/{session}",name="industria_nuevo_params")
+     */
+    public function nuevo(Request $request): Response {        
+        $cuit = $this->chequeaLogueoTRIMU($request, 180);
+        
+        
+        $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);        
+        
+        if (is_null($industria->getCUIT())){
+            $contribuyente = $usuarioTRIMU->getContribuyente();
+            if (is_null($contribuyente)) die("No esta asociado el contribuyente - Contacte al administrador");
             $industria = new Industria();
             $usuario = $this->getDoctrine()->getRepository(Usuario::class)->find(["id" => -1]);
             $industria->setCUIT($cuit);
-            $industria->setRazonSocial("");
+            $industria->setRazonSocial($contribuyente->getDenominacion());
             $industria->setCreadoPor($usuario);
+            $industria->setEsConfirmado(false);
             $em = $this->getDoctrine()->getManager();
             $em->persist($industria);
             $em->flush();
@@ -36,7 +107,6 @@ class IndustriaController extends AbstractController {
         $formulario = $this->GetFormularioConValidacion($request, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
             $esConfirmado = false;

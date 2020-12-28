@@ -11,16 +11,69 @@ use App\Entity\Domicilio;
 use App\Entity\HorariosTrabajo;
 use App\Entity\Industria;
 use App\Form\LugarType;
+use App\Entity\AdminTRIMU\UsuarioTRIMU;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 
 class LugarController extends AbstractController {
 
+    private $urlLoginTRIMU = "http://132.146.70.1:8090";
+
+    function encriptar( $q ) {
+        $cryptKey  = 'qJB0rGtIn5UB1xG03efMda';
+        $qEncoded  =  md5($cryptKey."".$q);
+        return( $qEncoded );
+    }
+    
+    private function chequeaLogueoTRIMU($request, $tiempo = 180) {
+        $cuit = "";
+        $session = "";
+        $s = $request->getSession();
+        //si no hay secion se va a login trimu
+        if (is_null($s)) {
+            return $this->redirect($this->urlLoginTRIMU);
+        }
+
+        if (!is_null($s->get("cuit")))
+            $cuit = $s->get("cuit");
+        else {
+            die("Faltan datos del usuario");
+        }
+        $s->set('cuit', $cuit);
+        if (!is_null($s->get("session")))
+            $session = $s->get("session");
+        else {
+            die("Faltan credenciales");
+        }
+        
+        $s->set('session', $session);
+        $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
+
+        $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
+
+        if (!is_null($usuarioTRIMU->getId())) {
+            $token = $usuarioTRIMU->getToken();
+            if ($session != $this->encriptar($token))
+                die("No cumple con las credenciales");
+            // chequear que la session no este activa luego de 3 hs 180min?
+            $token_s = explode("|MDA|", $token);
+            //el segundo elemento es la fecha/hora de logueo 
+            $fechaLogin = $datetime1 = new \DateTime($token_s[1]);
+            $now = $datetime1 = new \DateTime();
+            $interval = $now->diff($fechaLogin);
+            $minutos = $interval->format('%i');
+            if ($minutos * 1 > $tiempo)
+                return $this->redirect($this->urlLoginTRIMU);
+        }
+
+        return $cuit;
+    }
+
     /**
      * @Route("/industria/lugar/nuevo",name="lugar_nuevo")
      */
     public function nuevo(Request $request): Response {
-        $cuit = $request->get("usernane", -1);
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
         if (is_null($industria->getCUIT())) {
             return $this->redirectToRoute('industria_nuevo');
@@ -62,6 +115,7 @@ class LugarController extends AbstractController {
      * @Route("/industria/lugar/consultar/{id}",name="lugar_consultar")
      */
     public function Consultar(Request $request, $id): Response {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $entityManager = $this->getDoctrine()->getManager();
         $lugar = $entityManager->getRepository(Lugar::class)->find($id);
         if (!$lugar) {
@@ -88,6 +142,7 @@ class LugarController extends AbstractController {
      * @Route("/industria/lugar/modificar/{id}",name="lugar_modificar")
      */
     public function modificar(Request $request, $id): Response {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $entityManager = $this->getDoctrine()->getManager();
         $lugar = $entityManager->getRepository(Lugar::class)->find($id);
         if (!$lugar) {
@@ -135,6 +190,7 @@ class LugarController extends AbstractController {
      * @Route("/industria/lugar/eliminar/{id}",name="lugar_eliminar")
      */
     public function eliminar(Request $request, $id): Response {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $entityManager = $this->getDoctrine()->getManager();
         $lugar = $entityManager->getRepository(Lugar::class)->find($id);
         $habilitacion = $lugar->getHabilitacion();
@@ -166,6 +222,7 @@ class LugarController extends AbstractController {
     }
 
     public function CrearHorariosTrabajo(Lugar $lugar) {
+        
         $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
         if ($lugar->getHorariosTrabajo()->count() == 0) {
             foreach ($dias as $dia) {
@@ -212,6 +269,7 @@ class LugarController extends AbstractController {
     }
 
     public function GetGruposValidacion($request) {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $validationGroups = [];
         $lugar = $request->request->get('lugar');
         if (array_key_exists("confirmar", $lugar)) {
@@ -258,6 +316,7 @@ class LugarController extends AbstractController {
     }
 
     public function GetFormularioConValidacion($request, $lugar) {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         $validationGroups = [];
         if (!is_null($request->request->get('lugar'))) {
             $validationGroups = $this->GetGruposValidacion($request, $lugar);
@@ -277,6 +336,7 @@ class LugarController extends AbstractController {
     }
 
     public function PersistirEntidadesOpcionales($request, $lugar, $entityManager) {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         if ($request->request->get('lugar')["habilitacion"]["tieneHabilitacion"] == 'si') {
             $habilitacion = $lugar->getHabilitacion();
             if ($habilitacion->getTipo()->getId() == 35075) {
@@ -303,6 +363,7 @@ class LugarController extends AbstractController {
     }
 
     public function RemoverEntidadesOpcionales($request, $lugar, $entityManager) {
+        $cuit = $this->chequeaLogueoTRIMU($request);
         if ($request->request->get('lugar')["habilitacion"]["tieneHabilitacion"] == 'no') {
             $habilitacion = $lugar->getHabilitacion();
             if ($habilitacion != null) {
