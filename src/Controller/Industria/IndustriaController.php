@@ -104,6 +104,9 @@ class IndustriaController extends AbstractController {
             $em->persist($industria);
             $em->flush();
         }
+
+        $showAlertLugares = null;
+
         $formulario = $this->GetFormularioConValidacion($request, $industria);
         $formulario->handleRequest($request);
         if ($formulario->isSubmitted() && $formulario->isValid()) {
