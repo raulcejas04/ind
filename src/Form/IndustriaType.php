@@ -18,7 +18,7 @@ class IndustriaType extends AbstractType {
         $builder
                 ->setDisabled($options['disabled'])
                 ->add('cuit', TextType::class, ['label' => 'CUIT', 'disabled' => true])
-                ->add('razonSocial', TextType::class, ['label' => 'Razón social'])
+                ->add('razonSocial', TextType::class, ['label' => 'Razón social', 'disabled' => true])
                 ->add('domicilio', DomicilioType::class)
                 ->add('titular', PersonaType::class)
                 ->add('guardarIndustria', SubmitType::class, ['label' => 'Guardar datos'])

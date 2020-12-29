@@ -47,8 +47,8 @@ class LugarType extends AbstractType {
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('g')
                                 ->join('g.tipo', 't')
-                                ->where('t.id = :tipo')
-                                ->setParameter('tipo', "16")
+                                ->where('t.tipo = :tipo')
+                                ->setParameter('tipo', "Paises")
                                 ->orderBy('g.descripcion', 'ASC');
                     },
                     'placeholder' => 'Seleccione',
@@ -150,6 +150,7 @@ class LugarType extends AbstractType {
                 ->add('guardar', SubmitType::class, ['label' => 'Guardar datos'])
                 ->add('confirmar', SubmitType::class, ['label' => 'Confirmar datos'])
                 ->add('esConfirmado', HiddenType::class, ['empty_data' => false,])
+                ->add('domicilioValido', HiddenType::class, ['empty_data' => false, 'error_bubbling' => false])
         ;
     }
 

@@ -8,10 +8,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\AuditTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=LugarRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *     fields={"industria", "domicilio"},
+ *     errorPath="domicilioValido",
+ *     repositoryMethod="validarDireccion",
+ *     groups={"principal","requerido"},
+ *     message="Ya ha registrado un lugar de producción y/o deposito con esta dirección."
+ * )
  */
 class Lugar {
 
@@ -373,6 +381,7 @@ class Lugar {
      * @ORM\Column(type="boolean")
      */
     private $esConfirmado;
+    private $domicilioValido;
 
     public function __construct() {
         $this->industria = new ArrayCollection();
@@ -420,7 +429,17 @@ class Lugar {
         $this->nobre = $nobre;
 
         return $this;
-    }    
+    }
+
+    public function getDomicilioValido(): ?bool {
+        return $this->domicilioValido;
+    }
+
+    public function setDomicilioValido(string $domicilioValido): self {
+        $this->domicilioValido = $domicilioValido;
+
+        return $this;
+    }
 
     public function getQPersonal(): ?int {
         return $this->qPersonal;
@@ -883,7 +902,6 @@ class Lugar {
         }
         return false;
     }
-
 
     /**
      * @Assert\IsTrue(
