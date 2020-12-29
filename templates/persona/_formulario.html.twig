@@ -5,9 +5,11 @@
             {{ form_label(persona.nombre) }}
             {{ form_widget(persona.nombre) }}            
         </div>       
-        <div class="form-group">
+        <div class="form-group">           
             {{ form_label(persona.CUIL) }}
-            {{ form_widget(persona.CUIL) }}            
+            <span class="text-secondary">  Por favor ingrese su CUIL sin guiones.</span>
+            {{ form_widget(persona.CUIL) }} 
+
         </div>
         <div class="form-group">
             {{ form_label(persona.email) }}
@@ -15,11 +17,11 @@
         </div>
     </div>
     <div class="col-6">
-         <div class="form-group">
+        <div class="form-group">
             {{ form_label(persona.apellido) }}
             {{ form_widget(persona.apellido) }}           
         </div>
-         <div class="form-group">
+        <div class="form-group">
             {{ form_label(persona.telefonoFijo) }}
             {{ form_widget(persona.telefonoFijo) }}            
         </div>

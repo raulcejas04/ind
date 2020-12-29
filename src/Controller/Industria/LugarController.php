@@ -19,12 +19,12 @@ class LugarController extends AbstractController {
 
     private $urlLoginTRIMU = "http://132.146.70.1:8090";
 
-    function encriptar( $q ) {
-        $cryptKey  = 'qJB0rGtIn5UB1xG03efMda';
-        $qEncoded  =  md5($cryptKey."".$q);
+    function encriptar($q) {
+        $cryptKey = 'qJB0rGtIn5UB1xG03efMda';
+        $qEncoded = md5($cryptKey . "" . $q);
         return( $qEncoded );
     }
-    
+
     private function chequeaLogueoTRIMU($request, $tiempo = 180) {
         $cuit = "";
         $session = "";
@@ -45,7 +45,7 @@ class LugarController extends AbstractController {
         else {
             die("Faltan credenciales");
         }
-        
+
         $s->set('session', $session);
         $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
 
@@ -95,8 +95,10 @@ class LugarController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
             $lugar->setEsConfirmado($esConfirmado);
+
             $this->EliminarHorariosTrabajoInvalidos($lugar);
             $domicilio = $lugar->getDomicilio();
+
             $entityManager->persist($domicilio);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
 
@@ -161,7 +163,7 @@ class LugarController extends AbstractController {
             $esConfirmado = false;
             if ($formulario->getClickedButton() && 'confirmar' === $formulario->getClickedButton()->getName()) {
                 $esConfirmado = true;
-            }
+            }            
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
             $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
@@ -177,6 +179,7 @@ class LugarController extends AbstractController {
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
         }
+        
         return $this->render('lugar/modificar.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,
@@ -222,7 +225,7 @@ class LugarController extends AbstractController {
     }
 
     public function CrearHorariosTrabajo(Lugar $lugar) {
-        
+
         $dias = $this->getDoctrine()->getRepository(General::class)->buscarDiasOrdenados();
         if ($lugar->getHorariosTrabajo()->count() == 0) {
             foreach ($dias as $dia) {

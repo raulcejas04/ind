@@ -27,7 +27,7 @@ class Persona {
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\Regex(
-     *     pattern="/^\d{2}\-\d{8}\-\d{1}$/",
+     *     pattern="/^\d{11}$/",
      *     match=true,
      *     message="CUIL inválido.",
      *     groups={"principal","industria"}
