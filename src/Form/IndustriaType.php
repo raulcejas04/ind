@@ -17,7 +17,7 @@ class IndustriaType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->setDisabled($options['disabled'])
-                ->add('cuit', TextType::class, ['label' => 'CUIT'])
+                ->add('cuit', TextType::class, ['label' => 'CUIT', 'disabled' => true])
                 ->add('razonSocial', TextType::class, ['label' => 'Razón social'])
                 ->add('domicilio', DomicilioType::class)
                 ->add('titular', PersonaType::class)
