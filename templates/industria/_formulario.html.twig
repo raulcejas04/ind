@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Domicilio Legal</h5>
-                    {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio} only %}
+                    {% include 'domicilio/_formulario.html.twig' with {'domicilio':formulario.domicilio, 'showErrorDepartamento':showErrorDepartamento,'showErrorLocalidad':showErrorLocalidad,'showErrorCalle':showErrorCalle} only %}
                 </div>
             </div>
         </div>
