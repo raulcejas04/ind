@@ -42,7 +42,7 @@ class Domicilio {
      * @Assert\Regex(
      *     pattern="/^\d{1}\-[A-Z]{1}\-\d{1,2}\-[A-Z]{1}\-\d{1,3}\-[A-Z]{1}\-\d{1,4}\-[A-Z]{1}\-\d{4}$/",
      *     match=true,
-     *     message="Número de decreto inválido.",
+     *     message="Nomenclatura catastral inválida.",
      *     groups={"principal"})
      * )
      */
