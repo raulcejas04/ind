@@ -1,19 +1,36 @@
+{%  if showErrorDepartamento or showErrorLocalidad or showErrorCalle %}
+    <div class="row">
+        <div class="col-12">
+            {%  if showErrorDepartamento %}
+                <div><strong>Error:</strong><span class="text-danger"> Departamento es un campo requerido</span></div>
+            {% endif %}
+            {%  if showErrorLocalidad %}
+                <div><strong>Error:</strong><span class="text-danger"> Localidad es un campo requerido</span></div>
+            {% endif %}
+            {%  if showErrorCalle %}
+                <div> <strong>Error:</strong> <span class="text-danger"> Debe elegir una calle o proveer una calle alternativa</span></div>
+            {% endif %}
+        </div>
+    </div>
+    <br/>
+{% endif %}
 <div class="row">
 
-    <div class="col-6">
+    <div class="col-6">        
+
         <div class="form-group">
             {{ form_label(domicilio.provincia) }}
             {{ form_widget(domicilio.provincia, { 
                 'attr': {
                     'data-departamento-url': path('industria_departamento_select'),
-                    'class': ' js-example-responsive js-industria-form-provincia ',
+                    'class': 'js-example-responsive js-industria-form-provincia ',
                     'style':'width: 100%'
                 }  }) }}
         </div>
         <div class="js-departamento-target">
             {% if domicilio.departamento is defined %}
                 <div class="form-group">
-                    {{ form_label(domicilio.departamento) }}
+                    {{ form_label(domicilio.departamento) }}                    
                     {{ form_widget(domicilio.departamento, { 
                      'attr': {
                          'data-localidad-url': path('industria_localidad_select'),

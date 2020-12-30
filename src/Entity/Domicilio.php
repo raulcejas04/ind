@@ -88,6 +88,7 @@ class Domicilio {
     /**
      * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Campo requerido",groups={"industria"})
      */
     private $provincia;
 

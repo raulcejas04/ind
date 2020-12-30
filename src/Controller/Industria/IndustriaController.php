@@ -116,7 +116,11 @@ class IndustriaController extends AbstractController {
             $em->flush();
         }
 
-        $showAlertLugares = null;
+        $showAlertLugares = false;
+        $showAlertNoLugares = false;
+        $showErrorDepartamento = false;
+        $showErrorLocalidad = false;
+        $showErrorCalle = false;
 
         $formulario = $this->GetFormularioConValidacion($request, $industria);
         $formulario->handleRequest($request);
@@ -124,41 +128,60 @@ class IndustriaController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
             $esConfirmado = false;
-            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
-                $esConfirmado = true;
-
-                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
-                if ($showAlertLugares) {
-                    return $this->render('industria/nuevo.html.twig', [
-                                'formulario' => $formulario->createView(),
-                                'lugares' => $industria->getLugares(),
-                                'industriaConfirmada' => $industria->getEsConfirmado(),
-                                'showAlertLugares' => $showAlertLugares
-                    ]);
-                }
-            }
-            $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
-            if ($d != null) {
-                if ($d['departamento'] != null) {
-                    $departamento = $this->getDoctrine()->getRepository(General::class)->find($d['departamento']);
-                    $domicilio->setDepartamento($departamento);
+            $domicilio = $industria->getDomicilio();
+            if ($domicilio->getProvincia() != null) {
+                if ($d != null) {
+                    if (isset($d['departamento']) && !is_null($d['departamento'])) {
+                        $departamento = $this->getDoctrine()->getRepository(General::class)->find($d['departamento']);
+                        $domicilio->setDepartamento($departamento);
+                    }
+                    if (isset($d['localidad']) && !is_null($d['localidad'])) {
+                        $localidad = $this->getDoctrine()->getRepository(General::class)->find($d['localidad']);
+                        $domicilio->setLocalidad($localidad);
+                    }
+                    if (isset($d['calle']) && !is_null($d['calle'])) {
+                        $calle = $this->getDoctrine()->getRepository(General::class)->find($d['calle']);
+                        $domicilio->setCalle($calle);
+                    }
                 }
-                if ($d['localidad'] != null) {
-                    $localidad = $this->getDoctrine()->getRepository(General::class)->find($d['localidad']);
-                    $domicilio->setLocalidad($localidad);
-                }
-                if ($d['calle'] != null) {
-                    $calle = $this->getDoctrine()->getRepository(General::class)->find($d['calle']);
-                    $domicilio->setCalle($calle);
-                }
+            } else {
+                $domicilio->setDepartamento(null);
+                $domicilio->setLocalidad(null);
+                $domicilio->setCalle(null);
             }
-
-            $industria->setEsConfirmado($esConfirmado);
             $industria->setDomicilio($domicilio);
             $entityManager->persist($domicilio);
             $entityManager->persist($industria);
             $entityManager->flush();
+
+            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+
+                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
+                if ($industria->getLugares()->count() == 0) {
+                    $showAlertNoLugares = true;
+                }
+                $showErrorDepartamento = is_null($domicilio->getDepartamento()) ? true : false;
+                $showErrorLocalidad = is_null($domicilio->getLocalidad()) ? true : false;
+                $showErrorCalle = is_null($domicilio->getCalle()) && $domicilio->getCalleAlternativa() == null ? true : false;
+                if ($showAlertNoLugares || $showAlertLugares || $showErrorDepartamento || $showErrorLocalidad || $showErrorCalle) {
+                    return $this->render('industria/nuevo.html.twig', [
+                                'formulario' => $formulario->createView(),
+                                'lugares' => $industria->getLugares(),
+                                'industriaConfirmada' => $industria->getEsConfirmado(),
+                                'showAlertLugares' => $showAlertLugares,
+                                'showErrorDepartamento' => $showErrorDepartamento,
+                                'showErrorLocalidad' => $showErrorLocalidad,
+                                'showErrorCalle' => $showErrorCalle,
+                                'showAlertNoLugares' => $showAlertNoLugares
+                    ]);
+                } else {
+                    $industria->setEsConfirmado($esConfirmado);
+                    $entityManager->persist($industria);
+                    $entityManager->flush();
+                }
+            }
 
 
             if ($request->request->has('nuevoLugar')) {
@@ -176,7 +199,11 @@ class IndustriaController extends AbstractController {
                     'formulario' => $formulario->createView(),
                     'lugares' => $industria->getLugares(),
                     'industriaConfirmada' => $industria->getEsConfirmado(),
-                    'showAlertLugares' => $showAlertLugares
+                    'showAlertLugares' => $showAlertLugares,
+                    'showErrorDepartamento' => $showErrorDepartamento,
+                    'showErrorLocalidad' => $showErrorLocalidad,
+                    'showErrorCalle' => $showErrorCalle,
+            'showAlertNoLugares' => $showAlertNoLugares
         ]);
     }
 

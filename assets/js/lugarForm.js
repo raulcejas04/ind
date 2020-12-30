@@ -343,7 +343,7 @@ $(document).ready(function () {
                             //Localidad -> calle
                             var $localidadSelect = $('.js-industria-form-localidad');
                             var $calleTarget = $('.js-calle-target');
-                            $localidadSelect.on('change', function (e) {
+                            $localidadSelect.on('change', function () {
                                 if ($localidadSelect.val() === '') {
                                     $calleTarget.find('select').remove();
                                     $calleTarget.addClass('d-none');
@@ -374,6 +374,96 @@ $(document).ready(function () {
             }
         });
     });
+    if ($('.js-industria-form-departamento').length)
+    {
+        var $departamentoSelect = $('.js-industria-form-departamento');
+        var $localidadTarget = $('.js-localidad-target');
+        $departamentoSelect.on('change', function (e) {
+            if ($departamentoSelect.val() === '') {
+                $localidadTarget.find('select').remove();
+                $localidadTarget.addClass('d-none');
+                $('.js-calle-target').find('select').remove();
+                $('.js-calle-target').addClass('d-none');
+            }
+            $.ajax({
+                url: $departamentoSelect.data('localidad-url'),
+                data: {
+                    id: $departamentoSelect.val()
+                },
+                success: function (html) {
+                    if (!html) {
+                        $localidadTarget.find('select').remove();
+                        $localidadTarget.addClass('d-none');
+                        return;
+                    }
+                    // Replace the current field and show
+
+                    $localidadTarget
+                            .html(html)
+                            .removeClass('d-none');
+                    $("#domicilio_localidad").select2();
+                    //Localidad -> calle
+                    var $localidadSelect = $('.js-industria-form-localidad');
+                    var $calleTarget = $('.js-calle-target');
+                    $localidadSelect.on('change', function () {
+                        if ($localidadSelect.val() === '') {
+                            $calleTarget.find('select').remove();
+                            $calleTarget.addClass('d-none');
+                        }
+                        $.ajax({
+                            url: $localidadSelect.data('calle-url'),
+                            data: {
+                                id: $localidadSelect.val()
+                            },
+                            success: function (html) {
+                                if (!html) {
+                                    $calleTarget.find('select').remove();
+                                    $calleTarget.addClass('d-none');
+                                    return;
+                                }
+                                // Replace the current field and show
+
+                                $calleTarget
+                                        .html(html)
+                                        .removeClass('d-none');
+                                $("#domicilio_calle").select2();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    }
+    if ($('.js-industria-form-localidad').length)
+    {
+        var $localidadSelect = $('.js-industria-form-localidad');
+        var $calleTarget = $('.js-calle-target');
+        $localidadSelect.on('change', function () {
+            if ($localidadSelect.val() === '') {
+                $calleTarget.find('select').remove();
+                $calleTarget.addClass('d-none');
+            }
+            $.ajax({
+                url: $localidadSelect.data('calle-url'),
+                data: {
+                    id: $localidadSelect.val()
+                },
+                success: function (html) {
+                    if (!html) {
+                        $calleTarget.find('select').remove();
+                        $calleTarget.addClass('d-none');
+                        return;
+                    }
+                    // Replace the current field and show
+
+                    $calleTarget
+                            .html(html)
+                            .removeClass('d-none');
+                    $("#domicilio_calle").select2();
+                }
+            });
+        });
+    }
     var i, items = $('.nav-link'), pane = $('.tab-pane');
     $('.btnNext').click(function () {
 
@@ -458,7 +548,7 @@ $(document).ready(function () {
         $("#btnPrev").show();
 
     });
-   
+
     $("#divSpinner").addClass('d-none');
     $("#divFormContent").removeClass('d-none');
 });
@@ -475,4 +565,10 @@ function showBtnGuardar(show) {
         $("#divConfirmar").show();
         $("#divGuardar").hide();
     }
+}
+
+
+function funcionCalle($localidadSelect, $calleTarget) {
+    console.log('llego');
+
 }
