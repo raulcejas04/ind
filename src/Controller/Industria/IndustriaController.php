@@ -117,6 +117,7 @@ class IndustriaController extends AbstractController {
         }
 
         $showAlertLugares = false;
+        $showAlertNoLugares = false;
         $showErrorDepartamento = false;
         $showErrorLocalidad = false;
         $showErrorCalle = false;
@@ -158,10 +159,13 @@ class IndustriaController extends AbstractController {
                 $esConfirmado = true;
 
                 $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
+                if ($industria->getLugares()->count() == 0) {
+                    $showAlertNoLugares = true;
+                }
                 $showErrorDepartamento = is_null($domicilio->getDepartamento()) ? true : false;
                 $showErrorLocalidad = is_null($domicilio->getLocalidad()) ? true : false;
                 $showErrorCalle = is_null($domicilio->getCalle()) && $domicilio->getCalleAlternativa() == null ? true : false;
-                if ($showAlertLugares || $showErrorDepartamento || $showErrorLocalidad || $showErrorCalle) {
+                if ($showAlertNoLugares || $showAlertLugares || $showErrorDepartamento || $showErrorLocalidad || $showErrorCalle) {
                     return $this->render('industria/nuevo.html.twig', [
                                 'formulario' => $formulario->createView(),
                                 'lugares' => $industria->getLugares(),
@@ -169,7 +173,8 @@ class IndustriaController extends AbstractController {
                                 'showAlertLugares' => $showAlertLugares,
                                 'showErrorDepartamento' => $showErrorDepartamento,
                                 'showErrorLocalidad' => $showErrorLocalidad,
-                                'showErrorCalle' => $showErrorCalle
+                                'showErrorCalle' => $showErrorCalle,
+                                'showAlertNoLugares' => $showAlertNoLugares
                     ]);
                 } else {
                     $industria->setEsConfirmado($esConfirmado);
@@ -197,7 +202,8 @@ class IndustriaController extends AbstractController {
                     'showAlertLugares' => $showAlertLugares,
                     'showErrorDepartamento' => $showErrorDepartamento,
                     'showErrorLocalidad' => $showErrorLocalidad,
-                    'showErrorCalle' => $showErrorCalle
+                    'showErrorCalle' => $showErrorCalle,
+            'showAlertNoLugares' => $showAlertNoLugares
         ]);
     }
 
