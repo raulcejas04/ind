@@ -26,8 +26,7 @@ class LugarType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->setDisabled($options['disabled'])
-                ->add('nombre', TextType::class, ['label' => 'Razón social'])
+                ->setDisabled($options['disabled'])                
                 ->add('esDeposito', CheckboxType::class, ['label' => '¿Es un depósito?', 'required' => false])
                 ->add('esProduccion', CheckboxType::class, ['label' => '¿Es un lugar de producción?', 'required' => false])
                 ->add('domicilio', DomicilioCortoType::class)

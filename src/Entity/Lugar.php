@@ -38,14 +38,6 @@ class Lugar {
     private $tipo;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(
-     * message="Campo requerido",
-     * groups={"principal","requerido"})
-     */
-    private $nombre;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)     
      * @Assert\GreaterThanOrEqual(
      * value = 0,

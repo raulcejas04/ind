@@ -1,15 +1,12 @@
 <div class="float-right"> 
     {% if (lugar.esConfirmado == false) %}
-
         <span style="font-size:1.75rem" class="fa fa-exclamation-circle mr-1 align-middle"></span>
-
     {% endif %}
     <div class="btn-group" role="group">
         {% if industriaConfirmada == 1 %}            
             <a class="btn btn-info" href="{{ path("lugar_consultar",{"id":lugar.id}) }}"><span class="fa fa-search"></span></a>   
-            {% else %}
-            <input type="hidden" name="_idLugar" value="{{ lugar.id }}">
-            <button type="submit" name="modificarLugar" class="btn btn-success"><span class="fa fa-edit"></span></button>                 
+            {% else %}            
+            <button type="submit" value="{{ lugar.id }}" name="modificarLugar" class="btn btn-success btnModificarLugar"><span class="fa fa-edit"></span></button>                 
             <button type="button" data-lugar-id="{{ lugar.id }}" class="btnEliminarLugar btn btn-danger"><span class="fa fa-trash"></span></button> 
             {% endif %}
     </div>

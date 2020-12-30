@@ -23,6 +23,7 @@ $(document).ready(function () {
     if ($("#industria_esConfirmado").val() === "1") {
         $("#industria_guardarIndustria").hide();
         $("#industria_confirmarIndustria").hide();
+        $("#btnAbrirModalConfirmarIndustria").hide();
     }
 //PRINCIPAL
     $(".searchabledropdown").select2();
