@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     errorPath="domicilioValido",
  *     repositoryMethod="validarDireccion",
  *     groups={"principal","requerido"},
- *     message="Ya ha registrado un lugar de producción y/o deposito con esta dirección."
+ *     message="Ya ha registrado un lugar de producción y/o depósito con esta dirección."
  * )
  */
 class Lugar {
