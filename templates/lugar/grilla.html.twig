@@ -52,7 +52,7 @@
                         {% for lugar in lugares %}
 
                             <tr class={{(lugar.esConfirmado) ? "" : "table-warning" }}>
-                                <td>{{ lugar.nombre }}</td>
+                                <td>{{ lugar.industria.razonSocial }}</td>
                                 <td>{{ lugar.domicilio.calleAlternativa ~ ", " ~ lugar.domicilio.puerta}}</td>
                                 <td>
                                     <input type="checkbox" disabled

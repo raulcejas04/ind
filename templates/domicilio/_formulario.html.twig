@@ -6,7 +6,8 @@
             {{ form_widget(domicilio.provincia, { 
                 'attr': {
                     'data-departamento-url': path('industria_departamento_select'),
-                    'class': ' searchabledropdown js-industria-form-provincia '
+                    'class': ' js-example-responsive js-industria-form-provincia ',
+                    'style':'width: 100%'
                 }  }) }}
         </div>
         <div class="js-departamento-target">
@@ -16,7 +17,8 @@
                     {{ form_widget(domicilio.departamento, { 
                      'attr': {
                          'data-localidad-url': path('industria_localidad_select'),
-                    'class': ' searchabledropdown js-industria-form-departamento'
+                    'class': ' js-example-responsive js-industria-form-departamento',
+                    'style':'width: 100%'
                     } 
                 }) }}
                 </div>
@@ -30,7 +32,8 @@
                     {{ form_widget(domicilio.localidad, {
                     'attr': {
                          'data-calle-url': path('industria_calle_select'),
-                    'class': ' searchabledropdown js-industria-form-localidad'
+                    'class': ' js-example-responsive js-industria-form-localidad',
+                    'style':'width: 100%'
                     } 
                      }) }}
                 </div>
@@ -47,7 +50,7 @@
             {% if domicilio.calle is defined %}
                 <div class="form-group">
                     {{ form_label(domicilio.calle) }}
-                    {{ form_widget(domicilio.calle, { 'attr': {'class': 'searchabledropdown'} }) }}
+                    {{ form_widget(domicilio.calle, { 'attr': {'class': 'js-example-responsive','style':'width: 100%'} }) }}
                 </div>
             {% endif %}
         </div>

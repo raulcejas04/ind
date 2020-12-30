@@ -16,22 +16,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class IndustriaController extends AbstractController {
-    
+
     private $urlLoginTRIMU = "http://132.146.70.1:8090";
-    
-    private function encriptar( $q ) {
-        $cryptKey  = 'qJB0rGtIn5UB1xG03efMda';
-        $qEncoded  =  md5($cryptKey."".$q);
+
+    private function encriptar($q) {
+        $cryptKey = 'qJB0rGtIn5UB1xG03efMda';
+        $qEncoded = md5($cryptKey . "" . $q);
         return( $qEncoded );
     }
-    
+
     private function chequeaLogueoTRIMU($request, $tiempo = 180) {
         //rutina para chequear credenciales;        
         $cuit = $request->get("cuit", null);
         $session = $request->get("session", null);
         $s = $request->getSession();
-        
-        if (is_null($cuit)){
+
+        if (is_null($cuit)) {
             if (!is_null($s->get("cuit")))
                 $cuit = $s->get("cuit");
             else {
@@ -39,65 +39,64 @@ class IndustriaController extends AbstractController {
                 die("Faltan datos del usuario");
             }
         }
-            $s->set('cuit', $cuit);
-        
-        
-        if (is_null($session)){
+        $s->set('cuit', $cuit);
+
+
+        if (is_null($session)) {
             if (!is_null($s->get("session")))
                 $session = $s->get("session");
-            else {                
+            else {
                 return false;
                 die("Faltan credenciales");
             }
         }
-            $s->set('session', $session);
-        
-                        
-        $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');               
-        
+        $s->set('session', $session);
+
+
+        $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
+
         $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
-                                
-        if (!is_null($usuarioTRIMU->getId())){
+
+        if (!is_null($usuarioTRIMU->getId())) {
             $token = $usuarioTRIMU->getToken();
             if ($session != $this->encriptar($token))
                 die("No cumple con las credenciales");
             // chequear que la session no este activa luego de 3 hs 180min?
             $token_s = explode("|MDA|", $token);
             //el segundo elemento es la fecha/hora de logueo 
-            $fechaLogin = $datetime1 = new \DateTime($token_s[1]); 
+            $fechaLogin = $datetime1 = new \DateTime($token_s[1]);
             $now = $datetime1 = new \DateTime();
             $interval = $now->diff($fechaLogin);
             $minutos = $interval->format('%i');
             if ($minutos * 1 > $tiempo)
-                return $this->redirect ($this->urlLoginTRIMU);
+                return $this->redirect($this->urlLoginTRIMU);
         }
 
-        return $cuit;
+        return ["cuit" => $cuit, "contribuyente" => $usuarioTRIMU->getContribuyente()];
     }
-    
-    
+
     /**
      * @Route("/industria/nuevo",name="industria_nuevo")
      */
-    public function nuevoSinParametros(Request $request): Response {                
+    public function nuevoSinParametros(Request $request): Response {
         return $this->nuevo($request);
     }
 
-        
     /**
      * @Route("/industria/nuevo/{cuit}/{session}",name="industria_nuevo_params")
      */
-    public function nuevo(Request $request): Response {        
-        $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        if ($cuit === false){
-            return $this->redirect ($this->urlLoginTRIMU);
+    public function nuevo(Request $request): Response {
+        $contribuyente = $this->chequeaLogueoTRIMU($request, 180);
+        if ($contribuyente === false) {
+            return $this->redirect($this->urlLoginTRIMU);
         }
-        
-        $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);        
-        
-        if (is_null($industria->getCUIT())){
-            $contribuyente = $usuarioTRIMU->getContribuyente();
-            if (is_null($contribuyente)) die("No esta asociado el contribuyente - Contacte al administrador");
+        $cuit = $contribuyente["cuit"];
+        $contribuyente = $contribuyente["contribuyente"];
+        $industria = $this->getDoctrine()->getRepository(Industria::class)->buscarUnoPorCUIT($cuit);
+
+        if (is_null($industria->getCUIT())) {
+            if (is_null($contribuyente))
+                die("No esta asociado el contribuyente - Contacte al administrador");
             $industria = new Industria();
             $usuario = $this->getDoctrine()->getRepository(Usuario::class)->find(["id" => -1]);
             $industria->setCUIT($cuit);
@@ -117,16 +116,7 @@ class IndustriaController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
             $esConfirmado = false;
-            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
-                $esConfirmado = true;
-                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
-                return $this->render('industria/nuevo.html.twig', [
-                            'formulario' => $formulario->createView(),
-                            'lugares' => $industria->getLugares(),
-                            'industriaConfirmada' => $industria->getEsConfirmado(),
-                            'showAlertLugares' => $showAlertLugares
-                ]);
-            }
+
             $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
             if ($d != null) {
@@ -144,15 +134,29 @@ class IndustriaController extends AbstractController {
                 }
             }
 
-            $industria->setEsConfirmado($esConfirmado);
+
             $industria->setDomicilio($domicilio);
             $entityManager->persist($domicilio);
             $entityManager->persist($industria);
             $entityManager->flush();
+
+            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
+                $industria->setEsConfirmado($esConfirmado);
+                $entityManager->persist($industria);
+                $entityManager->flush();
+                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
+                return $this->render('industria/nuevo.html.twig', [
+                            'formulario' => $formulario->createView(),
+                            'lugares' => $industria->getLugares(),
+                            'industriaConfirmada' => $industria->getEsConfirmado(),
+                            'showAlertLugares' => $showAlertLugares
+                ]);
+            }
             if ($request->request->has('nuevoLugar')) {
                 return $this->redirectToRoute('lugar_nuevo');
             } else if ($request->request->has('modificarLugar')) {
-                $idLugar = $request->request->get('_idLugar');
+                $idLugar = $request->request->get('modificarLugar');
                 return $this->redirectToRoute('lugar_modificar', array('id' => $idLugar));
             } else if ($request->request->has('eliminarLugar')) {
                 $idLugar = $request->request->get('_idLugarEliminar');
@@ -173,8 +177,8 @@ class IndustriaController extends AbstractController {
      */
     public function getDepartamentoSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        if ($cuit === false){
-            return $this->redirect ($this->urlLoginTRIMU);
+        if ($cuit === false) {
+            return $this->redirect($this->urlLoginTRIMU);
         }
 
         $domicilio = new Domicilio();
@@ -195,8 +199,8 @@ class IndustriaController extends AbstractController {
      */
     public function getLocalidadSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        if ($cuit === false){
-            return $this->redirect ($this->urlLoginTRIMU);
+        if ($cuit === false) {
+            return $this->redirect($this->urlLoginTRIMU);
         }
 
         $domicilio = new Domicilio();
@@ -217,8 +221,8 @@ class IndustriaController extends AbstractController {
      */
     public function getCalleSelect(Request $request) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        if ($cuit === false){
-            return $this->redirect ($this->urlLoginTRIMU);
+        if ($cuit === false) {
+            return $this->redirect($this->urlLoginTRIMU);
         }
 
         $domicilio = new Domicilio();
@@ -236,8 +240,8 @@ class IndustriaController extends AbstractController {
 
     public function GetFormularioConValidacion($request, $industria) {
         $cuit = $this->chequeaLogueoTRIMU($request, 180);
-        if ($cuit === false){
-            return $this->redirect ($this->urlLoginTRIMU);
+        if ($cuit === false) {
+            return $this->redirect($this->urlLoginTRIMU);
         }
 
         $industriaRequest = $request->request->get('industria');
