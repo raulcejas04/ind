@@ -14,10 +14,18 @@ use App\Form\IndustriaType;
 use App\Entity\AdminTRIMU\UsuarioTRIMU;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class IndustriaController extends AbstractController {
 
     private $urlLoginTRIMU = "http://132.146.70.1:8090";
+
+    /**
+     * @Route("/industria/logout",name="industria_logout")
+     */
+    public function Logout(Request $request): Response {
+        return new RedirectResponse('http://132.146.70.1:8090/modulos/principal.php');
+    }
 
     private function encriptar($q) {
         $cryptKey = 'qJB0rGtIn5UB1xG03efMda';
@@ -116,7 +124,19 @@ class IndustriaController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $industria = $formulario->getData();
             $esConfirmado = false;
+            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
+                $esConfirmado = true;
 
+                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
+                if ($showAlertLugares) {
+                    return $this->render('industria/nuevo.html.twig', [
+                                'formulario' => $formulario->createView(),
+                                'lugares' => $industria->getLugares(),
+                                'industriaConfirmada' => $industria->getEsConfirmado(),
+                                'showAlertLugares' => $showAlertLugares
+                    ]);
+                }
+            }
             $domicilio = $industria->getDomicilio();
             $d = $request->request->get('domicilio');
             if ($d != null) {
@@ -134,25 +154,13 @@ class IndustriaController extends AbstractController {
                 }
             }
 
-
+            $industria->setEsConfirmado($esConfirmado);
             $industria->setDomicilio($domicilio);
             $entityManager->persist($domicilio);
             $entityManager->persist($industria);
             $entityManager->flush();
 
-            if ($formulario->getClickedButton() && 'confirmarIndustria' === $formulario->getClickedButton()->getName()) {
-                $esConfirmado = true;
-                $industria->setEsConfirmado($esConfirmado);
-                $entityManager->persist($industria);
-                $entityManager->flush();
-                $showAlertLugares = $this->ValidarNoLugaresPendientes($industria);
-                return $this->render('industria/nuevo.html.twig', [
-                            'formulario' => $formulario->createView(),
-                            'lugares' => $industria->getLugares(),
-                            'industriaConfirmada' => $industria->getEsConfirmado(),
-                            'showAlertLugares' => $showAlertLugares
-                ]);
-            }
+
             if ($request->request->has('nuevoLugar')) {
                 return $this->redirectToRoute('lugar_nuevo');
             } else if ($request->request->has('modificarLugar')) {
