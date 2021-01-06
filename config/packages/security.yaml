@@ -43,3 +43,4 @@ security:
         - { path: '^/admin', roles: ROLE_ADMIN }
         - { path: '^/generales', roles: ROLE_ADMIN }
         - { path: '^/tipos', roles: ROLE_ADMIN }
+        - { path: '^/tablero', roles: ROLE_ADMIN }
