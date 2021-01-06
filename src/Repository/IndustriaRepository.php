@@ -31,6 +31,46 @@ class IndustriaRepository extends ServiceEntityRepository {
         }
     }
 
+    public function getReempadronadas($busqueda, $sortOrder, $sortColumn, $pageNum, $pageSize): array {
+        return $this->createQueryBuilder('i')
+                        ->andWhere('i.esConfirmado = :val')
+                        ->setParameter('val', 1)
+                        ->andWhere('i.CUIT LIKE :busqueda '
+                                . 'OR i.razonSocial LIKE :busqueda ')
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->orderBy('i.' . $sortColumn, $sortOrder)
+                        ->setFirstResult($pageNum * $pageSize)
+                        ->setMaxResults($pageSize)
+                        ->getQuery()
+                        ->getResult()
+        ;
+    }
+
+    public function getCantRegistros($busqueda) {
+        return $this->createQueryBuilder('i')
+                        ->select('count(i.id)')
+                        ->andWhere('i.esConfirmado = :val')
+                        ->setParameter('val', 1)
+                        ->andWhere('i.CUIT LIKE :busqueda '
+                                . 'OR i.razonSocial LIKE :busqueda ')
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->getQuery()
+                        ->getSingleScalarResult()
+        ;
+    }
+
+
+    public function getReempadronadasBusqueda(string $busqueda): array {
+        return $this->createQueryBuilder('i')
+                        ->andWhere('i.esConfirmado = :val')
+                        ->setParameter('val', 1)
+                        ->andWhere('i.CUIT LIKE :busqueda')
+                        ->setParameter('busqueda', '%' . $busqueda . '%')
+                        ->getQuery()
+                        ->getResult();
+        ;
+    }
+
     public function getCantidadEmpadronadas(): ?int {
         return $this->createQueryBuilder('i')
                         ->select('count(i.id)')

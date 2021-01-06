@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% block title %}Industrias Reempadronadas{% endblock %}
+{% block body %}
+    <div class="container w-100 p-3">
+        <div class="card mx-auto">       
+            {{ form_start(formBusqueda,{ 'attr' : { 'id':'formBusqueda' } }) }}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 pb-2">
+                        <div class="float-right">
+                            <div class="input-group mb-3">
+                                {{ form_widget(formBusqueda.busqueda,{'attr':{'class':'form-control'}}) }}
+                                <div class="input-group-append">
+                                    {{ form_widget(formBusqueda.buscar,{'attr':{'class':'btn btn-primary', 'id':'button-addon2'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="defaultSortColumn" value={{ defaultSortColumn }}>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-bordered ">
+                            <thead class="thead-light">
+                                <tr >
+                                    <th id="headerCUIT" data-nombre="CUIT">
+                                        <div class="float-left">
+                                            CUIT
+                                        </div>
+                                        <div class="float-right align-bottom">
+                                            <span class="fa fa-xs"/>
+                                        </div>
+                                    </th>
+                                    <th id="headerRazonSocial" data-nombre="razonSocial">
+                                        <div class="float-left">
+                                            Razón Social
+                                        </div>
+                                        <div class="float-right align-bottom">
+                                            <span class="fa fa-xs"/>
+                                        </div>
+                                    </th>
+                                    <th id="headerReempadronadoEn" data-nombre="reempadronadoEn">
+                                        <div class="float-left">
+                                            Fecha de Reempadronamiento
+                                        </div>
+                                        <div class="float-right align-bottom">
+                                            <span class="fa fa-xs"/>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for industria in industrias %}
+                                    <tr >
+                                        <td >{{ industria.CUIT }}</td>
+                                        <td >{{ industria.razonSocial}}</td>
+                                        <td >{{ industria.reempadronadoEn|date("m/d/Y")}}</td>
+                                    </tr>
+                                {%  endfor %}     
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">                    
+                    <div class="col-3">
+                        <div class="center-block text-left pl-2">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-12 pt-2">
+                                        {% if pageSize*pageNum <= totalRecords%}
+                                            {{ pageSize*pageNum-(pageSize-1) }} - {{ pageSize*pageNum }} de {{ totalRecords }}
+                                        {% else %}
+                                            {{ pageSize*pageNum-(pageSize-1) }} - {{ totalRecords }} de {{ totalRecords }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="center-block text-center"> 
+                            <button id="btnPageBack" data-pagenum="{{ pageNum }}"  type="button" class="btn btn-primary"><span class="fa fa-chevron-left "/></button>
+                            <button id="btnPageNext" data-pagenum="{{ pageNum }}" data-totalrecords="{{ totalRecords }}" type="button" class="btn btn-primary"><span class="fa fa-chevron-right "/></button>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="center-block text-right"> 
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 pt-2">
+                                        {{ form_label(formBusqueda.pageSize) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form_widget(formBusqueda.pageSize) }}
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(formBusqueda) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('grilla_default') }}  
+{% endblock %}

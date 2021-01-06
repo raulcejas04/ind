@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\TableroControl;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,7 @@ use App\Entity\Lugar;
 class DashboardController extends AbstractController {
 
     /**
-     * @Route("/admin/dashboard",name="admin_dashboard")
+     * @Route("/tablero/dashboard",name="tablero_dashboard")
      */
     public function index(Request $request): Response {
 
@@ -31,7 +31,7 @@ class DashboardController extends AbstractController {
         $cantHabilitacionDefinitiva = $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35074);
         $cantHabilitacionProvisoria =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35073);
         $cantHabilitacionInicio =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35075);
-        return $this->render('admin/dashboard/dashboard.html.twig', [
+        return $this->render('tablero/dashboard/dashboard.html.twig', [
                     'cantEmpadronadas' => $cantEmpadronadas,
                     'porcExportadoras' => $porcExportadoras,
                     'porcHabDefinitiva' => $porcHabDefinitiva,

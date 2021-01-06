@@ -3,7 +3,7 @@
     "app": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
         "/build/vendors~app.js",
         "/build/app.js"
       ],
@@ -14,8 +14,8 @@
     "image_cropper": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
-        "/build/vendors~dashboard~image_cropper~lugarForm.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
+        "/build/vendors~dashboard~grilla_default~image_cropper~lugarForm.js",
         "/build/vendors~dashboard~image_cropper.js",
         "/build/vendors~image_cropper.js",
         "/build/image_cropper.js"
@@ -27,7 +27,7 @@
     "select2": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
         "/build/vendors~lugarForm~select2.js",
         "/build/select2.js"
       ],
@@ -39,7 +39,7 @@
     "datepicker": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
         "/build/vendors~datepicker.js",
         "/build/datepicker.js"
       ],
@@ -51,10 +51,10 @@
     "lugarForm": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
-        "/build/vendors~dashboard~image_cropper~lugarForm.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
+        "/build/vendors~dashboard~grilla_default~image_cropper~lugarForm.js",
         "/build/vendors~lugarForm~select2.js",
-        "/build/vendors~lugarForm.js",
+        "/build/vendors~grilla_default~lugarForm.js",
         "/build/lugarForm.js"
       ],
       "css": [
@@ -65,8 +65,8 @@
     "dashboard": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~dashboard~datepicker~image_cropper~lugarForm~select2.js",
-        "/build/vendors~dashboard~image_cropper~lugarForm.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
+        "/build/vendors~dashboard~grilla_default~image_cropper~lugarForm.js",
         "/build/vendors~dashboard~image_cropper.js",
         "/build/vendors~dashboard.js",
         "/build/dashboard.js"
@@ -74,6 +74,15 @@
       "css": [
         "/build/vendors~dashboard.css",
         "/build/dashboard.css"
+      ]
+    },
+    "grilla_default": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~app~dashboard~datepicker~grilla_default~image_cropper~lugarForm~select2.js",
+        "/build/vendors~dashboard~grilla_default~image_cropper~lugarForm.js",
+        "/build/vendors~grilla_default~lugarForm.js",
+        "/build/grilla_default.js"
       ]
     }
   }
