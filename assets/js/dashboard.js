@@ -90,6 +90,7 @@ var colors = ['#0275d8', '#5cb85c', '#f0ad4e', '#d9534f'];
 
 
 $(document).ready(function () {
+    //Lugares habilitados
     var canvHabilitaciones = $('#chartHabilitaciones');
     var cantHabilitados = $("#cantHabilitados").val();
     var cantDeshabilitados = $("#cantDeshabilitados").val();
@@ -126,8 +127,116 @@ $(document).ready(function () {
                 center: {
                     text: Number(cantHabilitados) + Number(cantDeshabilitados),
                     color: '#000000', // Default is #000000
-                    fontStyle: 'Arial', // Default is Arial
-                    sidePadding: 40, // Default is 20 (as a percentage)
+                    fontStyle: 'Helvetica', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
+                    minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
+                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data['datasets'][0]['data'][tooltipItem['index']];
+                    },
+                }
+            },
+        }
+    });
+
+    //Lugares que exportan
+
+    var canvExportan = $('#chartLugaresExportadores');
+    var cantExportadores = $("#cantLugaresExportadores").val();
+    var cantNoExportadores = $("#cantLugaresNoExportadores").val();
+
+    var data = {
+        datasets: [{
+                backgroundColor: [colors[0], colors[2]],
+                borderWidth: 0,
+                data: [cantExportadores, cantNoExportadores]
+            }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Si: ' + cantExportadores,
+            'No: ' + cantNoExportadores,
+        ]
+    };
+
+    var chartExportadores = new Chart(canvExportan, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            cutoutPercentage: 50,
+            legend: {
+                position: 'bottom',
+                padding: 5,
+                labels:
+                        {
+                            pointStyle: 'circle',
+                            usePointStyle: true
+                        }
+            },
+            elements: {
+                center: {
+                    text: Number(cantHabilitados) + Number(cantDeshabilitados),
+                    color: '#000000', // Default is #000000
+                    fontStyle: 'Helvetica', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
+                    minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
+                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data['datasets'][0]['data'][tooltipItem['index']];
+                    },
+                }
+            },
+        }
+    });
+
+    //Habilitaciones por tipo
+    var canvHabilitacionTipo = $('#chartHabilitacionTipos');
+    var cantHabilitacionDefinitiva = $("#cantHabilitacionDefinitiva").val();
+    var cantHabilitacionProvisoria = $("#cantHabilitacionProvisoria").val();
+    var cantHabilitacionInicio = $("#cantHabilitacionInicio").val();
+
+    var data = {
+        datasets: [{
+                backgroundColor: [colors[0], colors[1], colors[2]],
+                borderWidth: 0,
+                data: [cantHabilitacionDefinitiva, cantHabilitacionProvisoria, cantHabilitacionInicio]
+            }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Definitiva: ' + cantHabilitacionDefinitiva,
+            'Provisoria: ' + cantHabilitacionProvisoria,
+            'Inicio de tramite: ' + cantHabilitacionInicio,
+        ]
+    };
+
+    var chartHabilitacionTipo = new Chart(canvHabilitacionTipo, {
+        type: 'doughnut',
+        data: data,
+        options: {
+            legend: {
+                position: 'bottom',
+                padding: 5,
+                labels:
+                        {
+                            pointStyle: 'circle',
+                            usePointStyle: true
+                        }
+            },
+            elements: {
+                center: {
+                    text: Number(cantHabilitados) + Number(cantDeshabilitados),
+                    color: '#000000', // Default is #000000
+                    fontStyle: 'Helvetica', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
                     minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
                     lineHeight: 25 // Default is 25 (in px), used for when text wraps
                 }

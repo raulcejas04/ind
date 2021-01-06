@@ -24,12 +24,24 @@ class DashboardController extends AbstractController {
 
         $cantLugaresHabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantHabilitados();
         $cantLugaresDeshabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantDeshabilitados();
+
+        $cantLugaresExportadores = $this->getDoctrine()->getRepository(Lugar::class)->getCantExportadores(true);
+        $cantLugaresNoExportadores = $this->getDoctrine()->getRepository(Lugar::class)->getCantExportadores(false);
+
+        $cantHabilitacionDefinitiva = $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35074);
+        $cantHabilitacionProvisoria =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35073);
+        $cantHabilitacionInicio =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35075);
         return $this->render('admin/dashboard/dashboard.html.twig', [
                     'cantEmpadronadas' => $cantEmpadronadas,
                     'porcExportadoras' => $porcExportadoras,
                     'porcHabDefinitiva' => $porcHabDefinitiva,
                     'cantLugaresHabilitados' => $cantLugaresHabilitados,
-                    'cantLugaresDeshabilitados' => $cantLugaresDeshabilitados
+                    'cantLugaresDeshabilitados' => $cantLugaresDeshabilitados,
+                    'cantLugaresExportadores' => $cantLugaresExportadores,
+                    'cantLugaresNoExportadores' => $cantLugaresNoExportadores,
+                    'cantHabilitacionDefinitiva' => $cantHabilitacionDefinitiva,
+                    'cantHabilitacionProvisoria' => $cantHabilitacionProvisoria,
+                    'cantHabilitacionInicio' => $cantHabilitacionInicio
         ]);
     }
 
