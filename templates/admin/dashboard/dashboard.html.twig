@@ -1,0 +1,45 @@
+{% extends 'base_wide.html.twig' %}
+{% block stylesheets %}
+    {{parent()}}
+    {{ encore_entry_link_tags('dashboard') }}  
+{% endblock %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+    <div class="container w-100 p-3">        
+        <div class="row">
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-12 pb-2">
+                        <!-- Industrias reempadronadas -->
+                        {{ include("admin/dashboard/_industriasReempadronadas.html.twig")}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 pb-2">
+                        <!-- Industrias exportadoras -->
+                        {{ include("admin/dashboard/_industriasExportadoras.html.twig")}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Industrias con habilitacion definitiva -->
+                        {{ include("admin/dashboard/_industriasHabDefinitiva.html.twig")}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <!-- Graficos -->
+                <div class="row">
+                    <div class="col-3">
+                        {{ include("admin/dashboard/_lugaresHabilitados.html.twig") }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard') }}  
+{% endblock %}

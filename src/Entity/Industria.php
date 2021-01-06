@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table("industria")
  */
 class Industria {
+
     use AuditTrait;
 
     /**
@@ -59,8 +60,21 @@ class Industria {
      */
     private $esConfirmado;
 
+    /**
+     * @ORM\Column(type="datetime", name="reempadronadoEn")
+     */
+    private $reempadronadoEn;
+
     public function __construct() {
         $this->lugares = new ArrayCollection();
+    }
+
+    public function getReempadronadoEn(): ?\DateTimeInterface {
+        return $this->reempadronadoEn;
+    }
+
+    public function setReempadronadoEn() {
+        $this->reempadronadoEn = new \DateTime();
     }
 
     public function getId(): ?int {
@@ -156,13 +170,11 @@ class Industria {
         return $this;
     }
 
-    public function getEsConfirmado(): ?bool
-    {
+    public function getEsConfirmado(): ?bool {
         return $this->esConfirmado;
     }
 
-    public function setEsConfirmado(bool $esConfirmado): self
-    {
+    public function setEsConfirmado(bool $esConfirmado): self {
         $this->esConfirmado = $esConfirmado;
 
         return $this;

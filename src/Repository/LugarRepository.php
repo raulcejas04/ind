@@ -35,6 +35,32 @@ class LugarRepository extends ServiceEntityRepository {
         ;
     }
 
+    public function getCantHabilitados(): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.habilitacion IS NOT NULL')
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
+    public function getCantDeshabilitados(): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.habilitacion IS NULL')
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
     // /**
     //  * @return Lugar[] Returns an array of Lugar objects
     //  */
