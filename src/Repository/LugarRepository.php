@@ -61,6 +61,35 @@ class LugarRepository extends ServiceEntityRepository {
         ;
     }
 
+    public function getCantExportadores(bool $esExportador): ?int {
+        $exporta = $esExportador ? '1' : '0';
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.esExportador = :esExportador')
+                        ->setParameter('esExportador', $exporta)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
+    public function getCantTipoHabilitacion(int $tipoId): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->join('l.habilitacion', 'h')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('h.tipo = :tipo')
+                        ->setParameter('tipo', $tipoId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
     // /**
     //  * @return Lugar[] Returns an array of Lugar objects
     //  */
