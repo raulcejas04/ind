@@ -11,19 +11,21 @@
                 <div class="row">
                     <div class="col-12 pb-2">
                         <!-- Industrias reempadronadas -->
-                        {{ include("admin/dashboard/_industriasReempadronadas.html.twig")}}
+                        <a href="{{ path("industrias_reempadronadas") }}">
+                        {{ include("tablero/dashboard/_industriasReempadronadas.html.twig")}}
+                        </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 pb-2">
                         <!-- Industrias exportadoras -->
-                        {{ include("admin/dashboard/_industriasExportadoras.html.twig")}}
+                        {{ include("tablero/dashboard/_industriasExportadoras.html.twig")}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <!-- Industrias con habilitacion definitiva -->
-                        {{ include("admin/dashboard/_industriasHabDefinitiva.html.twig")}}
+                        {{ include("tablero/dashboard/_industriasHabDefinitiva.html.twig")}}
                     </div>
                 </div>
             </div>
@@ -31,13 +33,13 @@
                 <!-- Graficos -->
                 <div class="row">
                     <div class="col-4">
-                        {{ include("admin/dashboard/_lugaresHabilitados.html.twig") }}
+                        {{ include("tablero/dashboard/_lugaresHabilitados.html.twig") }}
                     </div>
                     <div class="col-4">
-                        {{ include("admin/dashboard/_lugaresExportan.html.twig") }}
+                        {{ include("tablero/dashboard/_lugaresExportan.html.twig") }}
                     </div>
                     <div class="col-4">
-                        {{ include("admin/dashboard/_lugaresTipoHabilitacion.html.twig") }}
+                        {{ include("tablero/dashboard/_lugaresTipoHabilitacion.html.twig") }}
                     </div>
                 </div>
             </div>
