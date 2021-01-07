@@ -27,7 +27,7 @@ class HorariosTrabajo {
     private $lugar;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $dia;
@@ -60,11 +60,11 @@ class HorariosTrabajo {
         return $this;
     }
 
-    public function getDia(): ?general {
+    public function getDia(): ?General {
         return $this->dia;
     }
 
-    public function setDia(?general $dia): self {
+    public function setDia(?General $dia): self {
         $this->dia = $dia;
 
         return $this;

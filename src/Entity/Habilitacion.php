@@ -167,41 +167,41 @@ class Habilitacion {
         return $this;
     }
 
-    public function getTipo(): ?general {
+    public function getTipo(): ?General {
         return $this->tipo;
     }
 
-    public function setTipo(?general $tipo): self {
+    public function setTipo(?General $tipo): self {
         $this->tipo = $tipo;
 
         return $this;
     }
 
-    public function getRubroHabilitado(): ?general {
+    public function getRubroHabilitado(): ?General {
         return $this->rubroHabilitado;
     }
 
-    public function setRubroHabilitado(?general $rubroHabilitado): self {
+    public function setRubroHabilitado(?General $rubroHabilitado): self {
         $this->rubroHabilitado = $rubroHabilitado;
 
         return $this;
     }
 
-    public function getRubroPrimario(): ?general {
+    public function getRubroPrimario(): ?General {
         return $this->rubroPrimario;
     }
 
-    public function setRubroPrimario(?general $rubroPrimario): self {
+    public function setRubroPrimario(?General $rubroPrimario): self {
         $this->rubroPrimario = $rubroPrimario;
 
         return $this;
     }
 
-    public function getRubroSecundario(): ?general {
+    public function getRubroSecundario(): ?General {
         return $this->rubroSecundario;
     }
 
-    public function setRubroSecundario(?general $rubroSecundario): self {
+    public function setRubroSecundario(?General $rubroSecundario): self {
         $this->rubroSecundario = $rubroSecundario;
 
         return $this;

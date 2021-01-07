@@ -1,6 +1,45 @@
 {
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
+    },
+    "maennchen/zipstream-php": {
+        "version": "2.1.0"
+    },
+    "markbaker/complex": {
+        "version": "2.0.0"
+    },
+    "markbaker/matrix": {
+        "version": "2.0.0"
+    },
+    "mpdf/mpdf": {
+        "version": "v8.0.8"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.10.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.7"
+    },
     "php": {
         "version": "7.4"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.16.0"
+    },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
+    "setasign/fpdi": {
+        "version": "v2.3.5"
     },
     "symfony/flex": {
         "version": "1.0",

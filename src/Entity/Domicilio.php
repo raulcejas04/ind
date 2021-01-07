@@ -153,7 +153,7 @@ class Domicilio {
         return $this;
     }
 
-    public function removeLocalidad(general $localidad): self {
+    public function removeLocalidad(General $localidad): self {
         if ($this->localidad->removeElement($localidad)) {
             // set the owning side to null (unless already changed)
             if ($localidad->getDomicilio() === $this) {
@@ -248,41 +248,41 @@ class Domicilio {
         return $this;
     }
 
-    public function getCalle(): ?general {
+    public function getCalle(): ?General {
         return $this->calle;
     }
 
-    public function setCalle(?general $calle): self {
+    public function setCalle(?General $calle): self {
         $this->calle = $calle;
 
         return $this;
     }
 
-    public function getProvincia(): ?general {
+    public function getProvincia(): ?General {
         return $this->provincia;
     }
 
-    public function setProvincia(?general $provincia): self {
+    public function setProvincia(?General $provincia): self {
         $this->provincia = $provincia;
 
         return $this;
     }
 
-    public function getLocalidad(): ?general {
+    public function getLocalidad(): ?General {
         return $this->localidad;
     }
 
-    public function setLocalidad(?general $localidad): self {
+    public function setLocalidad(?General $localidad): self {
         $this->localidad = $localidad;
 
         return $this;
     }
 
-    public function getDepartamento(): ?general {
+    public function getDepartamento(): ?General {
         return $this->departamento;
     }
 
-    public function setDepartamento(?general $departamento): self {
+    public function setDepartamento(?General $departamento): self {
         $this->departamento = $departamento;
 
         return $this;

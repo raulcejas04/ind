@@ -271,7 +271,7 @@ class Lugar {
     private $tieneResiduosIndustriales;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduoIndustrial")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="lugaresResiduoIndustrial")
      * @Assert\NotBlank(
      * groups={"residuosIndustriales"},
      * message="Campo requerido."
@@ -295,7 +295,7 @@ class Lugar {
     private $tieneResiduosEspeciales;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class, inversedBy="lugaresResiduosEspeciales")
+     * @ORM\ManyToOne(targetEntity=General::class, inversedBy="lugaresResiduosEspeciales")
      * @Assert\NotBlank(
      * groups={"residuosEspeciales"},
      * message="Campo requerido."
@@ -304,7 +304,7 @@ class Lugar {
     private $tipoResiduoEspecial;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @Assert\NotBlank(
      * groups={"residuosEspeciales"},
      * message="Campo requerido."
@@ -318,7 +318,7 @@ class Lugar {
     private $tieneEmisionesGaseosas;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @Assert\NotBlank(
      * groups={"emisionesGaseosas"},
      * message="Campo requerido."
@@ -344,7 +344,7 @@ class Lugar {
     private $residuoIndustrial;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @Assert\NotBlank(
      * groups={"residuosIndustriales"},
      * message="Campo requerido."
@@ -387,13 +387,13 @@ class Lugar {
     }
 
     /**
-     * @return Collection|general[]
+     * @return Collection|General[]
      */
     public function getTipo(): Collection {
         return $this->tipo;
     }
 
-    public function addTipo(general $tipo): self {
+    public function addTipo(General $tipo): self {
         if (!$this->tipo->contains($tipo)) {
             $this->tipo[] = $tipo;
             $tipo->setLugar($this);
@@ -402,7 +402,7 @@ class Lugar {
         return $this;
     }
 
-    public function removeTipo(general $tipo): self {
+    public function removeTipo(General $tipo): self {
         if ($this->tipo->removeElement($tipo)) {
             // set the owning side to null (unless already changed)
             if ($tipo->getLugar() === $this) {
@@ -594,13 +594,13 @@ class Lugar {
     }
 
     /**
-     * @return Collection|general[]
+     * @return Collection|General[]
      */
     public function getPaises(): Collection {
         return $this->paises;
     }
 
-    public function addPaise(general $paise): self {
+    public function addPaise(General $paise): self {
         if (!$this->paises->contains($paise)) {
             $this->paises[] = $paise;
         }
@@ -608,13 +608,13 @@ class Lugar {
         return $this;
     }
 
-    public function removePaise(general $paise): self {
+    public function removePaise(General $paise): self {
         $this->paises->removeElement($paise);
 
         return $this;
     }
 
-    public function removeResiduo(general $residuo): self {
+    public function removeResiduo(General $residuo): self {
         if ($this->residuos->removeElement($residuo)) {
             // set the owning side to null (unless already changed)
             if ($residuo->getLugar() === $this) {
@@ -715,11 +715,11 @@ class Lugar {
         return $this;
     }
 
-    public function getTipoResiduoIndustrial(): ?general {
+    public function getTipoResiduoIndustrial(): ?General {
         return $this->tipoResiduoIndustrial;
     }
 
-    public function setTipoResiduoIndustrial(?general $tipoResiduoIndustrial): self {
+    public function setTipoResiduoIndustrial(?General $tipoResiduoIndustrial): self {
         $this->tipoResiduoIndustrial = $tipoResiduoIndustrial;
 
         return $this;
@@ -755,21 +755,21 @@ class Lugar {
         return $this;
     }
 
-    public function getTipoResiduoEspecial(): ?general {
+    public function getTipoResiduoEspecial(): ?General {
         return $this->tipoResiduoEspecial;
     }
 
-    public function setTipoResiduoEspecial(?general $tipoResiduoEspecial): self {
+    public function setTipoResiduoEspecial(?General $tipoResiduoEspecial): self {
         $this->tipoResiduoEspecial = $tipoResiduoEspecial;
 
         return $this;
     }
 
-    public function getCorrientes(): ?general {
+    public function getCorrientes(): ?General {
         return $this->corrientes;
     }
 
-    public function setCorrientes(?general $corrientes): self {
+    public function setCorrientes(?General $corrientes): self {
         $this->corrientes = $corrientes;
 
         return $this;
@@ -785,11 +785,11 @@ class Lugar {
         return $this;
     }
 
-    public function getTipoEmisionGaseosa(): ?general {
+    public function getTipoEmisionGaseosa(): ?General {
         return $this->tipoEmisionGaseosa;
     }
 
-    public function setTipoEmisionGaseosa(?general $tipoEmisionGaseosa): self {
+    public function setTipoEmisionGaseosa(?General $tipoEmisionGaseosa): self {
         $this->tipoEmisionGaseosa = $tipoEmisionGaseosa;
 
         return $this;
@@ -815,11 +815,11 @@ class Lugar {
         return $this;
     }
 
-    public function getDestinoVuelcoTipo(): ?general {
+    public function getDestinoVuelcoTipo(): ?General {
         return $this->destinoVuelcoTipo;
     }
 
-    public function setDestinoVuelcoTipo(?general $destinoVuelcoTipo): self {
+    public function setDestinoVuelcoTipo(?General $destinoVuelcoTipo): self {
         $this->destinoVuelcoTipo = $destinoVuelcoTipo;
 
         return $this;
