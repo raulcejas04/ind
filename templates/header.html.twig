@@ -21,15 +21,19 @@
 
         <div class="btn-toolbar"> 
             {% if is_granted('ROLE_USER') %}
-
-                {% if app.user.NombreImgPerfil is null %}
-                    <a class="btn btn-sm btn-light m-1" href="{{ path('session_cuenta') }}">Cuenta</a>
-                {% else %}
-                    <a class="btn btn-sm btn-light m-1" href="{{ path('session_cuenta') }}">
-                        <img style="width:50px;height:50px;" src="{{ asset('uploads/perfil/' ~ app.user.NombreImgPerfil) }}">
-                    </a>
-                {% endif %}
-                <a class="btn btn-sm btn-light m-1" href="{{ path('app_logout') }}">Logout</a>
+                <div class="dropdown">
+                    {% if app.user.NombreImgPerfil is null %}
+                        <button type="button" class="btn btn-light m-1 dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-user-circle-o fa-3"></span>
+                        </button>
+                    {% else %}                        
+                        <img class="dropdown-toggle img-thumbnail" data-toggle="dropdown" style="width:50px;height:50px;" src="{{ asset('uploads/perfil/' ~ app.user.NombreImgPerfil) }}">
+                    {% endif %}
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{{ path('session_cuenta') }}">Cuenta</a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Cerrar sesión</a>
+                    </div>
+                </div>                
             {%  else  %}
                 <a class="btn btn-sm btn-light m-1" href="{{ path('login') }}">Login</a>
             {% endif %}
