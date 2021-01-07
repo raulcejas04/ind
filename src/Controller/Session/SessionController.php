@@ -176,7 +176,10 @@ class SessionController extends AbstractController {
                 //en la carpeta indicada en config/services.yaml
                 $imgGenerada = $this->generarImagenNueva($imgElegida, $x, $y, $alto, $ancho, 100, 100);
                 $this->guardarImgPerfil($imgElegida, $imgGenerada, $nombreNuevo);
-                $eliminada = $this->eliminarImgPerfil($usuario->getNombreImgPerfil());
+                $eliminada = true;
+                if(!is_null($usuario->getNombreImgPerfil())){
+                     $eliminada = $this->eliminarImgPerfil($usuario->getNombreImgPerfil());
+                }               
                 if (!$eliminada) {
                     array_push($errores, "No se ha podido eliminar la imagen anterior.");
                     return $this->render('session/cambiar_img_perfil.html.twig', [

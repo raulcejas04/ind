@@ -3,7 +3,6 @@
     <div class="btn-group" role="group">
         <a class="btn btn-success" href="{{ path("admin_usuarios_editar",{"id":usuario.id}) }}"><span class="fa fa-edit"></span></a>     
         <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="_token" value="{{ csrf_token('eliminar' ~ usuario.id) }}">
         <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
     </div>
     </div>
