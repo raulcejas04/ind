@@ -21,7 +21,7 @@ class DispCatProvincial
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=general::class)
+     * @ORM\ManyToOne(targetEntity=General::class)
      * @Assert\NotBlank(
      * message="Campo requerido.",
      * groups={"catProvincial"}
@@ -56,12 +56,12 @@ class DispCatProvincial
         return $this->id;
     }
 
-    public function getCategoria(): ?general
+    public function getCategoria(): ?General
     {
         return $this->categoria;
     }
 
-    public function setCategoria(?general $categoria): self
+    public function setCategoria(?General $categoria): self
     {
         $this->categoria = $categoria;
 

@@ -33,6 +33,11 @@ $(document).ready(function () {
             $("#formBusqueda").submit();
         }
     });
+    
+    //Abrir modal exportar
+    $("#btnAbrirModal").click(function(){
+        $("#modalExportar").modal('show');
+    });
 });
 
 function submitNewSort($column) {

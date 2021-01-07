@@ -6,10 +6,26 @@
             {{ form_start(formBusqueda,{ 'attr' : { 'id':'formBusqueda' } }) }}
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 pb-2">
+                    <div class="col-sm-6 pb-2">
+                        {% if industrias|length == 0  %}
+                            <button type="button" 
+                                    id="btnAbrirModal" 
+                                    class="btn btn-primary disabled" 
+                                    disabled>
+                                Exportar
+                            </button>
+                        {% else %}
+                             <button type="button" 
+                                    id="btnAbrirModal" 
+                                    class="btn btn-primary">
+                                Exportar
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6 pb-2">
                         <div class="float-right">
                             <div class="input-group mb-3">
-                                {{ form_widget(formBusqueda.busqueda,{'attr':{'class':'form-control'}}) }}
+                                {{ form_widget(formBusqueda.busqueda,{'attr':{'class':'form-control','id':'txtBusqueda'}}) }}
                                 <div class="input-group-append">
                                     {{ form_widget(formBusqueda.buscar,{'attr':{'class':'btn btn-primary', 'id':'button-addon2'}}) }}
                                 </div>
@@ -20,45 +36,55 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover table-bordered ">
-                            <thead class="thead-light">
-                                <tr >
-                                    <th id="headerCUIT" data-nombre="CUIT">
-                                        <div class="float-left">
-                                            CUIT
-                                        </div>
-                                        <div class="float-right align-bottom">
-                                            <span class="fa fa-xs"/>
-                                        </div>
-                                    </th>
-                                    <th id="headerRazonSocial" data-nombre="razonSocial">
-                                        <div class="float-left">
-                                            Razón Social
-                                        </div>
-                                        <div class="float-right align-bottom">
-                                            <span class="fa fa-xs"/>
-                                        </div>
-                                    </th>
-                                    <th id="headerReempadronadoEn" data-nombre="reempadronadoEn">
-                                        <div class="float-left">
-                                            Fecha de Reempadronamiento
-                                        </div>
-                                        <div class="float-right align-bottom">
-                                            <span class="fa fa-xs"/>
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for industria in industrias %}
+                        {% if industrias|length == 0 %}
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="alert alert-info" role="alert">
+                                        No se han encontrado registros. 
+                                    </div>
+                                </div>
+                            </div>       
+                        {% else %}
+                            <table class="table table-hover table-bordered ">
+                                <thead class="thead-light">
                                     <tr >
-                                        <td >{{ industria.CUIT }}</td>
-                                        <td >{{ industria.razonSocial}}</td>
-                                        <td >{{ industria.reempadronadoEn|date("m/d/Y")}}</td>
+                                        <th id="headerCUIT" data-nombre="CUIT">
+                                            <div class="float-left">
+                                                CUIT
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>
+                                        <th id="headerRazonSocial" data-nombre="razonSocial">
+                                            <div class="float-left">
+                                                Razón Social
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>
+                                        <th id="headerReempadronadoEn" data-nombre="reempadronadoEn">
+                                            <div class="float-left">
+                                                Fecha de Reempadronamiento
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>
                                     </tr>
-                                {%  endfor %}     
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for industria in industrias %}
+                                        <tr >
+                                            <td >{{ industria.CUIT }}</td>
+                                            <td >{{ industria.razonSocial}}</td>
+                                            <td >{{ industria.reempadronadoEn|date("m/d/Y")}}</td>
+                                        </tr>
+                                    {%  endfor %}     
+                                </tbody>
+                            </table>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row">                    
@@ -101,6 +127,59 @@
                 </div>
             </div>
             {{ form_end(formBusqueda) }}
+        </div>
+
+    </div>
+    <div id="modalExportar" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exportar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="center-block text-center"> 
+                        {% if busqueda != "" %}
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_csv",{"busqueda":busqueda}) }}">
+                                <span class="fa fa-file-archive-o"></span> CSV
+                            </a> 
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_xlsx",{"busqueda":busqueda}) }}">
+                                <span class="fa fa-file-excel-o"></span> Excel
+                            </a>
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_pdf",{"busqueda":busqueda}) }}">
+                                <span class="fa fa-file-pdf-o"></span> PDF
+                            </a>
+                        {% else %}
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_csv",{"busqueda":" "}) }}">
+                                <span class="fa fa-file-archive-o"></span> CSV
+                            </a> 
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_xlsx",{"busqueda":" "}) }}">
+                                <span class="fa fa-file-excel-o"></span> Excel
+                            </a>
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ path("industrias_reempadronadas_exp_pdf",{"busqueda":" "}) }}">
+                                <span class="fa fa-file-pdf-o"></span> PDF
+                            </a> 
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
