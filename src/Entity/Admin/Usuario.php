@@ -47,9 +47,9 @@ class Usuario implements UserInterface {
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\Column(type="json", length=250)
      */
-    private $roles = "";
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -106,14 +106,11 @@ class Usuario implements UserInterface {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $NombreImgPerfil;
+    private $nombreImgPerfil;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->grupos = new ArrayCollection();
     }
-    
-    
 
     public function getId(): ?int {
         return $this->id;
@@ -146,12 +143,12 @@ class Usuario implements UserInterface {
     /**
      * @see UserInterface
      */
-    public function getRoles(): string{
+    public function getRoles(): array {
         $roles = $this->roles;
-// guarantee every user at least has ROLE_USER
-        $roles .= '|ROLE_USER|';
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
-        return $roles;
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self {
@@ -206,13 +203,11 @@ class Usuario implements UserInterface {
 // $this->plainPassword = null;
     }
 
-    public function getCompania(): ?Compania
-    {
+    public function getCompania(): ?Compania {
         return $this->compania;
     }
 
-    public function setCompania(?Compania $compania): self
-    {
+    public function setCompania(?Compania $compania): self {
         $this->compania = $compania;
 
         return $this;
@@ -221,13 +216,11 @@ class Usuario implements UserInterface {
     /**
      * @return Collection|Grupo[]
      */
-    public function getGrupos(): Collection
-    {
+    public function getGrupos(): Collection {
         return $this->grupos;
     }
 
-    public function addGrupo(Grupo $grupo): self
-    {        
+    public function addGrupo(Grupo $grupo): self {
         if (!$this->grupos->contains($grupo)) {
             $this->grupos[] = $grupo;
             $grupo->addUsuario($this);
@@ -236,8 +229,7 @@ class Usuario implements UserInterface {
         return $this;
     }
 
-    public function removeGrupo(Grupo $grupo): self
-    {
+    public function removeGrupo(Grupo $grupo): self {
         if ($this->grupos->contains($grupo)) {
             $this->grupos->removeElement($grupo);
             $grupo->removeUsuario($this);
@@ -246,15 +238,14 @@ class Usuario implements UserInterface {
         return $this;
     }
 
-    public function getNombreImgPerfil(): ?string
-    {
-        return $this->NombreImgPerfil;
+    public function getNombreImgPerfil(): ?string {
+        return $this->nombreImgPerfil;
     }
 
-    public function setNombreImgPerfil(?string $NombreImgPerfil): self
-    {
-        $this->NombreImgPerfil = $NombreImgPerfil;
+    public function setNombreImgPerfil(?string $nombreImgPerfil): self {
+        $this->nombreImgPerfil = $nombreImgPerfil;
 
         return $this;
     }
+
 }

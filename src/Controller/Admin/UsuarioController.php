@@ -20,10 +20,10 @@ class UsuarioController extends AbstractController {
     public function index(Request $request): Response {
         $defaultData = [];
         $formulario = $this->createFormBuilder($defaultData)
-                ->add('busqueda', TextType::class, [ 'required' => false])
+                ->add('busqueda', TextType::class, ['required' => false])
                 ->add('buscar', SubmitType::class)
                 ->getForm();
-            $formulario->handleRequest($request);
+        $formulario->handleRequest($request);
 
         //si se hace una busqueda, trae los usuarios que coincidan
         if ($formulario->isSubmitted() && $formulario->isValid()) {
@@ -80,14 +80,18 @@ class UsuarioController extends AbstractController {
     /**
      * @Route("/admin/usuarios/eliminar/{id}",name="admin_usuarios_eliminar",methods={"DELETE"})
      */
-    public function eliminar(Request $request, User $user): Response {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+    public function eliminar(Request $request, $id): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        $god = $this->getUser();
+        //trae usuario por id
+        $usuario = $entityManager->getRepository(Usuario::class)->find($id);
+        if (in_array("ROLE_GOD", $god->getRoles())) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
+            $entityManager->remove($usuario);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_user');
+        return $this->redirectToRoute('admin_usuarios');
     }
 
     /**
