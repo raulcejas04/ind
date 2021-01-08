@@ -35,6 +35,18 @@ class LugarRepository extends ServiceEntityRepository {
         ;
     }
 
+    public function getCantLugares(): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
     public function getCantHabilitados(): ?int {
 
         return $this->createQueryBuilder('l')
@@ -85,6 +97,34 @@ class LugarRepository extends ServiceEntityRepository {
                         ->setParameter('esConfirmado', 1)
                         ->andWhere('h.tipo = :tipo')
                         ->setParameter('tipo', $tipoId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
+    public function getCantPorCategoria(int $catId): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->join('l.dispCatProvincial', 'd')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('d.categoria = :cat')
+                        ->setParameter('cat', $catId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
+    public function getCantSinCategoria(): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.dispCatProvincial IS NULL')
                         ->getQuery()
                         ->getSingleScalarResult();
         ;
