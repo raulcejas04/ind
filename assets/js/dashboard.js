@@ -90,30 +90,34 @@ var colors = ['#0275d8', '#5cb85c', '#f0ad4e', '#d9534f'];
 
 
 $(document).ready(function () {
-    //Lugares habilitados
-    var canvHabilitaciones = $('#chartHabilitaciones');
-    var cantHabilitados = $("#cantHabilitados").val();
+    var cantLugares = $("#cantLugares").val();
+    //Habilitaciones por tipo
+    var canvHabilitacionTipo = $('#chartHabilitacionTipos');
+    var cantHabilitacionDefinitiva = $("#cantHabilitacionDefinitiva").val();
+    var cantHabilitacionProvisoria = $("#cantHabilitacionProvisoria").val();
+    var cantHabilitacionInicio = $("#cantHabilitacionInicio").val();
     var cantDeshabilitados = $("#cantDeshabilitados").val();
 
     var data = {
         datasets: [{
-                backgroundColor: [colors[0], colors[2]],
+                backgroundColor: [colors[0], colors[1], colors[2], colors[3]],
                 borderWidth: 0,
-                data: [cantHabilitados, cantDeshabilitados]
+                data: [cantHabilitacionDefinitiva, cantHabilitacionProvisoria, cantHabilitacionInicio, cantDeshabilitados]
             }],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            'Habilitados: ' + cantHabilitados,
-            'No habilitados: ' + cantDeshabilitados,
+            'Definitiva: ' + cantHabilitacionDefinitiva,
+            'Provisoria: ' + cantHabilitacionProvisoria,
+            'Inicio de tramite: ' + cantHabilitacionInicio,
+            'Sin habilitación: ' + cantDeshabilitados,
         ]
     };
 
-    var chartHabilitaciones = new Chart(canvHabilitaciones, {
-        type: 'doughnut',
+    var chartHabilitacionTipo = new Chart(canvHabilitacionTipo, {
+        type: 'pie',
         data: data,
         options: {
-            cutoutPercentage: 50,
             legend: {
                 position: 'bottom',
                 padding: 5,
@@ -122,16 +126,6 @@ $(document).ready(function () {
                             pointStyle: 'circle',
                             usePointStyle: true
                         }
-            },
-            elements: {
-                center: {
-                    text: Number(cantHabilitados) + Number(cantDeshabilitados),
-                    color: '#000000', // Default is #000000
-                    fontStyle: 'Helvetica', // Default is Arial
-                    sidePadding: 20, // Default is 20 (as a percentage)
-                    minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
-                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
-                }
             },
             tooltips: {
                 callbacks: {
@@ -142,6 +136,7 @@ $(document).ready(function () {
             },
         }
     });
+
 
     //Lugares que exportan
 
@@ -179,10 +174,10 @@ $(document).ready(function () {
             },
             elements: {
                 center: {
-                    text: Number(cantHabilitados) + Number(cantDeshabilitados),
+                    text: Number(cantLugares),
                     color: '#000000', // Default is #000000
                     fontStyle: 'Helvetica', // Default is Arial
-                    sidePadding: 20, // Default is 20 (as a percentage)
+                    sidePadding: 30, // Default is 20 (as a percentage)
                     minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
                     lineHeight: 25 // Default is 25 (in px), used for when text wraps
                 }
@@ -197,29 +192,33 @@ $(document).ready(function () {
         }
     });
 
-    //Habilitaciones por tipo
-    var canvHabilitacionTipo = $('#chartHabilitacionTipos');
-    var cantHabilitacionDefinitiva = $("#cantHabilitacionDefinitiva").val();
-    var cantHabilitacionProvisoria = $("#cantHabilitacionProvisoria").val();
-    var cantHabilitacionInicio = $("#cantHabilitacionInicio").val();
+
+    //Lugares por categoría
+
+    var canvCategoria = $('#chartCategorias');
+    var cantSinCat = $("#cantSinCat").val();
+    var cantCat1 = $("#cantCat1").val();
+    var cantCat2 = $("#cantCat2").val();
+    var cantCat3 = $("#cantCat3").val();
 
     var data = {
         datasets: [{
-                backgroundColor: [colors[0], colors[1], colors[2]],
+                backgroundColor: [colors[0], colors[2], colors[1], colors[3]],
                 borderWidth: 0,
-                data: [cantHabilitacionDefinitiva, cantHabilitacionProvisoria, cantHabilitacionInicio]
+                data: [cantCat1, cantCat2, cantCat3, cantSinCat]
             }],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            'Definitiva: ' + cantHabilitacionDefinitiva,
-            'Provisoria: ' + cantHabilitacionProvisoria,
-            'Inicio de tramite: ' + cantHabilitacionInicio,
+            'Categoría 1: ' + cantCat1,
+            'Categoría 2: ' + cantCat2,
+            'Categoría 3: ' + cantCat3,
+            'Sin categoría: ' + cantSinCat
         ]
     };
 
-    var chartHabilitacionTipo = new Chart(canvHabilitacionTipo, {
-        type: 'doughnut',
+    var chartExportadores = new Chart(canvCategoria, {
+        type: 'pie',
         data: data,
         options: {
             legend: {
@@ -231,16 +230,6 @@ $(document).ready(function () {
                             usePointStyle: true
                         }
             },
-            elements: {
-                center: {
-                    text: Number(cantHabilitados) + Number(cantDeshabilitados),
-                    color: '#000000', // Default is #000000
-                    fontStyle: 'Helvetica', // Default is Arial
-                    sidePadding: 20, // Default is 20 (as a percentage)
-                    minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
-                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
-                }
-            },
             tooltips: {
                 callbacks: {
                     label: function (tooltipItem, data) {
@@ -250,4 +239,5 @@ $(document).ready(function () {
             },
         }
     });
+
 });

@@ -22,26 +22,35 @@ class DashboardController extends AbstractController {
         $cantHabDefinitiva = $this->getDoctrine()->getRepository(Industria::class)->getCantidadHabilitacionDefinitiva();
         $porcHabDefinitiva = ($cantHabDefinitiva * 100) / $cantEmpadronadas;
 
-        $cantLugaresHabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantHabilitados();
+        $cantLugares = $this->getDoctrine()->getRepository(Lugar::class)->getCantLugares();
         $cantLugaresDeshabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantDeshabilitados();
 
         $cantLugaresExportadores = $this->getDoctrine()->getRepository(Lugar::class)->getCantExportadores(true);
         $cantLugaresNoExportadores = $this->getDoctrine()->getRepository(Lugar::class)->getCantExportadores(false);
 
         $cantHabilitacionDefinitiva = $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35074);
-        $cantHabilitacionProvisoria =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35073);
-        $cantHabilitacionInicio =  $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35075);
+        $cantHabilitacionProvisoria = $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35073);
+        $cantHabilitacionInicio = $this->getDoctrine()->getRepository(Lugar::class)->getCantTipoHabilitacion(35075);
+
+        $cantCat1 = $this->getDoctrine()->getRepository(Lugar::class)->getCantPorCategoria(35496);
+        $cantCat2 = $this->getDoctrine()->getRepository(Lugar::class)->getCantPorCategoria(35497);
+        $cantCat3 = $this->getDoctrine()->getRepository(Lugar::class)->getCantPorCategoria(35498);
+        $cantSinCat = $this->getDoctrine()->getRepository(Lugar::class)->getCantSinCategoria();
         return $this->render('tablero/dashboard/dashboard.html.twig', [
                     'cantEmpadronadas' => $cantEmpadronadas,
                     'porcExportadoras' => $porcExportadoras,
                     'porcHabDefinitiva' => $porcHabDefinitiva,
-                    'cantLugaresHabilitados' => $cantLugaresHabilitados,
+                    'cantLugares' => $cantLugares,
                     'cantLugaresDeshabilitados' => $cantLugaresDeshabilitados,
                     'cantLugaresExportadores' => $cantLugaresExportadores,
                     'cantLugaresNoExportadores' => $cantLugaresNoExportadores,
                     'cantHabilitacionDefinitiva' => $cantHabilitacionDefinitiva,
                     'cantHabilitacionProvisoria' => $cantHabilitacionProvisoria,
-                    'cantHabilitacionInicio' => $cantHabilitacionInicio
+                    'cantHabilitacionInicio' => $cantHabilitacionInicio,
+                    'cantCat1' => $cantCat1,
+                    'cantCat2' => $cantCat2,
+                    'cantCat3' => $cantCat3,
+                    'cantSinCat' => $cantSinCat
         ]);
     }
 
