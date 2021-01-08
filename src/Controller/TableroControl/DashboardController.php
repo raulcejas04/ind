@@ -22,7 +22,6 @@ class DashboardController extends AbstractController {
         $cantHabDefinitiva = $this->getDoctrine()->getRepository(Industria::class)->getCantidadHabilitacionDefinitiva();
         $porcHabDefinitiva = ($cantHabDefinitiva * 100) / $cantEmpadronadas;
 
-        $cantLugaresHabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantHabilitados();
         $cantLugaresDeshabilitados = $this->getDoctrine()->getRepository(Lugar::class)->getCantDeshabilitados();
 
         $cantLugaresExportadores = $this->getDoctrine()->getRepository(Lugar::class)->getCantExportadores(true);
@@ -35,7 +34,6 @@ class DashboardController extends AbstractController {
                     'cantEmpadronadas' => $cantEmpadronadas,
                     'porcExportadoras' => $porcExportadoras,
                     'porcHabDefinitiva' => $porcHabDefinitiva,
-                    'cantLugaresHabilitados' => $cantLugaresHabilitados,
                     'cantLugaresDeshabilitados' => $cantLugaresDeshabilitados,
                     'cantLugaresExportadores' => $cantLugaresExportadores,
                     'cantLugaresNoExportadores' => $cantLugaresNoExportadores,
