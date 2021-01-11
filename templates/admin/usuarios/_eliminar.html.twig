@@ -12,7 +12,8 @@
 
 <div class="float-right"> 
     <div class="btn-group" role="group">
-        <button type="submit" value="{{ usuario.id }}" name="btnModificar" class="btn btn-success btnModificarUsuario"><span class="fa fa-edit"></span></button>                 
+        <button type="submit" value="{{ usuario.id }}" name="btnModificar" class="btn btn-success btnModificarUsuario"><span class="fa fa-edit"></span></button> 
+        <button type="button" data-reseteo-id="{{ usuario.id }}" class="btnOpenModalReseteo btn btn-primary"><span class="fa fa-unlock-alt"></span></button> 
         <button type="button" data-eliminar-id="{{ usuario.id }}" class="btnOpenModal btn btn-danger"><span class="fa fa-trash"></span></button> 
     </div>
 </div>

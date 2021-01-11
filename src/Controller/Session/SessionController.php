@@ -60,9 +60,9 @@ class SessionController extends AbstractController {
      * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('home');
-        }
+     /*   if ($this->getUser()) {
+            return $this->redirectToRoute('tablero_dashboard');
+        }*/
 
         // se fija si hay error en el login
         $error = $authenticationUtils->getLastAuthenticationError();

@@ -35,6 +35,9 @@ class UsuarioController extends AbstractController {
             if ($request->request->has('btnModificar')) {
                 $idUsuario = $request->request->get('btnModificar');
                 return $this->redirectToRoute('admin_usuarios_editar', array('id' => $idUsuario));
+            } else if ($request->request->has('btnReseteo')) {
+                $idUsuario = $request->request->get('_id');
+                return $this->redirectToRoute('admin_usuarios_resetear', array('id' => $idUsuario));
             } else if ($request->request->has('btnEliminar')) {
                 $idUsuario = $request->request->get('_id');
                 return $this->redirectToRoute('admin_usuarios_eliminar', array('id' => $idUsuario));
@@ -111,6 +114,24 @@ class UsuarioController extends AbstractController {
         if (in_array("ROLE_GOD", $god->getRoles())) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($usuario);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_usuarios');
+    }
+
+    /**
+     * @Route("/admin/usuarios/resetear/{id}",name="admin_usuarios_resetear")
+     */
+    public function resetear(Request $request, UserPasswordEncoderInterface $passwordEncoder, $id): Response {
+        $entityManager = $this->getDoctrine()->getManager();
+        $god = $this->getUser();
+        //trae usuario por id
+        $usuario = $entityManager->getRepository(Usuario::class)->find($id);
+        if (in_array("ROLE_GOD", $god->getRoles())) {           
+            $entityManager = $this->getDoctrine()->getManager();
+            $usuario->setPassword($passwordEncoder->encodePassword($usuario, "abc123"));
+            $entityManager->persist($usuario);
             $entityManager->flush();
         }
 
