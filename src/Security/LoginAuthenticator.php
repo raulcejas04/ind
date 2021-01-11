@@ -80,7 +80,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function checkCredentials($credentials, UserInterface $user) {
         /* Al validar decodifica el password que encuentra en la base automaticamente */
-        return true; //$this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     /**
@@ -94,10 +94,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         /* Si se ingreso a /login por REDIRECCION, al intentar acceder a una url bloqueada, redirige a esa url */
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
-        }
-        $user = $token->getUser();
-        if (in_array("ROLE_GOD",$user->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('admin_usuarios'));
         }
         /* Si se ingreso a /login directamente, redirige a / al autenticar */
         return new RedirectResponse($this->urlGenerator->generate('tablero_dashboard'));

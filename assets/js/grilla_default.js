@@ -47,6 +47,12 @@ $(document).ready(function () {
         $("#hiddenId").val($(this).data("eliminarId"));
         $("#modalEliminar").modal('show');
     });
+    
+    //Mostrar modal para confirmar reseteo de contraseña
+    $(".btnOpenModalReseteo").click(function () {
+        $("#hiddenId").val($(this).data("reseteoId"));
+        $("#modalReseteo").modal('show');
+    });
 
     $("#divSpinner").addClass('d-none')
     $("#divContent").removeClass('d-none');
