@@ -49,7 +49,11 @@ class LugarController extends AbstractController {
         $s->set('session', $session);
         $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
 
+
         $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
+        if (is_null($usuarioTRIMU)) {
+            die("El nombre de usuario no es del tipo CUIT o no existe - contactese con el administrador");
+        }
 
         if (!is_null($usuarioTRIMU->getId())) {
             $token = $usuarioTRIMU->getToken();
