@@ -59,7 +59,6 @@ class IndustriaRepository extends ServiceEntityRepository {
         ;
     }
 
-
     public function getReempadronadasBusqueda(string $busqueda): array {
         return $this->createQueryBuilder('i')
                         ->andWhere('i.esConfirmado = :val')
@@ -86,8 +85,10 @@ class IndustriaRepository extends ServiceEntityRepository {
         return $this->createQueryBuilder('i')
                         ->select('count(i.id)')
                         ->join('i.lugares', 'l')
-                        ->andWhere('l.esExportador = :val')
-                        ->setParameter('val', 1)
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.esExportador = :esExportador')
+                        ->setParameter('esExportador', 1)
                         ->getQuery()
                         ->getSingleScalarResult();
         ;
@@ -99,6 +100,8 @@ class IndustriaRepository extends ServiceEntityRepository {
                         ->select('count(i.id)')
                         ->join('i.lugares', 'l')
                         ->join('l.habilitacion', 'h')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
                         ->andWhere('h.tipo = :val')
                         ->setParameter('val', 35074)
                         ->getQuery()

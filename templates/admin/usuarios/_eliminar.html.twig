@@ -1,9 +1,18 @@
-<form method="post" action="{{ path('admin_usuarios_eliminar', {'id': usuario.id}) }}" onsubmit="return confirm('¿Está seguro que desea eliminar este usuario?');">
+<!-- 
+<form method="delete" action="{{ path('admin_usuarios_eliminar', {'id': usuario.id}) }}" onsubmit="return confirm('¿Está seguro que desea eliminar este usuario?');">
     <div class="float-right"> 
-    <div class="btn-group" role="group">
-        <a class="btn btn-success" href="{{ path("admin_usuarios_editar",{"id":usuario.id}) }}"><span class="fa fa-edit"></span></a>     
-        <input type="hidden" name="_method" value="DELETE">
-        <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
-    </div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-success" href="{{ path("admin_usuarios_editar",{"id":usuario.id}) }}"><span class="fa fa-edit"></span></a>     
+            <input type="hidden" name="_method" value="DELETE"> 
+            <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
+        </div>
     </div>
 </form>
+-->
+
+<div class="float-right"> 
+    <div class="btn-group" role="group">
+        <button type="submit" value="{{ usuario.id }}" name="btnModificar" class="btn btn-success btnModificarUsuario"><span class="fa fa-edit"></span></button>                 
+        <button type="button" data-eliminar-id="{{ usuario.id }}" class="btnOpenModal btn btn-danger"><span class="fa fa-trash"></span></button> 
+    </div>
+</div>

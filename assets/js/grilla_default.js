@@ -38,6 +38,12 @@ $(document).ready(function () {
     $("#btnAbrirModal").click(function(){
         $("#modalExportar").modal('show');
     });
+    
+    //Mostrar modal para confirmar eliminacion
+    $(".btnOpenModal").click(function () {
+        $("#hiddenId").val($(this).data("eliminarId"));
+        $("#modalEliminar").modal('show');
+    });
 });
 
 function submitNewSort($column) {

@@ -4,48 +4,167 @@
 
 {% block body %}
     <div class="container w-100 p-3">
-        <div class="card mx-auto">             
+        <div class="card mx-auto">    
+            {{ form_start(formBusqueda,{ 'attr' : { 'class': 'form-inline' } }) }}
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 pb-2">
+                    <div class="col-sm-6 pb-2">
                         <a class="btn btn-primary" href="{{ path("admin_usuarios_nuevo") }}"><span class="fa fa-plus-circle"></span> Nuevo usuario</a>
+                    </div>
+                    <div class="col-sm-6 pb-2">
                         <div class="float-right">
-                            {{ form_start(formBusqueda,{ 'attr' : { 'class': 'form-inline' } }) }}
-                            <div class="form-group pr-2">
-                                {{ form_widget(formBusqueda.busqueda) }}
+                            <div class="input-group mb-3">
+                                {{ form_widget(formBusqueda.busqueda,{'attr':{'class':'form-control','id':'txtBusqueda'}}) }}
+                                <div class="input-group-append">
+                                    {{ form_widget(formBusqueda.buscar,{'attr':{'class':'btn btn-primary', 'id':'button-addon2'}}) }}
+                                </div>
                             </div>
-                            {{ form_widget(formBusqueda.buscar) }}
-                            {{ form_end(formBusqueda) }}
+                        </div>
+                    </div>
+                    <input type="hidden" id="defaultSortColumn" value={{ defaultSortColumn }}>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% if usuarios|length == 0 %}
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="alert alert-info" role="alert">
+                                        No se han encontrado registros. 
+                                    </div>
+                                </div>
+                            </div>       
+                        {% else %}
+                            <table class="table table-hover table-bordered ">
+                                <thead class="thead-light">
+                                    <tr >
+                                        <th id="headerId" data-nombre="id">
+                                            <div class="float-left">
+                                                Id
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>
+                                        <th id="headerUsuario" data-nombre="username">
+                                            <div class="float-left">
+                                                Usuario
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>  
+                                        <th id="headerMail" data-nombre="email">
+                                            <div class="float-left">
+                                                Mail
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th> 
+                                        <th id="headerNombre" data-nombre="nombre">
+                                            <div class="float-left">
+                                                Nombre
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th> 
+                                        <th id="headerApellido" data-nombre="apellido">
+                                            <div class="float-left">
+                                                Apellido
+                                            </div>
+                                            <div class="float-right align-bottom">
+                                                <span class="fa fa-xs"/>
+                                            </div>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for usuario in usuarios %}
+                                        <tr >
+                                            <td >{{ usuario.id }}</td>
+                                            <td >{{ usuario.username}}</td>
+                                            <td >{{ usuario.email}}</td>
+                                            <td >{{ usuario.nombre}}</td>
+                                            <td >{{ usuario.apellido}}</td>
+                                            <td>  
+                                                {{ include('admin/usuarios/_eliminar.html.twig') }}                                    
+                                            </td>
+                                        </tr>
+                                    {%  endfor %}     
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">                    
+                    <div class="col-3">
+                        <div class="center-block text-left pl-2">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-12 pt-2">
+                                        {% if pageSize*pageNum <= totalRecords%}
+                                            {{ pageSize*pageNum-(pageSize-1) }} - {{ pageSize*pageNum }} de {{ totalRecords }}
+                                        {% else %}
+                                            {{ pageSize*pageNum-(pageSize-1) }} - {{ totalRecords }} de {{ totalRecords }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="center-block text-center"> 
+                            <button id="btnPageBack" data-pagenum="{{ pageNum }}"  type="button" class="btn btn-primary"><span class="fa fa-chevron-left "/></button>
+                            <button id="btnPageNext" data-pagenum="{{ pageNum }}" data-totalrecords="{{ totalRecords }}" type="button" class="btn btn-primary"><span class="fa fa-chevron-right "/></button>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="center-block text-right"> 
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 pt-2">
+                                        {{ form_label(formBusqueda.pageSize) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form_widget(formBusqueda.pageSize) }}
+                                    </div>
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
-                <table class="table table-hover table-bordered ">
-                    <thead class="thead-light">
-                        <tr >
-                            <th>Id</th>
-                            <th>Usuario</th>
-                            <th>Mail</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for usuario in usuarios %}
-                            <tr >
-                                <td >{{ usuario.id }}</td>
-                                <td >{{ usuario.username}}</td>
-                                <td >{{ usuario.email}}</td>
-                                <td >{{ usuario.nombre}}</td>
-                                <td >{{ usuario.apellido}}</td>
-                                <td>  
-                                    {{ include('admin/usuarios/_eliminar.html.twig') }}                                    
-                                </td>
-                            </tr>
-                        {%  endfor %}     
-                    </tbody>
-                </table>
             </div>
+            <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="modalEliminarUsuario" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center pr-2 pl-2">
+                            <p>¿Está seguro que desea eliminar este usuario?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input id="hiddenId" type="hidden" name="_id" value="">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" name="btnEliminar" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(formBusqueda) }}
         </div>
     </div>
+
 {%  endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('grilla_default') }}  
+{% endblock %}

@@ -240,4 +240,51 @@ $(document).ready(function () {
         }
     });
 
+    //Tipos de residuo
+
+    var canvresiduos = $('#chartResiduos');
+    var residuosSolidos = parseInt($("#residuosSolidos").val());
+    var residuosLiquidos = parseInt($("#residuosLiquidos").val());
+    var residuosSemisolidos = parseInt($("#residuosSemisolidos").val());
+    
+    var max = Math.max(...[residuosSolidos, residuosSemisolidos, residuosLiquidos]);
+    console.log();
+    var data = {
+        datasets: [{
+                backgroundColor: [colors[0], colors[2], colors[1]],
+                borderWidth: 0,
+                data: [residuosSolidos, residuosSemisolidos, residuosLiquidos]
+            }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Sólidos: ' + residuosSolidos,
+            'Semisólidos: ' + residuosSemisolidos,
+            'Líquidos: ' + residuosLiquidos,
+        ],
+
+    };
+
+    var chartExportadores = new Chart(canvresiduos, {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                            beginAtZero: true,
+                            max: max + Math.round((max*10)/100)
+                        }
+                    }],
+                xAxes: [{
+                        display: true,
+                    }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
 });
