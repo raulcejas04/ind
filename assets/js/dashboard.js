@@ -90,6 +90,9 @@ var colors = ['#0275d8', '#5cb85c', '#f0ad4e', '#d9534f'];
 
 
 $(document).ready(function () {
+    $("#btnRefresh").click(function () {
+        location.reload(true);
+    });
     var cantLugares = $("#cantLugares").val();
     //Habilitaciones por tipo
     var canvHabilitacionTipo = $('#chartHabilitacionTipos');
@@ -246,7 +249,7 @@ $(document).ready(function () {
     var residuosSolidos = parseInt($("#residuosSolidos").val());
     var residuosLiquidos = parseInt($("#residuosLiquidos").val());
     var residuosSemisolidos = parseInt($("#residuosSemisolidos").val());
-    
+
     var max = Math.max(...[residuosSolidos, residuosSemisolidos, residuosLiquidos]);
     console.log();
     var data = {
@@ -275,7 +278,7 @@ $(document).ready(function () {
                         ticks: {
                             suggestedMin: 0,
                             beginAtZero: true,
-                            max: max + Math.round((max*10)/100)
+                            max: max + Math.round((max * 10) / 100)
                         }
                     }],
                 xAxes: [{

@@ -19,12 +19,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SessionController extends AbstractController {
 
-    /**
-     * @Route("/", name="home")
-     */
-    public function home(): Response {
-        return $this->render('index/home.html.twig');
-    }
 
     /**
      * @Route("/cuenta", name="session_cuenta")
