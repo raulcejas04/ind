@@ -50,7 +50,9 @@ class LugarController extends AbstractController {
         $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
 
         $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
-
+        if (is_null($usuarioTRIMU)) {
+            die("El nombre de usuario no es del tipo CUIT o no existe - contactese con el administrador");
+        }
         if (!is_null($usuarioTRIMU->getId())) {
             $token = $usuarioTRIMU->getToken();
             if ($session != $this->encriptar($token))
@@ -163,7 +165,7 @@ class LugarController extends AbstractController {
             $esConfirmado = false;
             if ($formulario->getClickedButton() && 'confirmar' === $formulario->getClickedButton()->getName()) {
                 $esConfirmado = true;
-            }            
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $lugar = $formulario->getData();
             $this->RemoverEntidadesOpcionales($request, $lugar, $entityManager);
@@ -179,7 +181,7 @@ class LugarController extends AbstractController {
             $entityManager->flush();
             return $this->redirectToRoute('industria_nuevo');
         }
-        
+
         return $this->render('lugar/modificar.html.twig', [
                     'formulario' => $formulario->createView(),
                     'lugar' => $lugar,

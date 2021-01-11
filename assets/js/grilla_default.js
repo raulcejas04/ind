@@ -18,9 +18,12 @@ $(document).ready(function () {
     });
     //muestra la siguiente pagina
     $("#btnPageNext").click(function () {
+
         var pagenum = $(this).data('pagenum');
+        var pagesize = $(this).data('pagesize');
         var totalRecords = $(this).data('totalrecords');
-        if (pagenum + 1 <= totalRecords) {
+        var totalPages = Math.ceil(totalRecords / pagesize);
+        if (pagenum + 1 <= totalPages) {
             $("#form_pageNum").val(pagenum + 1);
             $("#formBusqueda").submit();
         }
@@ -33,17 +36,27 @@ $(document).ready(function () {
             $("#formBusqueda").submit();
         }
     });
-    
+
     //Abrir modal exportar
-    $("#btnAbrirModal").click(function(){
+    $("#btnAbrirModal").click(function () {
         $("#modalExportar").modal('show');
     });
-    
+
     //Mostrar modal para confirmar eliminacion
     $(".btnOpenModal").click(function () {
         $("#hiddenId").val($(this).data("eliminarId"));
         $("#modalEliminar").modal('show');
     });
+
+    $("#divSpinner").addClass('d-none')
+    $("#divContent").removeClass('d-none');
+
+});
+
+$("#formBusqueda").submit(function (event) {
+    $("#divContent").addClass('d-none');
+    $("#divSpinner").removeClass('d-none');
+    $("#modalEliminar").modal('hide');
 });
 
 function submitNewSort($column) {

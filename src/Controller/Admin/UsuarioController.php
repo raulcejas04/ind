@@ -146,7 +146,7 @@ class UsuarioController extends AbstractController {
         return $this->createFormBuilder($defaultData)
                         ->add('busqueda', TextType::class, ['required' => false])
                         ->add('sortOrder', HiddenType::class, ['empty_data' => 'DESC'])
-                        ->add('sortColumn', HiddenType::class, ['empty_data' => 'reempadronadoEn'])
+                        ->add('sortColumn', HiddenType::class, ['empty_data' => 'username'])
                         ->add('pageNum', HiddenType::class, ['empty_data' => '1'])
                         ->add('pageSize', ChoiceType::class, [
                             'choices' => [
