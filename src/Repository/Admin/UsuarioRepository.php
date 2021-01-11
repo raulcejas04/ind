@@ -34,18 +34,31 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->flush();
     }
 
-    public function buscarUsuario($busqueda): array {
-        return $this->createQueryBuilder('u')                
-                        ->join('u.compania', 'c')
+    public function getUsuarios($busqueda, $sortOrder, $sortColumn, $pageNum, $pageSize): array {
+        return $this->createQueryBuilder('u')
                         ->andWhere('u.username LIKE :busqueda '
                                 . 'OR u.nombre LIKE :busqueda '
                                 . 'OR u.apellido LIKE :busqueda '
-                                . 'OR u.email LIKE :busqueda '
-                                . 'OR c.nombre LIKE :busqueda')
+                                . 'OR u.email LIKE :busqueda ')
                         ->setParameter(':busqueda', '%' . $busqueda . '%')
-                        ->orderBy('u.id', 'ASC')
+                        ->orderBy('u.' . $sortColumn, $sortOrder)
+                        ->setFirstResult($pageNum * $pageSize)
+                        ->setMaxResults($pageSize)
                         ->getQuery()
                         ->getResult()
+        ;
+    }
+
+    public function getCantRegistros($busqueda) {
+        return $this->createQueryBuilder('u')
+                        ->select('count(u.id)')
+                        ->andWhere('u.username LIKE :busqueda '
+                                . 'OR u.nombre LIKE :busqueda '
+                                . 'OR u.apellido LIKE :busqueda '
+                                . 'OR u.email LIKE :busqueda ')
+                        ->setParameter(':busqueda', '%' . $busqueda . '%')
+                        ->getQuery()
+                        ->getSingleScalarResult()
         ;
     }
 

@@ -130,6 +130,35 @@ class LugarRepository extends ServiceEntityRepository {
         ;
     }
 
+    public function getCantResiduosIndustriales(int $tipoId) {
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.esProduccion = :esProduccion')
+                        ->setParameter('esProduccion', 1)
+                        ->andWhere('l.tipoResiduoIndustrial = :tipo')
+                        ->setParameter('tipo', $tipoId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+     public function getCantResiduosEspeciales(int $tipoId) {
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('l.esProduccion = :esProduccion')
+                        ->setParameter('esProduccion', 1)
+                        ->andWhere('l.tipoResiduoEspecial = :tipo')
+                        ->setParameter('tipo', $tipoId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
     // /**
     //  * @return Lugar[] Returns an array of Lugar objects
     //  */
