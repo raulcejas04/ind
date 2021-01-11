@@ -102,6 +102,22 @@ class LugarRepository extends ServiceEntityRepository {
         ;
     }
 
+    public function getCantTipoRubroGeneral(string $descripcionCorta): ?int {
+
+        return $this->createQueryBuilder('l')
+                        ->select('count(l.id)')
+                        ->join('l.industria', 'i')
+                        ->join('l.habilitacion', 'h')
+                        ->join('h.rubroHabilitado', 'r')
+                        ->andWhere('i.esConfirmado = :esConfirmado')
+                        ->setParameter('esConfirmado', 1)
+                        ->andWhere('r.descripcionCorta = :desc')
+                        ->setParameter('desc', $descripcionCorta)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+        ;
+    }
+
     public function getCantPorCategoria(int $catId): ?int {
 
         return $this->createQueryBuilder('l')
@@ -144,7 +160,8 @@ class LugarRepository extends ServiceEntityRepository {
                         ->getSingleScalarResult();
         ;
     }
-     public function getCantResiduosEspeciales(int $tipoId) {
+
+    public function getCantResiduosEspeciales(int $tipoId) {
         return $this->createQueryBuilder('l')
                         ->select('count(l.id)')
                         ->join('l.industria', 'i')
