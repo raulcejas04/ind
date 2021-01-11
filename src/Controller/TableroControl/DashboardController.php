@@ -12,15 +12,17 @@ use App\Entity\Lugar;
 class DashboardController extends AbstractController {
 
     /**
-     * @Route("/tablero/dashboard",name="tablero_dashboard")
+     * @Route("/",name="tablero_dashboard")
      */
     public function index(Request $request): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        
         $repositoryIndustria = $this->getDoctrine()->getRepository(Industria::class);
         $repositoryLugar = $this->getDoctrine()->getRepository(Lugar::class);
-        
+
         $cantEmpadronadas = $repositoryIndustria->getCantidadEmpadronadas();
         $cantExportadoras = $repositoryIndustria->getCantidadExportadoras();
-        
+
         $porcExportadoras = ($cantExportadoras * 100) / $cantEmpadronadas;
         $cantHabDefinitiva = $repositoryIndustria->getCantidadHabilitacionDefinitiva();
         $porcHabDefinitiva = ($cantHabDefinitiva * 100) / $cantEmpadronadas;
