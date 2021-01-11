@@ -277,8 +277,92 @@ $(document).ready(function () {
                         display: true,
                         ticks: {
                             suggestedMin: 0,
+                            beginAtZero: true,   
+                            max: max + Math.ceil((max * 10) / 100)
+                        }
+                    }],
+                xAxes: [{
+                        display: true,
+                    }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+    //RUBROS GENERALES
+
+    var canvRubros = $('#chartRubros');
+    var rg1 = parseInt($("#rg1").val());
+    var rg2 = parseInt($("#rg2").val());
+    var rg3 = parseInt($("#rg3").val());
+    var rg4 = parseInt($("#rg4").val());
+    var rg5 = parseInt($("#rg5").val());
+    var rg6 = parseInt($("#rg6").val());
+    var rg7 = parseInt($("#rg7").val());
+    var rg8 = parseInt($("#rg8").val());
+    var rg9 = parseInt($("#rg9").val());
+    var rg10 = parseInt($("#rg10").val());
+    var rg11 = parseInt($("#rg11").val());
+    var rg12 = parseInt($("#rg12").val());
+    var rg13 = parseInt($("#rg13").val());
+    var rg14 = parseInt($("#rg14").val());
+    var rg15 = parseInt($("#rg15").val());
+    var rg16 = parseInt($("#rg16").val());
+    var rg17 = parseInt($("#rg17").val());
+    var rg18 = parseInt($("#rg18").val());
+    var rg19 = parseInt($("#rg19").val());
+    var rg20 = parseInt($("#rg20").val());
+    var rg21 = parseInt($("#rg21").val());
+
+    var max = Math.max(...[rg1, rg2, rg3, rg4, rg5, rg6, rg7, rg8, rg9, rg10, rg11, rg12, rg13, rg14, rg15, rg16, rg17, rg18, rg19, rg20, rg21]);
+
+    var data = {
+        datasets: [{
+                backgroundColor: [colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0], colors[0]],
+                borderWidth: 0,
+                data: [rg1, rg2, rg3, rg4, rg5, rg6, rg7, rg8, rg9, rg10, rg11, rg12, rg13, rg14, rg15, rg16, rg17, rg18, rg19, rg20, rg21]
+            }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Automotriz y autopartes: ' + rg1,
+            'Electrónica y electrodomésticos: ' + rg2,
+            'Indumentaria: ' + rg3,
+            'Productos del Tabaco: ' + rg4,
+            'Metalurgia, Maquinaria y Equipos: ' + rg5,
+            'Calzado: ' + rg6,
+            'Gráfica, Ediciones e Impresiones: ' + rg7,
+            'Madera y Muebles: ' + rg8,
+            'Juguetes: ' + rg9,
+            'Cemento: ' + rg10,
+            'Productos Textiles: ' + rg11,
+            'Manufacturas del Cuero: ' + rg12,
+            'Neumáticos: ' + rg13,
+            'Bicicletas y Motos: ' + rg14,
+            'Química y Petroquímica: ' + rg15,
+            'Celulosa y Papel: ' + rg16,
+            'Plásticos y subproductos: ' + rg17,
+            'Cerámicos: ' + rg18,
+            'Alimentos  : ' + rg19,
+            'Manufactura del caucho: ' + rg20,
+            'Estaciones de servicio: ' + rg21,            
+        ],
+
+    };
+
+    var chartExportadores = new Chart(canvRubros, {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
                             beginAtZero: true,
-                            max: max + Math.round((max * 10) / 100)
+                            max: max + Math.ceil((max * 10) / 100)
                         }
                     }],
                 xAxes: [{
