@@ -112,7 +112,7 @@ $(document).ready(function () {
         labels: [
             'Definitiva: ' + cantHabilitacionDefinitiva,
             'Provisoria: ' + cantHabilitacionProvisoria,
-            'Inicio de tramite: ' + cantHabilitacionInicio,
+            'Inicio de trámite: ' + cantHabilitacionInicio,
             'Sin habilitación: ' + cantDeshabilitados,
         ]
     };

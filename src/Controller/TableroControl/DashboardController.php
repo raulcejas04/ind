@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Industria;
 use App\Entity\Lugar;
+date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 class DashboardController extends AbstractController {
 
@@ -67,7 +68,8 @@ class DashboardController extends AbstractController {
         $rubroRG19 = $repositoryLugar->getCantTipoRubroGeneral("RG19");
         $rubroRG20 = $repositoryLugar->getCantTipoRubroGeneral("RG20");
         $rubroRG21 = $repositoryLugar->getCantTipoRubroGeneral("RG21");
-
+ 
+        $fechaActualizacion = ["fecha"=>(new \DateTime())->format('d-m-Y'),"hora"=>(new \DateTime())->format('H:i:s')];
         return $this->render('tablero/dashboard/dashboard.html.twig', [
                     'cantEmpadronadas' => $cantEmpadronadas,
                     'porcExportadoras' => $porcExportadoras,
@@ -107,6 +109,7 @@ class DashboardController extends AbstractController {
                     'rubroRG19' => $rubroRG19,
                     'rubroRG20' => $rubroRG20,
                     'rubroRG21' => $rubroRG21,
+                    'fechaActualizacion' => $fechaActualizacion
         ]);
     }
 
