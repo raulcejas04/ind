@@ -245,8 +245,8 @@ class Lugar {
      * @Assert\Regex(
      *     pattern="/^[A-Z]{1,2}\-[\d.]+$/",
      *     match=true,
-     *     message="Patron inválido.",
-     *     groups={"expediente"}
+     *     message="Padrón inválido.",
+     *     groups={"principal","requerido"}
      * )
      */
     private $objeto;
