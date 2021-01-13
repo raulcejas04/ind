@@ -150,7 +150,7 @@ class LugarType extends AbstractType {
                 ->add('confirmar', SubmitType::class, ['label' => 'Confirmar datos'])
                 ->add('esConfirmado', HiddenType::class, ['empty_data' => false,])
                 ->add('domicilioValido', HiddenType::class, ['empty_data' => false, 'error_bubbling' => false])
-                ->add('objeto', TextType::class, ['label' => 'Padron'])
+                ->add('objeto', TextType::class, ['label' => 'Padrón'])
         ;
     }
 
