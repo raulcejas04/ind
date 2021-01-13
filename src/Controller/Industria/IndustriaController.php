@@ -38,7 +38,9 @@ class IndustriaController extends AbstractController {
 
     private function chequeaLogueoTRIMU($request, $tiempo = 180) {
         //rutina para chequear credenciales;        
-        $cuit = $request->get("cuit", null);
+        $cuit='30648722563';
+
+        //$cuit = $request->get("cuit", null);
         $session = $request->get("session", null);
         $s = $request->getSession();
 
@@ -46,28 +48,33 @@ class IndustriaController extends AbstractController {
             if (!is_null($s->get("cuit")))
                 $cuit = $s->get("cuit");
             else {
+                echo("Faltan datos del usuario");
                 return false;
-                die("Faltan datos del usuario");
             }
         }
         $s->set('cuit', $cuit);
 
 
-        if (is_null($session)) {
+        /*if (is_null($session)) {
             if (!is_null($s->get("session")))
                 $session = $s->get("session");
             else {
+                echo ("Faltan credenciales");
                 return false;
-                die("Faltan credenciales");
             }
         }
-        $s->set('session', $session);
+        $s->set('session', $session);*/
 
 
         $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
 
         $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
-        if (is_null($usuarioTRIMU)) {
+
+        //dd($usuarioTRIMU->getContribuyente());
+        //die();
+
+        
+        /*if (is_null($usuarioTRIMU)) {
             die("El nombre de usuario no es del tipo CUIT o no existe - contactese con el administrador");
         }
         if (!is_null($usuarioTRIMU->getId())) {
@@ -83,9 +90,10 @@ class IndustriaController extends AbstractController {
             $minutos = $interval->format('%i');
             if ($minutos * 1 > $tiempo)
                 return $this->redirect($this->urlLoginTRIMU);
-        }
+        }*/
 
         return ["cuit" => $cuit, "contribuyente" => $usuarioTRIMU->getContribuyente()];
+
     }
 
     /**
@@ -100,6 +108,8 @@ class IndustriaController extends AbstractController {
      */
     public function nuevo(Request $request): Response {
         $contribuyente = $this->chequeaLogueoTRIMU($request, 180);
+        //dd($contribuyente);
+        //die();
         if ($contribuyente === false) {
             return $this->redirect($this->urlLoginTRIMU);
         }

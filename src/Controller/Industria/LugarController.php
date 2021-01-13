@@ -41,18 +41,18 @@ class LugarController extends AbstractController {
             die("Faltan datos del usuario");
         }
         $s->set('cuit', $cuit);
-        if (!is_null($s->get("session")))
+        /*if (!is_null($s->get("session")))
             $session = $s->get("session");
         else {
             die("Faltan credenciales");
-        }
+        }*/
 
         $s->set('session', $session);
         $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
 
 
         $usuarioTRIMU = $entityManagerTRIMU->getRepository(UsuarioTRIMU::class)->buscarUnoPorId($cuit);
-        if (is_null($usuarioTRIMU)) {
+        /*if (is_null($usuarioTRIMU)) {
             die("El nombre de usuario no es del tipo CUIT o no existe - contactese con el administrador");
         }
         if (!is_null($usuarioTRIMU->getId())) {
@@ -68,7 +68,7 @@ class LugarController extends AbstractController {
             $minutos = $interval->format('%i');
             if ($minutos * 1 > $tiempo)
                 return $this->redirect($this->urlLoginTRIMU);
-        }
+        }*/
 
         return $cuit;
     }
