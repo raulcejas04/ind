@@ -238,6 +238,20 @@ class Lugar {
     private $qPersonalResidenteAvellaneda;
 
     /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Assert\NotBlank(
+     * groups={"principal","requerido"},
+     * message="Campo requerido.")
+     * @Assert\Regex(
+     *     pattern="/^[A-Z]{1,2}\-[\d.]+$/",
+     *     match=true,
+     *     message="Patron inválido.",
+     *     groups={"expediente"}
+     * )
+     */
+    private $objeto;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Domicilio::class, inversedBy="lugares")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid(groups={"principal","requerido"})
@@ -522,6 +536,17 @@ class Lugar {
 
         return $this;
     }
+    
+     public function getObjeto(): ?string {
+        return $this->objeto;
+    }
+
+    public function setObjeto(?string $objeto): self {
+        $this->objeto = $objeto;
+
+        return $this;
+    }
+
 
     public function getNombre(): ?string {
         return $this->nombre;
