@@ -12,6 +12,7 @@ use App\Entity\HorariosTrabajo;
 use App\Entity\Industria;
 use App\Form\LugarType;
 use App\Entity\AdminTRIMU\UsuarioTRIMU;
+use App\Entity\AdminTRIMU\ObjetoDomicilioTRIMU;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
 
@@ -100,8 +101,11 @@ class LugarController extends AbstractController {
             $lugar->setEsConfirmado($esConfirmado);
 
             $this->EliminarHorariosTrabajoInvalidos($lugar);
-            $domicilio = $lugar->getDomicilio();
 
+            $nomenclaturaCatastral = $this->GetNomenclaturaCatastral($lugar->getObjeto());
+
+            $domicilio = $lugar->getDomicilio();
+            $domicilio->setNomenclaturaCatastral($nomenclaturaCatastral);
             $entityManager->persist($domicilio);
             $this->PersistirEntidadesOpcionales($request, $lugar, $entityManager);
 
@@ -175,7 +179,9 @@ class LugarController extends AbstractController {
                 $lugar->setFechaUltimaInpeccion(null);
             }
             $lugar->setEsConfirmado($esConfirmado);
+            $nomenclaturaCatastral = $this->GetNomenclaturaCatastral($lugar->getObjeto());
             $domicilio = $lugar->getDomicilio();
+            $domicilio->setNomenclaturaCatastral($nomenclaturaCatastral);
             $entityManager->persist($domicilio);
             $this->EliminarHorariosTrabajoInvalidos($lugar);
             $entityManager->persist($lugar);
@@ -392,6 +398,29 @@ class LugarController extends AbstractController {
                 $lugar->setDispCatProvincial(null);
             }
         }
+    }
+
+    public function GetNomenclaturaCatastral(string $objeto) {
+        $tipoObjeto = substr($objeto, 0, strpos($objeto, "-"));
+        $numObjeto = substr($objeto, strpos($objeto, "-") + 1);
+        $numObjeto = str_replace('.', '', $numObjeto);
+        $entityManagerTRIMU = $this->getDoctrine()->getManager('trimu');
+        $objetoDomicilio = $entityManagerTRIMU->getRepository(ObjetoDomicilioTRIMU::class)->buscarUnoForTipoNumObjeto($tipoObjeto, $numObjeto);
+
+        $domGenerico = $objetoDomicilio->getDomGenerico();
+
+        $nomenclatura = '';
+        $nomenclatura = !is_null($domGenerico->getNCircuns()) ? $nomenclatura . 'CIR: ' . $domGenerico->getNCircuns() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getDSeccion()) ? $nomenclatura . ' SEC: ' . $domGenerico->getDSeccion() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getNFraccion()) ? $nomenclatura . ' FR: ' . $domGenerico->getNFraccion() : $nomenclatura . ' FR: 0000';
+        $nomenclatura = !is_null($domGenerico->getLFraccion()) ? $nomenclatura . $domGenerico->getLFraccion() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getNManzana()) ? $nomenclatura . ' MAN: ' . $domGenerico->getNManzana() : $nomenclatura . ' MAN: 0000';
+        $nomenclatura = !is_null($domGenerico->getLManzana()) ? $nomenclatura . $domGenerico->getLManzana() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getNParcela()) && !is_null($domGenerico->getLParcela()) ? $nomenclatura . 'PAR: ' . $domGenerico->getNParcela() . $domGenerico->getLParcela() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getDSubparcela()) ? $nomenclatura . ' SPAR: ' . $domGenerico->getDSubparcela() : $nomenclatura;
+        $nomenclatura = !is_null($domGenerico->getDUniFun()) ? $nomenclatura . ' UF: ' . $domGenerico->getDUniFun() : $nomenclatura;
+
+        return $nomenclatura;
     }
 
 }

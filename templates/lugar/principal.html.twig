@@ -23,6 +23,11 @@
                         <h5 class="card-title">Domicilio Industrial/Real</h5>
                         {{ form_errors(formulario.domicilioValido) }}
                         {{ form_widget(formulario.domicilioValido) }}
+                        <div class="form-group">
+                            {{ form_label(formulario.objeto) }}
+                            <div class="text-secondary">Por favor ingrese el padron tal como aparece en su boleta</div>
+                            {{ form_widget(formulario.objeto) }}
+                        </div>  
                         {% include 'domicilio/_domicilio_lugar.html.twig' with {'domicilio':formulario.domicilio} only %}
                     </div>
                 </div>

@@ -27,7 +27,7 @@ class IndustriaController extends AbstractController {
      */
     public function Logout(Request $request): Response {
         return new RedirectResponse('https://trimu3.mda.gob.ar/modulos/principal.php');
-        //   return new RedirectResponse('http://132.146.70.1:8090/');
+           //return new RedirectResponse('http://132.146.70.1:8090/');
     }
 
     private function encriptar($q) {
